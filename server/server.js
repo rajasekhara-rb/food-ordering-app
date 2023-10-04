@@ -17,3 +17,7 @@ connectToDB();
 app.listen(PORT, () => {
     console.log(`Server Started on port ${PORT}`)
 })
+
+app.get('/', (req, res)=>{
+    res.send("Server Started")
+});

@@ -20,7 +20,7 @@ const restaurantSchema = mongoose.Schema({
     },
     admin_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Admin",
+        ref: "User",
     }
 },
     {

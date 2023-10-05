@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import connectToDB from './config/db.js';
 import userRouter from './routes/userRoutes.js';
+import restaurantRouter from './routes/restaurantRoutes.js';
 dotenv.config();
 
 // creating an instance of the express app 
@@ -19,7 +20,8 @@ app.listen(PORT, () => {
     console.log(`Server Started on port ${PORT}`)
 });
 
-app.use("/user", userRouter)
+app.use("/user", userRouter);
+app.use("/restaurant", restaurantRouter);
 
 app.get('/', (req, res) => {
     res.send("Server Started")

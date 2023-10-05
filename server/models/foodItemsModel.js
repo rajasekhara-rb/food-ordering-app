@@ -24,6 +24,12 @@ const foodItemsSchema = mongoose.Schema({
     },
     avilability: {
         type: String,
+        default: true
+    },
+    restaurant_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Restaurant",
+        required: true
     }
 },
     {
@@ -31,5 +37,5 @@ const foodItemsSchema = mongoose.Schema({
     }
 )
 
-const FoodItems = mongoose.model("FoodItems", foodItemsSchema);
-export default FoodItems;
+const FoodItem = mongoose.model("FoodItems", foodItemsSchema);
+export default FoodItem;

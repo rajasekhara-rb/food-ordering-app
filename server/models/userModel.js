@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 
 // defining the schema for the user model
@@ -16,9 +16,9 @@ const userSchema = mongoose.Schema({
         type: String,
         required: [true, "Password is mandatory"]
     },
-    // role: {
-    //     type: String,
-    // }
+    roles: {
+        type: Array,
+    }
 },
     {
         timestamps: true
@@ -30,13 +30,13 @@ userSchema.pre("save", async function (next) {
     //check if password fields is chnaged or not
     if (!this.isModified('password')) {
         next();
+    } else {
+        //Generate a salt for password 
+        const salt = await bcrypt.genSalt(10);
+
+        //has the user password with generated salt
+        this.password = await bcrypt.hash(this.password, salt);
     }
-
-    //Generate a salt for password 
-    const salt = await bcrypt.genSalt(10);
-
-    //has the user password with generated salt
-    this.password = await bcrypt.hash(this.password, salt);
 })
 
 const User = mongoose.model("User", userSchema);

@@ -1,11 +1,11 @@
 import React from "react";
 
-const OrdersPage = ()=>{
+const Meals = ()=>{
     return(
         <>
-        OrdersPage
+        Meals
         </>
     )
 }
 
-export default OrdersPage;
+export default Meals;

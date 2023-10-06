@@ -1,11 +1,11 @@
 import React from "react";
 
-const OrdersPage = ()=>{
+const Hero = ()=>{
     return(
         <>
-        OrdersPage
+        Hero
         </>
     )
 }
 
-export default OrdersPage;
+export default Hero;

@@ -13,6 +13,7 @@ import CartPage from './pages/CartPage';
 import CheckOutPage from './pages/CheckOutPage';
 import OrdersPage from './pages/OrdersPage';
 import FoodItemsPage from './pages/FoodItemsPage';
+import ContactPage from './pages/ContactPage';
 
 
 
@@ -26,26 +27,23 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegistrationPage />} />
-
+          <Route path="/contact" element={<ContactPage/>} />
 
           <Route path="/customer" element={<CustomerDashboard />}>
-            <Route path="/" element={<FoodItemsPage />} />
-            <Route path="/cart" element={<CartPage />} />
-            <Route path="/checkout" element={<CheckOutPage />} />
-            <Route path="/orders" element={<OrdersPage />} />
-
+            <Route path="fooditems" element={<FoodItemsPage />} />
+            <Route path="cart" element={<CartPage />} />
+            <Route path="checkout" element={<CheckOutPage />} />
+            <Route path="orders" element={<OrdersPage />} />
             {/* <Route path="/login" element={<LoginPage />} /> */}
           </Route>
 
           +
           <Route path="/restaurant" element={<AdminDashboard />}>
             {/* <Route path="/login" element={<LoginPage />} /> */}
-            <Route path="/" element={<FoodItemsPage />} />
+            <Route path="fooditems" element={<FoodItemsPage />} />
             {/* <Route path="/create" element={<CreateRestaurant />} /> */}
-            <Route path="/addfooditem" element={<FoodItemsPage />} />
-            <Route path="/updatefooditem" element={<FoodItemsPage />} />
-
-
+            <Route path="addfooditem" element={<FoodItemsPage />} />
+            <Route path="updatefooditem" element={<FoodItemsPage />} />
           </Route>
 
 

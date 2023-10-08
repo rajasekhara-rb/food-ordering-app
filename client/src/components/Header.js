@@ -6,7 +6,7 @@ import logo from '../images/logo.png';
 
 const navigation = [
     { name: 'Home', href: '/', current: true },
-    { name: 'Add a Restaurant', href: '/partner-with-us', current: false },
+    { name: 'Add a Restaurant', href: '/partnerwithus', current: false },
     { name: 'Login', href: '/login', current: false },
     { name: 'Register', href: '/register', current: false },
 ]
@@ -97,7 +97,7 @@ const Header = () => {
                                                 <Menu.Item>
                                                     {({ active }) => (
                                                         <a
-                                                            href="#"
+                                                            href="/"
                                                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                                         >
                                                             Your Profile

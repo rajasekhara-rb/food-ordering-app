@@ -1,9 +1,64 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import Logo from '../../images/logo.png';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { BaseURLContext } from "../../components/AuthContext";
+import axios from "axios";
 
 
 const CustomerRegistrationPage = () => {
+    const navigate = useNavigate();
+
+    const baseUrl = useContext(BaseURLContext);
+    const [user, setuser] = useState({});
+    // console.log(user)
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setuser({ ...user, [name]: value })
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            if (user.name && user.email && user.password && user.confirmpassword) {
+                if (user.password === user.confirmpassword) {
+                    const newUser = {
+                        name: user.name,
+                        email: user.email,
+                        password: user.password,
+                        roles: "cusomer",
+                    }
+
+                    await axios.post(`${baseUrl}/user/register`, newUser,
+                        {
+                            headers: {
+                                Authorization: "Bearer " + localStorage.getItem("jwt")
+                            }
+                        }
+                    ).then((res) => {
+                        if (res) {
+                            alert(res.data.message);
+                            navigate("/login/customer");
+                        } else {
+                            // alert("User registration failed try again")
+                            alert(res.data.message);
+                        }
+                    }).catch((error) => {
+                        console.log(error);
+                        alert(error)
+                    })
+                } else {
+                    alert("Password Not matching")
+                }
+            } else {
+                alert("All fields are mandatory to fill")
+            }
+        } catch (error) {
+            console.log(error);
+            // alert(error)
+        }
+
+    }
 
     return (
         <>
@@ -30,6 +85,7 @@ const CustomerRegistrationPage = () => {
                                     </label>
                                     <div className="mt-2">
                                         <input
+                                            onChange={handleChange}
                                             id="name"
                                             name="name"
                                             type="text"
@@ -45,6 +101,7 @@ const CustomerRegistrationPage = () => {
                                     </label>
                                     <div className="mt-2">
                                         <input
+                                            onChange={handleChange}
                                             id="email"
                                             name="email"
                                             type="email"
@@ -63,6 +120,7 @@ const CustomerRegistrationPage = () => {
                                     </div>
                                     <div className="mt-2">
                                         <input
+                                            onChange={handleChange}
                                             id="password"
                                             name="password"
                                             type="password"
@@ -81,6 +139,7 @@ const CustomerRegistrationPage = () => {
                                     </div>
                                     <div className="mt-2">
                                         <input
+                                            onChange={handleChange}
                                             id="confirmpassword"
                                             name="confirmpassword"
                                             type="password"
@@ -93,6 +152,7 @@ const CustomerRegistrationPage = () => {
 
                                 <div>
                                     <button
+                                        onClick={handleSubmit}
                                         type="submit"
                                         className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                     >

@@ -1,9 +1,14 @@
+import { OnlyAdminsAccess } from '../middlewares/access.js';
 import Restaurant from '../models/restaurantModel.js';
 
 // define a function to register Restaurant
 const registerRestaurant = async (req, res) => {
-
     const { name, address, opening_time, closing_time } = req.body;
+
+    // if (!req.user.roles.includes("admin")) {
+    //     res.status(401).json("Unauthorized! Only Admins have the access")
+    //     // throw new Error("Only Admins have the access");
+    // } else {
 
     try {
         const restaurant = new Restaurant({
@@ -25,6 +30,7 @@ const registerRestaurant = async (req, res) => {
         res.status(500);
         throw new Error({ error: error.message })
     }
+    // }
 
 }
 

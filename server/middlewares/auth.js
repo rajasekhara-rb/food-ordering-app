@@ -15,7 +15,7 @@ const authenticateUser = async (req, res, next) => {
 
             // using id from the decoded 
             req.user = await User.findById(decoded.id).select('-password');
-
+            console.log(req.user)
             next()
         } catch (error) {
             res.status(401);

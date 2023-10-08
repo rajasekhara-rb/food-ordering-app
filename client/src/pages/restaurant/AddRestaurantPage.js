@@ -1,8 +1,17 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import CreateRestaurant from "./CreateRestaurantPage";
+import { Link, useNavigate } from "react-router-dom";
+import CreateRestaurant from "../../components/restaurant/CreateRestaurant.js";
 
 const AddRestaurantPage = () => {
+
+    const navigate = useNavigate();
+
+    if (localStorage.getItem("jwt")) {
+        navigate("/")
+    } else {
+        navigate("/login")
+    }
+
     return (
         <>
             <div className="text-center">

@@ -5,7 +5,7 @@ import AddRestaurantPage from './AddRestaurantPage'
 const RestaurantPage = () => {
     return (
         <>
-            <AddRestaurantPage/>
+       
             <Outlet />
         </>
     )

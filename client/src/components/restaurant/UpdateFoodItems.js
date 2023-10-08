@@ -1,6 +1,6 @@
 import React from "react";
 
-const CreateFoodItems = () => {
+const UpdateFoodItems = () => {
     return (
         <>
             <div className="flex flex-row items-center">
@@ -112,4 +112,4 @@ const CreateFoodItems = () => {
     )
 }
 
-export default CreateFoodItems;
+export default UpdateFoodItems;

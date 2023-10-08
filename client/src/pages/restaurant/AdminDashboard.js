@@ -1,11 +1,11 @@
 import React from "react";
 
-const CreateRestaurantPage = () => {
+const AdminDashboard = () => {
     return (
         <>
-            CreateRestaurantPage
+            AdminDashboard
         </>
     )
 }
 
-export default CreateRestaurantPage;
+export default AdminDashboard;

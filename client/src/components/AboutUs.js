@@ -80,14 +80,6 @@ const AboutUs = () => {
                                 <p className="mt-6 text-lg leading-8 text-gray-600">We have delivery van for
                                     fast delivery</p>
                             </div>
-
-
-
-
-
-
-
-
                         </div>
                     </div>
                 </div>

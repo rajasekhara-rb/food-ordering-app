@@ -86,15 +86,6 @@ const Meals = () => {
                                     </div>
                                 </div>
                             </div>
-
-
-
-
-
-
-
-
-
                         </div>
                     </div>
                 </div>

@@ -14,12 +14,15 @@ import CheckOutPage from './pages/CheckOutPage';
 import OrdersPage from './pages/OrdersPage';
 import FoodItemsPage from './pages/FoodItemsPage';
 import ContactPage from './pages/ContactPage';
+import AddRestaurantPage from './pages/AddRestaurantPage';
 
 
 
 function App() {
+
   return (
     <>
+
       <Header />
       {/* <LandingPage /> */}
       <Router>
@@ -27,7 +30,9 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegistrationPage />} />
-          <Route path="/contact" element={<ContactPage/>} />
+          <Route path="/contact" element={<ContactPage />} />
+
+          <Route path='/partner-with-us' element={<AddRestaurantPage />} />
 
           <Route path="/customer" element={<CustomerDashboard />}>
             <Route path="fooditems" element={<FoodItemsPage />} />
@@ -37,11 +42,11 @@ function App() {
             {/* <Route path="/login" element={<LoginPage />} /> */}
           </Route>
 
-          +
+
           <Route path="/restaurant" element={<AdminDashboard />}>
-            {/* <Route path="/login" element={<LoginPage />} /> */}
+            <Route path="register" element={<LoginPage />} />
             <Route path="fooditems" element={<FoodItemsPage />} />
-            {/* <Route path="/create" element={<CreateRestaurant />} /> */}
+            {/* <Route path="create" element={<CreateRestaurant />} /> */}
             <Route path="addfooditem" element={<FoodItemsPage />} />
             <Route path="updatefooditem" element={<FoodItemsPage />} />
           </Route>

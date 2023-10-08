@@ -6,7 +6,7 @@ import logo from '../images/logo.png';
 
 const navigation = [
     { name: 'Home', href: '/', current: true },
-    { name: 'Add a Restaurant', href: '/register', current: false },
+    { name: 'Add a Restaurant', href: '/partner-with-us', current: false },
     { name: 'Login', href: '/login', current: false },
     { name: 'Register', href: '/register', current: false },
 ]

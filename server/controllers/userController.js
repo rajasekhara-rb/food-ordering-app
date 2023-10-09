@@ -7,20 +7,43 @@ import Restaurant from '../models/restaurantModel.js';
 
 const registerUser = async (req, res) => {
     // get the admin infor the the req.body 
-    const { name, email, password, roles } = req.body;
+    const { name, email, password, role } = req.body;
 
     try {
         // check if the user exists 
         const userExists = await User.findOne({ email: email });
         if (userExists) {
-            res.status(400).json({ message: "User already exists" });
+            // res.status(400).json({ message: "User already exists" });
             // throw new Error("User already exists");
+            if (role === "admin") {
+                if (userExists.roles.includes(role)) {
+                    res.status(400).json({ message: "User already exists" })
+                } else {
+                    await User.findByIdAndUpdate(userExists._id, {
+                        $push: { roles: role },
+                        admin: true,
+                        // $set: { admin_password: password }
+                        // $set:{isAdmin:true},
+                    }, { new: true });
+                    res.status(400).json({ message: "Admin access given to the user" })
+                }
+            } else if (role === "customer") {
+                if (userExists.roles.includes(role)) {
+                    res.status(400).json({ message: "User already exists" })
+                } else {
+                    await User.findByIdAndUpdate(userExists._id, {
+                        $push: { roles: role },
+                        // $set: { password: password }
+                    }, { new: true });
+                    res.status(400).json({ message: "User created successfully" })
+                }
+            }
         } else {
             const user = await User.create({
                 name,
                 email,
                 password,
-                roles,
+                roles: role
             })
 
             if (user) {
@@ -61,18 +84,38 @@ const loginUser = async (req, res) => {
 
         // } else {
         if (user && await bcrypt.compare(password, user.password)) {
-            if(req.body.role==="customer"){
-
-            }else{
-                const restData = Restaurant.findOne({admin_id:user._id})
+            if (role === "customer") {
+                if (user.roles.includes(role)) {
+                    res.status(200).json({
+                        message: "Logged in as customer",
+                        loggedAs: role,
+                        _id: user._id,
+                        name: user.name,
+                        email: user.email,
+                        roles: user.roles,
+                        admin: user.admin,
+                        token: await generateToken(user._id)
+                    })
+                } else {
+                    res.status(401).json({ message: "Unauthorized" })
+                }
+            } else if (role === "admin") {
+                if (user.roles.includes(role)) {
+                    res.status(200).json({
+                        message: "Logged in as admin",
+                        loggedAs: role,
+                        _id: user._id,
+                        name: user.name,
+                        email: user.email,
+                        roles: user.roles,
+                        admin: user.admin,
+                        token: await generateToken(user._id)
+                    })
+                } else {
+                    res.status(401).json({ message: "Unauthorized" })
+                }
             }
-            res.status(200).json({
-                _id: user._id,
-                name: user.name,
-                email: user.email,
-                roles: user.roles,
-                token: await generateToken(user._id)
-            })
+
         } else {
             res.status(400)
             // .json({ error: "Invalid Crendentials" })
@@ -81,7 +124,7 @@ const loginUser = async (req, res) => {
         // }
     } catch (error) {
         res.status(500);
-        throw new Error(error.message);
+        throw new Error(error);
     }
 }
 
@@ -94,12 +137,13 @@ const generateToken = async (id) => {
 
 // define a function to getme data 
 const getMe = async (req, res) => {
-    const { _id, name, email, roles } = await User.findById(req.user._id);
+    const { _id, name, email, roles, admin } = await User.findById(req.user._id);
     res.status(400).json({
         _id,
         name,
         email,
         roles,
+        admin,
     });
 }
 

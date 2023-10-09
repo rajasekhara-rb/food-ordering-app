@@ -18,6 +18,10 @@ const userSchema = mongoose.Schema({
     },
     roles: {
         type: Array,
+    },
+    admin: {
+        type: Boolean,
+        default: false
     }
 },
     {

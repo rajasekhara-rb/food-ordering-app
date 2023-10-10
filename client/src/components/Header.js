@@ -4,6 +4,7 @@ import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import logo from '../images/logo.png';
 import { AuthContext } from "./AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const navigation = [
     { name: 'Home', href: '/', current: true },
@@ -18,10 +19,12 @@ function classNames(...classes) {
 
 const Header = () => {
     const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
-
+    const navigate = useNavigate();
     const logout = () => {
         setIsLoggedIn(false);
-        localStorage.removeItem("jwt");
+        localStorage.clear("jwt");
+        localStorage.clear("user");
+        navigate("/")
     }
 
     return (

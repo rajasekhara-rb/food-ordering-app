@@ -1,6 +1,44 @@
-import React from "react";
+import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { BaseURLContext } from "../AuthContext";
+import axios from "axios";
 
 const CreateFoodItems = () => {
+
+    const navigate = useNavigate();
+
+    const baseUrl = useContext(BaseURLContext);
+    const [foodItem, setFoodItem] = useState({ restaurant_id: "651eea202bc7d0480fa706f3" });
+    console.log(foodItem)
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFoodItem({ ...foodItem, [name]: value })
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            if (foodItem) {
+                await axios.post(`${baseUrl}/fooditem/new`, foodItem,
+                    {
+                        headers: {
+                            Authorization: "Bearer " + localStorage.getItem("jwt")
+                        }
+                    }).then((res) => {
+                        alert("food item created")
+                    })
+            } else {
+                alert("All field are mandatory to fill")
+            }
+        } catch (error) {
+            console.log(error);
+            alert("Something went wrong")
+        }
+
+    }
+
     return (
         <>
             <div className="flex flex-row items-center">
@@ -15,47 +53,49 @@ const CreateFoodItems = () => {
                         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                             <form className="space-y-6" action="#" method="POST">
                                 <div>
-                                    <label htmlFor="itemname" className="block text-sm font-medium leading-6 text-gray-900">
+                                    <label htmlFor="item_name" className="block text-sm font-medium leading-6 text-gray-900">
                                         Item Name
                                     </label>
                                     <div className="mt-2">
                                         <input
-                                            id="itemname"
-                                            name="itemname"
+                                            onChange={handleChange}
+                                            id="item_name"
+                                            name="item_name"
                                             type="text"
-                                            autoComplete="itemname"
+                                            autoComplete="item_name"
                                             required
                                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         />
                                     </div>
                                 </div>
 
-
                                 <div>
-                                    <label htmlFor="quantity" className="block text-sm font-medium leading-6 text-gray-900">
+                                    <label htmlFor="item_quantity" className="block text-sm font-medium leading-6 text-gray-900">
                                         Quantity
                                     </label>
                                     <div className="mt-2">
                                         <input
-                                            id="quantity"
-                                            name="quantity"
+                                            onChange={handleChange}
+                                            id="item_quantity"
+                                            name="item_quantity"
                                             type="number"
-                                            autoComplete="quantity"
+                                            autoComplete="item_quantity"
                                             required
                                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         />
                                     </div>
                                 </div>
                                 <div>
-                                    <label htmlFor="price" className="block text-sm font-medium leading-6 text-gray-900">
+                                    <label htmlFor="item_price" className="block text-sm font-medium leading-6 text-gray-900">
                                         Price
                                     </label>
                                     <div className="mt-2">
                                         <input
-                                            id="price"
-                                            name="price"
+                                            onChange={handleChange}
+                                            id="item_price"
+                                            name="item_price"
                                             type="number"
-                                            autoComplete="price"
+                                            autoComplete="item_price"
                                             required
                                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         />
@@ -63,15 +103,16 @@ const CreateFoodItems = () => {
                                 </div>
 
                                 <div>
-                                    <label htmlFor="decription" className="block text-sm font-medium leading-6 text-gray-900">
+                                    <label htmlFor="item_description" className="block text-sm font-medium leading-6 text-gray-900">
                                         Description
                                     </label>
                                     <div className="mt-2">
                                         <textarea
-                                            id="decription"
-                                            name="decription"
+                                            onChange={handleChange}
+                                            id="item_description"
+                                            name="item_description"
                                             type="textarea"
-                                            autoComplete="decription"
+                                            autoComplete="item_description"
                                             required
                                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         />
@@ -79,15 +120,16 @@ const CreateFoodItems = () => {
                                 </div>
 
                                 <div>
-                                    <label htmlFor="picture" className="block text-sm font-medium leading-6 text-gray-900">
+                                    <label htmlFor="item_photo" className="block text-sm font-medium leading-6 text-gray-900">
                                         Picture
                                     </label>
                                     <div className="mt-2">
                                         <input
-                                            id="picture"
-                                            name="picture"
+                                            onChange={handleChange}
+                                            id="item_photo"
+                                            name="item_photo"
                                             type="url"
-                                            autoComplete="picture"
+                                            autoComplete="item_photo"
                                             required
                                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         />
@@ -96,6 +138,7 @@ const CreateFoodItems = () => {
 
                                 <div>
                                     <button
+                                        onClick={handleSubmit}
                                         type="submit"
                                         className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                     >

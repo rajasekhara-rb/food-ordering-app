@@ -23,21 +23,22 @@ import CreateRestaurant from './components/restaurant/CreateRestaurant.js';
 import Protect from '../src/components/Protect.js';
 import { AuthContext, BaseURLContext } from './components/AuthContext';
 import CreateFoodItems from './components/restaurant/CreateFoodItems';
+import RestaurantRegistrationPage from './pages/restaurant/RestaurantRegistrationPage';
 
 function App() {
 
   const baseUrl = "http://localhost:5050";
 
-  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("jwt"));
-  console.log(isLoggedIn)
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // console.log(isLoggedIn)
 
   return (
     <>
       <BaseURLContext.Provider value={baseUrl}>
         <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
 
-          <Header />
           <Router>
+            <Header />
             <Routes>
               <Route path="/" element={<LandingPage />} />
               <Route path="/login" element={<LoginPage />}>
@@ -49,7 +50,7 @@ function App() {
               <Route path="/register" element={<RegistrationPage />}>
                 <Route path='' element={<CustomerRegistrationPage />} />
                 <Route path='customer' element={<CustomerRegistrationPage />} />
-                <Route path='restaurant' element={<CreateRestaurant />} />
+                <Route path='restaurant' element={<RestaurantRegistrationPage />} />
               </Route>
 
               {/* <Route path="/register" element={<RegistrationPage />} /> */}
@@ -68,7 +69,7 @@ function App() {
                 <Route path='' element={<AdminDashboard />} />
                 <Route path="fooditems" element={<FoodItemsPage />} />
                 <Route path="create" element={<CreateRestaurant />} />
-                <Route path="addfooditem" element={<CreateFoodItems />} />
+                <Route path="addfooditems" element={<CreateFoodItems />} />
                 <Route path="updatefooditem" element={<FoodItemsPage />} />
               </Route>
 

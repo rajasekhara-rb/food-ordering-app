@@ -9,8 +9,8 @@ const RestaurantLoginPage = () => {
     const navigate = useNavigate();
 
     const baseUrl = useContext(BaseURLContext);
-    const [user, setuser] = useState({role:"admin"});
-    // console.log(user)
+    const [user, setuser] = useState({ role: "admin" });
+    console.log(user)
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -20,42 +20,56 @@ const RestaurantLoginPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (user.email && user.password) {
-            try {
+        try {
+            if (user.email && user.password) {
                 const Result = await axios.post(`${baseUrl}/user/login`, user, {
                     headers: {
                         Authorization: "Bearer " + localStorage.getItem("jwt")
                     }
-                }).then((loggedin) => {
-                    if (!loggedin) {
-                        alert(loggedin.error)
+                }).then((res) => {
+                    if(res.data){
+                        
                     }
-                    if (loggedin.data.token) {
-                        // console.log(loggedin.data)
-                        if (loggedin.data.roles.includes("admin")) {
-                            localStorage.setItem("jwt", loggedin);
-                            setIsLoggedIn(true);
-                            navigate("/restaurant/");
+                    if (res.data.token) {
+                        localStorage.setItem("jwt", res.data.token);
+                        localStorage.setItem("user", res.data);
+                        setIsLoggedIn(true);
+                        if (res.data.loggedAs === "admin") {
+                            alert(res.data.message)
+                            navigate("/restaurant/")
                         } else {
-                            setIsLoggedIn(false);
-                            localStorage.removeItem("jwt")
-                            navigate("/login/customer");
-                            alert("You do not have access to login to restaurants. Try Login as customer");
+                            alert(res.data.message)
                         }
                     } else {
-                        alert(loggedin.data.error)
-                        navigate("/login");
+                        alert(res.data.message)
+                        // alert("Login Failed");
                     }
-
-                }).catch((error) => {
-                    alert(error)
+                    // if (!loggedin) {
+                    //     alert(loggedin.error)
+                    // }
+                    // if (loggedin.data.token) {
+                    //     // console.log(loggedin.data)
+                    //     if (loggedin.data.roles.includes("admin")) {
+                    //         localStorage.setItem("jwt", loggedin);
+                    //         setIsLoggedIn(true);
+                    //         navigate("/restaurant/");
+                    //     } else {
+                    //         setIsLoggedIn(false);
+                    //         localStorage.removeItem("jwt")
+                    //         navigate("/login/customer");
+                    //         alert("You do not have access to login to restaurants. Try Login as customer");
+                    //     }
+                    // } else {
+                    //     alert(loggedin.data.error)
+                    //     navigate("/login");
+                    // }
                 })
-
-            } catch (error) {
-                alert(error.message)
+            } else {
+                alert("Email and password are mandatory")
             }
-        } else {
-            alert("Email and password are mandatory")
+        } catch (error) {
+            alert("Something went wrong");
+            console.log(error)
         }
 
     }

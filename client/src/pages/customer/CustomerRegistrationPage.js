@@ -26,7 +26,7 @@ const CustomerRegistrationPage = () => {
                         name: user.name,
                         email: user.email,
                         password: user.password,
-                        roles: "cusomer",
+                        role: "cusomer",
                     }
 
                     await axios.post(`${baseUrl}/user/register`, newUser,

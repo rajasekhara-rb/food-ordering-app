@@ -46,8 +46,24 @@ const getFoodItemById = async (req, res) => {
         if (!fooditem) {
             res.status(400);
             throw new Error("food item not found")
+        } else {
+            res.status(200).json({ fooditem })
         }
-        res.status(200).json({ fooditem })
+    } catch (error) {
+        res.status(500);
+        throw new Error({ error: error.message });
+    }
+};
+
+const getFoodItemsByRestaurantId = async (req, res) => {
+    try {
+        const fooditems = await FoodItem.find({ restaurant_id: req.body.restaurant_id });
+        if (!fooditems) {
+            res.status(400);
+            throw new Error("food item not found")
+        } else {
+            res.status(200).json({ fooditems })
+        }
     } catch (error) {
         res.status(500);
         throw new Error({ error: error.message });
@@ -90,4 +106,5 @@ export {
     getFoodItemById,
     updateFoodItems,
     deleteFoodItems,
+    getFoodItemsByRestaurantId
 }

@@ -11,21 +11,27 @@ const registerRestaurant = async (req, res) => {
     // } else {
 
     try {
-        const restaurant = new Restaurant({
-            name,
-            address,
-            opening_time,
-            closing_time,
-            admin_id: req.user._id
-        });
-        const saveRestaurant = await restaurant.save();
-        res.status(201).json(saveRestaurant);
+        const userRestaurantExist = await Restaurant.findOne({ admin_id: req.user._id });
+        console.log(userRestaurantExist)
+        if (userRestaurantExist) {
+            res.status(400).json({ message: "Only one restaurant allowed for the user" });
+        } else {
+            const restaurant = new Restaurant({
+                name,
+                address,
+                opening_time,
+                closing_time,
+                admin_id: req.user._id
+            });
+            const saveRestaurant = await restaurant.save();
+            res.status(201).json(saveRestaurant);
 
-        if (!saveRestaurant) {
-            res.status(400);
-            throw new Error("Restaurant not saved please try again")
+            if (!saveRestaurant) {
+                res.status(400);
+                throw new Error("Restaurant not saved please try again")
+            }
+
         }
-
     } catch (error) {
         res.status(500);
         throw new Error({ error: error.message })
@@ -91,10 +97,25 @@ const deleteRestaurant = async (req, res) => {
         throw new Error({ error: error.message })
     }
 }
+
+// define a function to get the restaurant by the admin id used for login 
+const getRestaurantsByAdminId = async (req, res) => {
+    const admin_id = req.user.id;
+    try {
+        const result = await Restaurant.find({ admin_id: admin_id });
+        res.status(200).json(result)
+    } catch (error) {
+        res.status(500);
+        throw new Error({ error: error.message })
+    }
+
+}
+
 export {
     registerRestaurant,
     getAllRestaurants,
     getRestaurantById,
     updateRestaurant,
     deleteRestaurant,
+    getRestaurantsByAdminId,
 }

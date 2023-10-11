@@ -8,7 +8,7 @@ const CreateFoodItems = () => {
     const navigate = useNavigate();
 
     const baseUrl = useContext(BaseURLContext);
-    const [foodItem, setFoodItem] = useState({ restaurant_id: "651eea202bc7d0480fa706f3" });
+    const [foodItem, setFoodItem] = useState({ restaurant_id: localStorage.getItem("restaurant_id") });
     console.log(foodItem)
 
     const handleChange = (e) => {
@@ -21,13 +21,13 @@ const CreateFoodItems = () => {
 
         try {
             if (foodItem) {
-                await axios.post(`${baseUrl}/fooditem/new`, foodItem,
+                await axios.post(`${baseUrl}/fooditems/new`, foodItem,
                     {
                         headers: {
                             Authorization: "Bearer " + localStorage.getItem("jwt")
                         }
                     }).then((res) => {
-                        alert("food item created")
+                        alert(res.data.message)
                     })
             } else {
                 alert("All field are mandatory to fill")

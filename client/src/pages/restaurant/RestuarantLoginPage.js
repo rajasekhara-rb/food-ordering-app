@@ -1,11 +1,13 @@
 import React, { useContext, useState } from "react";
 import Logo from '../../images/logo.png';
 import { Link, useNavigate } from "react-router-dom";
-import { AuthContext, BaseURLContext } from "../../components/AuthContext";
+import { AuthContext, BaseURLContext, RestaurantContext, UserContext } from "../../components/AuthContext";
 import axios from 'axios';
 
 const RestaurantLoginPage = () => {
     const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+    const { restaurantDetails, setRestaurantDetails } = useContext(RestaurantContext);
+    const { userDetails, setUserDetails } = useContext(UserContext);
     const navigate = useNavigate();
 
     const baseUrl = useContext(BaseURLContext);
@@ -22,21 +24,37 @@ const RestaurantLoginPage = () => {
 
         try {
             if (user.email && user.password) {
-                const Result = await axios.post(`${baseUrl}/user/login`, user, {
-                    headers: {
-                        Authorization: "Bearer " + localStorage.getItem("jwt")
-                    }
-                }).then((res) => {
-                    if(res.data){
-                        
+                const Result = await axios.post(`${baseUrl}/user/login`, user,
+                    // {
+                    //     headers: {
+                    //         Authorization: "Bearer " + localStorage.getItem("jwt")
+                    //     }
+                    // }
+                ).then(async (res) => {
+                    if (res.data) {
+
                     }
                     if (res.data.token) {
                         localStorage.setItem("jwt", res.data.token);
                         localStorage.setItem("user", res.data);
+                        localStorage.setItem("user_id", res.data._id);
+                        setUserDetails(res.data);
                         setIsLoggedIn(true);
                         if (res.data.loggedAs === "admin") {
-                            alert(res.data.message)
-                            navigate("/restaurant/")
+                            await axios.get(`${baseUrl}/restaurant/restuarantbyadmins`,
+                                {
+                                    headers: {
+                                        Authorization: "Bearer " + res.data.token,
+                                    }
+                                }).then((res) => {
+                                    // console.log(res.data)
+                                    setRestaurantDetails(res.data);
+                                    localStorage.setItem("restaurant_details", res.data)
+                                    localStorage.setItem("restaurant_id", res.data._id)
+                                    localStorage.setItem("restaurant_admin_id", res.data.admin_id)
+                                    alert(res.data.message)
+                                    navigate("/restaurant/")
+                                })
                         } else {
                             alert(res.data.message)
                         }
@@ -104,7 +122,7 @@ const RestaurantLoginPage = () => {
                                             type="email"
                                             autoComplete="email"
                                             required
-                                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         />
                                     </div>
                                 </div>
@@ -128,7 +146,7 @@ const RestaurantLoginPage = () => {
                                             type="password"
                                             autoComplete="current-password"
                                             required
-                                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         />
                                     </div>
                                 </div>
@@ -137,7 +155,7 @@ const RestaurantLoginPage = () => {
                                     <button
                                         onClick={handleSubmit}
                                         type="submit"
-                                        className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                        className="flex w-full justify-center rounded-md bg-indigo-600 px-3 p-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                     >
                                         Sign in
                                     </button>

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import Logo from '../../images/logo.png'
+import Logo from '../../images/logo.png';
 import { useNavigate } from "react-router-dom";
 import { BaseURLContext } from "../AuthContext";
 import axios from "axios";

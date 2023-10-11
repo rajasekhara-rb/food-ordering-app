@@ -102,7 +102,7 @@ const deleteRestaurant = async (req, res) => {
 const getRestaurantsByAdminId = async (req, res) => {
     const admin_id = req.user.id;
     try {
-        const result = await Restaurant.find({ admin_id: admin_id });
+        const result = await Restaurant.findOne({ admin_id: admin_id });
         res.status(200).json(result)
     } catch (error) {
         res.status(500);

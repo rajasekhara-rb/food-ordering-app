@@ -6,7 +6,7 @@ const foodItemsRouter = express.Router();
 
 foodItemsRouter.post("/new", authenticateUser, OnlyAdminsAccess, addFoodItems);
 foodItemsRouter.get("/all", authenticateUser, getFoodItems)
-foodItemsRouter.get("/byrestaurant", authenticateUser, OnlyAdminsAccess, getFoodItemsByRestaurantId);
+foodItemsRouter.post("/byrestaurant", authenticateUser, OnlyAdminsAccess, getFoodItemsByRestaurantId);
 foodItemsRouter.get("/:id", authenticateUser, getFoodItemById);
 foodItemsRouter.route("/:id", authenticateUser, OnlyAdminsAccess).put(updateFoodItems).delete(deleteFoodItems);
 

@@ -3,7 +3,7 @@ import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import logo from '../images/logo.png';
-import { AuthContext } from "./AuthContext";
+import { AuthContext, RestaurantContext, UserContext } from "./AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const navigation = [
@@ -18,6 +18,15 @@ function classNames(...classes) {
 }
 
 const Header = () => {
+
+    // const { restaurantDetails, setRestaurantDetails } = useContext(RestaurantContext);
+    const { userDetails, setUserDetails } = useContext(UserContext);
+    // const userDetails = localStorage.getItem("user")
+
+    setUserDetails(localStorage.getItem("user"))
+    // setRestaurantDetails(localStorage.getItem("restaurant_details"));
+
+
     const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
     const navigate = useNavigate();
     const logout = () => {
@@ -72,6 +81,23 @@ const Header = () => {
                                         </div>
                                     </div>
                                 </div>
+
+                                {/* <div> */}
+                                {isLoggedIn ? (
+
+                                    <div className="text-center">
+                                        <h6 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-3xl">
+                                            {`Hi ${userDetails.name} welcome `}
+                                            {/* to ${restaurantDetails.name}'s Dashboard} */}
+                                        </h6>
+                                        <p className="mt-6 text-lg leading-8 text-gray-600">
+                                            {/* This is your admin dashboard to manage your restaurant */}
+                                        </p>
+
+                                    </div>
+                                ) : ("")}
+                                {/* </div> */}
+
                                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                                     {/* <button
                   type="button"

@@ -23,7 +23,7 @@ app.listen(PORT, () => {
 
 app.use("/user", userRouter);
 app.use("/restaurant", restaurantRouter);
-app.use("/fooditem", foodItemsRouter);
+app.use("/fooditems", foodItemsRouter);
 
 app.get('/', (req, res) => {
     res.send("Server Started")

@@ -44,8 +44,7 @@ const getFoodItemById = async (req, res) => {
     try {
         const fooditem = await FoodItem.findById(id);
         if (!fooditem) {
-            res.status(400);
-            throw new Error("food item not found")
+            res.status(400).json({ message: "food item not found" })
         } else {
             res.status(200).json({ fooditem })
         }

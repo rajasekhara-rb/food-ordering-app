@@ -30,7 +30,7 @@ const CustomerLoginPage = () => {
                 }).then((res) => {
                     if (res.data.token) {
                         localStorage.setItem("jwt", res.data.token);
-                        localStorage.setItem("user", res.data);
+                        localStorage.setItem("user", JSON.stringify(res.data));
                         setIsLoggedIn(true);
                         if (res.data.loggedAs === "customer") {
                             alert(res.data.message)

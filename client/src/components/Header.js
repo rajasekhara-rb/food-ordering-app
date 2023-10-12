@@ -4,7 +4,7 @@ import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import logo from '../images/logo.png';
 import { AuthContext, RestaurantContext, UserContext } from "./AuthContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const navigation = [
     { name: 'Home', href: '/', current: true },
@@ -19,13 +19,7 @@ function classNames(...classes) {
 
 const Header = () => {
 
-    // const { restaurantDetails, setRestaurantDetails } = useContext(RestaurantContext);
-    const { userDetails, setUserDetails } = useContext(UserContext);
-    // const userDetails = localStorage.getItem("user")
-
-    setUserDetails(localStorage.getItem("user"))
-    // setRestaurantDetails(localStorage.getItem("restaurant_details"));
-
+    const userDetails = JSON.parse(localStorage.getItem("user"));
 
     const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
     const navigate = useNavigate();
@@ -132,14 +126,26 @@ const Header = () => {
                                                 leaveTo="transform opacity-0 scale-95"
                                             >
                                                 <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+
                                                     <Menu.Item>
                                                         {({ active }) => (
-                                                            <a
-                                                                href="/"
+                                                            <p
+                                                                className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                                            >
+                                                                Logged As {userDetails.loggedAs}
+                                                            </p>
+                                                        )}
+                                                    </Menu.Item>
+
+
+                                                    <Menu.Item>
+                                                        {({ active }) => (
+                                                            <Link
+                                                                to="/customer/profile"
                                                                 className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                                             >
                                                                 Your Profile
-                                                            </a>
+                                                            </Link>
                                                         )}
                                                     </Menu.Item>
                                                     {/* <Menu.Item>

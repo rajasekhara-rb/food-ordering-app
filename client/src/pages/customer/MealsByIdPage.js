@@ -4,7 +4,7 @@ import { BaseURLContext } from "../../components/AuthContext";
 import { useNavigate, useParams } from "react-router-dom";
 
 
-const FoodItemByIdPage = () => {
+const MealsByIdPage = () => {
     const baseUrl = useContext(BaseURLContext);
     const [item, setItem] = useState({});
     console.log(item)
@@ -33,26 +33,6 @@ const FoodItemByIdPage = () => {
         fetchItem()
     }, [id, baseUrl]);
 
-
-    const deleteItem = async (e) => {
-        e.preventDefault();
-        try {
-            await axios.delete(`${baseUrl}/fooditems/${id}`,
-                {
-                    headers: {
-                        Authorization: "Bearer " + localStorage.getItem("jwt")
-                    }
-                }
-            ).then((res) => {
-                // setItem(res.data.fooditem);
-                // alert("Item deleted");
-                navigate("restaurant/fooditems");
-            })
-
-        } catch (error) {
-            console.log(error)
-        }
-    }
 
     return (
         <>
@@ -255,17 +235,17 @@ const FoodItemByIdPage = () => {
                                 </div> */}
 
                                 <button
-                                    onClick={() => { navigate(`/restaurant/updatefooditem/${item._id}`) }}
-                                    className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-yellow-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+
+                                    className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                 >
-                                    Edit
+                                    Add to Cart
                                 </button>
-                                <button
+                                {/* <button
                                     onClick={deleteItem}
                                     className="mt-1 flex w-full items-center justify-center rounded-md border border-transparent bg-red-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                 >
                                     Delete
-                                </button>
+                                </button> */}
                             </form>
                         </div>
 
@@ -311,4 +291,4 @@ const FoodItemByIdPage = () => {
     )
 }
 
-export default FoodItemByIdPage;
+export default MealsByIdPage;

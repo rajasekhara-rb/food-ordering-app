@@ -1,9 +1,9 @@
 import React from "react";
 
-const OrdersPage = ()=>{
-    return(
+const OrdersPage = () => {
+    return (
         <>
-        OrdersPage
+            OrdersPage
         </>
     )
 }

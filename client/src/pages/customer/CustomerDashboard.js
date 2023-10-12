@@ -1,9 +1,10 @@
 import React from "react";
+import MealsPage from "./MealsPage";
 
-const CustomerDashboardPage = ()=>{
-    return(
+const CustomerDashboardPage = () => {
+    return (
         <>
-        CustomerDashboardPage
+            <MealsPage />
         </>
     )
 }

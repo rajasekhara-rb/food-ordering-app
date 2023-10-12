@@ -25,6 +25,11 @@ import { AuthContext, BaseURLContext, CustomerContext, RestaurantContext, UserCo
 import CreateFoodItems from './components/restaurant/CreateFoodItems';
 import RestaurantRegistrationPage from './pages/restaurant/RestaurantRegistrationPage';
 import FoodItemByIdPage from './pages/restaurant/FoodItemByIdPage';
+import UpdateFoodItems from './components/restaurant/UpdateFoodItems';
+import ReceivedOrdersPage from './pages/restaurant/ReceivedOrders';
+import CustomerPage from './pages/customer/CustomerPage';
+import MealsByIdPage from './pages/customer/MealsByIdPage';
+import CustomerProfilePage from './pages/customer/CustomerProfilePage';
 
 function App() {
 
@@ -64,9 +69,12 @@ function App() {
                   <Route path='/partnerwithus' element={<AddRestaurantPage />} />
 
                   {/* <CustomerContext.Provider value={{ customerDetails, setCustomerDetails }}> */}
-                  <Route path="/customer" element={<CustomerDashboard />}>
+                  <Route path="/customer" element={<CustomerPage />}>
+                    <Route path="" element={<CustomerDashboard />} />
                     <Route path="login" element={<LoginPage />} />
+                    <Route path="profile" element={<CustomerProfilePage />} />
                     <Route path="fooditems" element={<FoodItemsPage />} />
+                    <Route path='fooditems/:id' element={<MealsByIdPage />} />
                     <Route path="cart" element={<CartPage />} />
                     <Route path="checkout" element={<CheckOutPage />} />
                     <Route path="orders" element={<OrdersPage />} />
@@ -79,7 +87,8 @@ function App() {
                     <Route path='fooditems/:id' element={<FoodItemByIdPage />} />
                     <Route path="create" element={<CreateRestaurant />} />
                     <Route path="addfooditems" element={<CreateFoodItems />} />
-                    <Route path="updatefooditem" element={<FoodItemsPage />} />
+                    <Route path="updatefooditem/:id" element={<UpdateFoodItems />} />
+                    <Route path='orders' element={<ReceivedOrdersPage />} />
                   </Route>
                   <Route path="*" element={<NotFoundPage />} />
                 </Routes>

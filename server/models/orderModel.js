@@ -3,8 +3,33 @@ import mongoose from "mongoose";
 const ordersSchema = mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
-        // required: [true, "user id is required"],
+        required: [true, "user id is required"],
         ref: "Customer",
+    },
+    user_name: {
+        type: String,
+        required: [true, "user name is required"],
+    },
+    user_email: {
+        type: String,
+        required: [true, "user email is required"],
+    },
+    // user: {
+    //     userId: {
+    //         type: mongoose.Schema.Types.ObjectId,
+    //         required: [true, "user name is required"],
+    //     },
+    //     name: {
+    //         type: String,
+    //         required: [true, "user name is required"],
+    //     },
+    //     email: {
+    //         type: String,
+    //         required: [true, "user name is required"],
+    //     },
+    // },
+    shipping_address: {
+        type: String,
     },
     items: [
         {
@@ -14,21 +39,25 @@ const ordersSchema = mongoose.Schema({
             item_quantity: { type: Number },
         }
     ],
-    active: {
-        type: Boolean,
-        default: true,
+    sub_total: {
+        type: Number,
+        default: 0
+    },
+    restaurant_id: {
+        type: String
+    },
+    order_status: {
+        type: String,
     },
     modified_on: {
         type: Date,
         default: Date.now
-    },
-    sub_total: {
-        type: Number,
-        default: 0
     }
-
 },
     {
         timestamps: true
     }
 )
+
+const Order = mongoose.model("Order", ordersSchema);
+export default Order;

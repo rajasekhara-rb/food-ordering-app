@@ -48,11 +48,16 @@ const MealsPage = () => {
                             </div>
                             <h3 className="mt-4 text-sm text-gray-700">{meal.item_name}</h3>
                             <p className="mt-1 text-lg font-medium text-gray-900">&#8377; {meal.item_price}</p>
-                            <button
-                                className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            {meal.avilability ? (
+                                <p className="mt-1 text-lg font-medium text-green-900">Avilable :{meal.item_quantity}</p>
+                            ) : (
+                                <p className="mt-1 text-lg font-medium text-red-900">Out of Stock</p>
+                            )}
+                            {/* <button
+                                className="mt-1 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                             >
                                 Add to Cart
-                            </button>
+                            </button> */}
                         </Link>
                     ))}
                 </div>

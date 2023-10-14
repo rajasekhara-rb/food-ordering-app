@@ -36,7 +36,7 @@ const RestaurantLoginPage = () => {
                     }
                     if (res.data.token) {
                         localStorage.setItem("jwt", res.data.token);
-                        localStorage.setItem("user", res.data);
+                        localStorage.setItem("user", JSON.stringify(res.data));
                         localStorage.setItem("user_id", res.data._id);
                         setUserDetails(res.data);
                         setIsLoggedIn(true);
@@ -49,7 +49,7 @@ const RestaurantLoginPage = () => {
                                 }).then((res) => {
                                     // console.log(res.data)
                                     setRestaurantDetails(res.data);
-                                    localStorage.setItem("restaurant_details", res.data)
+                                    localStorage.setItem("restaurant_details", JSON.stringify(res.data))
                                     localStorage.setItem("restaurant_id", res.data._id)
                                     localStorage.setItem("restaurant_admin_id", res.data.admin_id)
                                     alert(res.data.message)

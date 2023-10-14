@@ -5,6 +5,7 @@ import connectToDB from './config/db.js';
 import userRouter from './routes/userRoutes.js';
 import restaurantRouter from './routes/restaurantRoutes.js';
 import foodItemsRouter from './routes/foodItemRoutes.js';
+import cartRoutes from './routes/cartRoutes.js';
 dotenv.config();
 
 // creating an instance of the express app 
@@ -24,6 +25,7 @@ app.listen(PORT, () => {
 app.use("/user", userRouter);
 app.use("/restaurant", restaurantRouter);
 app.use("/fooditems", foodItemsRouter);
+app.use("/cart", cartRoutes)
 
 app.get('/', (req, res) => {
     res.send("Server Started")

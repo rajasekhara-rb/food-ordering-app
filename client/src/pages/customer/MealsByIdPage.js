@@ -33,6 +33,10 @@ const MealsByIdPage = () => {
         fetchItem()
     }, [id, baseUrl]);
 
+    const addToCart = async (e) => {
+        e.preventDefault()
+    }
+
 
     return (
         <>
@@ -235,7 +239,7 @@ const MealsByIdPage = () => {
                                 </div> */}
 
                                 <button
-
+                                    onClick={addToCart}
                                     className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                 >
                                     Add to Cart
@@ -274,13 +278,17 @@ const MealsByIdPage = () => {
                             </div> */}
 
                             <div className="mt-10">
-                                <h2 className="text-sm font-medium text-gray-900">Avilability</h2>
-
+                                {/* <h2 className="text-sm font-medium text-gray-900">Avilability</h2> */}
                                 <div className="mt-4 space-y-6">
-                                    <p className="text-sm text-gray-600">{item.avilability ? ("In Stock") : ("Out Of Stock")}</p>
+                                    {item.avilability ? (
+                                        <p className="text-xl font-medium text-green-700">Avilable :{item.item_quantity}</p>
+                                    ) : (
+                                        <p className="text-xl font-medium text-red-700">Out of Stock</p>
+                                    )}
+                                    {/* <p className="text-xl text-gray-600">{item.avilability ? ("In Stock") : ("Out Of Stock")}</p> */}
                                 </div>
                                 <div className="mt-4 space-y-6">
-                                    <p className="text-sm text-gray-600">Avilable Quantity {item.item_quantity}</p>
+                                    <p className="text-xl text-gray-600">Restaurnt :{item.restaurant_id}</p>
                                 </div>
                             </div>
                         </div>

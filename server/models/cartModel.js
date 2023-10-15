@@ -11,6 +11,8 @@ const cartSchema = mongoose.Schema({
             item_id: { type: String },
             item_name: { type: String },
             item_price: { type: Number },
+            item_description: { type: String },
+            item_photo: { type: String },
             item_quantity: { type: Number },
             restaurant_id: {
                 type: mongoose.Schema.Types.ObjectId,

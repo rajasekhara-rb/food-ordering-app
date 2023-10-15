@@ -24,7 +24,8 @@ const authenticateUser = async (req, res, next) => {
         }
     } catch (error) {
         res.status(401);
-        throw new Error("Unauthorized")
+        throw new Error("Unauthorized");
+        console.log(error);
     }
 }
 

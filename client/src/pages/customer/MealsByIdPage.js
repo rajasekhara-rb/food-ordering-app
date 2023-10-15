@@ -7,7 +7,9 @@ import { useNavigate, useParams } from "react-router-dom";
 const MealsByIdPage = () => {
     const baseUrl = useContext(BaseURLContext);
     const [item, setItem] = useState({});
-    console.log(item)
+    // console.log(item)
+    const [quantity, setQty] = useState(1);
+    console.log(quantity);
 
     const { id } = useParams();
     const navigate = useNavigate();
@@ -34,7 +36,28 @@ const MealsByIdPage = () => {
     }, [id, baseUrl]);
 
     const addToCart = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
+        try {
+
+            await axios.post(`${baseUrl}/cart/`,
+                {
+                    item_id: id,
+                    quantity: quantity,
+                },
+                {
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem("jwt")
+                    }
+                }
+            ).then((res) => {
+                alert("Added to the cart");
+                navigate("/customer/cart");
+            })
+
+        } catch (error) {
+            console.log(error);
+            alert(error.message);
+        }
     }
 
 
@@ -237,6 +260,27 @@ const MealsByIdPage = () => {
                                         </div>
                                     </RadioGroup>
                                 </div> */}
+
+                                <div>
+                                    <label htmlFor="qunatity" className="block text-sm font-medium leading-6 text-gray-900">
+                                        Order Quantity
+                                    </label>
+                                    <div className="mt-1">
+                                        <input
+                                            onChange={(e) => { setQty(parseInt(e.target.value)) }}
+                                            min="1"
+                                            max="100"
+                                            value={quantity}
+                                            defaultValue="1"
+                                            id="qunatity"
+                                            name="qunatity"
+                                            type="number"
+                                            autoComplete="qunatity"
+                                            required
+                                            className="block w-full rounded-md border-0 py-1 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                        />
+                                    </div>
+                                </div>
 
                                 <button
                                     onClick={addToCart}

@@ -1,8 +1,56 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { BaseURLContext } from "../../components/AuthContext";
+import axios from "axios";
 
 
 const CartPage = () => {
+    const baseUrl = useContext(BaseURLContext);
+    const [cart, setCart] = useState({});
+    const navigate = useNavigate();
+
+
+    useEffect(() => {
+        const getCart = async () => {
+            try {
+                await axios.get(`${baseUrl}/cart/`,
+                    {
+                        headers: {
+                            Authorization: "Bearer " + localStorage.getItem("jwt")
+                        }
+                    }
+                ).then((res) => {
+                    setCart(res.data)
+                })
+
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+        getCart()
+    }, [baseUrl]);
+
+    const removeItemsFromTheCart = async (item_id) => {
+        // e.preventDefault();
+        // ?item_id=${item_id}
+        try {
+            await axios.delete(`${baseUrl}/cart/${item_id}`,
+                {
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem("jwt")
+                    }
+                },
+            ).then((res) => {
+                // setCart(res.data);
+                alert(res.data)
+            })
+
+        } catch (error) {
+            console.log(error)
+            alert(error)
+        }
+    }
 
     return (
         <>
@@ -15,7 +63,7 @@ const CartPage = () => {
                                 <div class="flex h-full flex-col overflow-y-scroll bg-white shadow-xl"> */}
             <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
                 <div class="flex items-start justify-between">
-                    <h2 class="text-lg font-medium text-gray-900" id="slide-over-title">Shopping cart</h2>
+                    <h2 class="text-lg font-medium text-gray-900" id="slide-over-title">Shopping cart #{cart?._id}</h2>
                     <div class="ml-3 flex h-7 items-center">
                         <button type="button" class="relative -m-2 p-2 text-gray-400 hover:text-gray-500">
                             <span class="absolute -inset-0.5"></span>
@@ -27,43 +75,61 @@ const CartPage = () => {
                     </div>
                 </div>
 
-                <div class="mt-8">
-                    <div class="flow-root">
-                        <ul role="list" class="-my-6 divide-y divide-gray-200">
-                            <li class="flex py-6">
-                                <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                                    <img src="https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg" alt="Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt." class="h-full w-full object-cover object-center"></img>
-                                </div>
-
-                                <div class="ml-4 flex flex-1 flex-col">
-                                    <div>
-                                        <div class="flex justify-between text-base font-medium text-gray-900">
-                                            <h3>
-                                                <a href="#">Throwback Hip Bag</a>
-                                            </h3>
-                                            <p class="ml-4">&#8377;90.00</p>
+                {cart ? (
+                    // {
+                    cart.items?.map((item) => {
+                        return <div class="mt-8" key={item.item_id}>
+                            <div class="flow-root">
+                                <ul role="list" class="-my-6 divide-y divide-gray-200">
+                                    <li class="flex py-6">
+                                        <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                                            <img
+                                                src={item.item_photo}
+                                                alt={item.item_name}
+                                                class="h-full w-full object-cover object-center"></img>
                                         </div>
-                                        <p class="mt-1 text-sm text-gray-500">Salmon</p>
-                                    </div>
-                                    <div class="flex flex-1 items-end justify-between text-sm">
-                                        <p class="text-gray-500">Qty 1</p>
 
-                                        <div class="flex">
-                                            <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">Remove</button>
+                                        <div class="ml-4 flex flex-1 flex-col">
+                                            <div>
+                                                <div class="flex justify-between text-base font-medium text-gray-900">
+                                                    <h3>
+                                                        <a href={`/customer/fooditems/${item.item_id}`}>{item.item_name}</a>
+                                                    </h3>
+                                                    <p class="ml-4">&#8377;{item.item_price}</p>
+                                                </div>
+                                                <p class="mt-1 text-sm text-gray-500">{item.item_description}</p>
+                                            </div>
+                                            <div class="flex flex-1 items-end justify-between text-sm">
+                                                <p class="text-gray-500">Qty {item.item_quantity}</p>
+
+                                                <div class="flex">
+                                                    <button
+                                                        onClick={() => {
+                                                            // console.log(item.item_id);
+                                                            removeItemsFromTheCart(item.item_id)
+                                                        }
+                                                        }
+                                                        type="button" class="font-medium text-indigo-600 hover:text-indigo-500">Remove</button>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </li>
+                                    </li>
 
-                        </ul>
-                    </div>
-                </div>
+                                </ul>
+                            </div>
+                        </div>
+                    })
+                    // }
+                ) : (
+                    "You  have no items in the cart"
+                )}
+
             </div>
 
             <div class="border-t border-gray-200 px-4 py-6 sm:px-6">
                 <div class="flex justify-between text-base font-medium text-gray-900">
                     <p>Subtotal</p>
-                    <p>&#8377;262.00</p>
+                    <p>&#8377;{cart?.sub_total}</p>
                 </div>
                 <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
                 <div class="mt-6">
@@ -72,7 +138,7 @@ const CartPage = () => {
                 <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
                     <p>
                         or
-                        <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">
+                        <button onClick={() => { navigate("/customer/") }} type="button" class="font-medium text-indigo-600 hover:text-indigo-500">
                             Continue Shopping
                             <span aria-hidden="true"> &rarr;</span>
                         </button>

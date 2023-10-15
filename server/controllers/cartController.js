@@ -96,11 +96,12 @@ const createCart = async (req, res) => {
 };
 
 const deleteCartItems = async (req, res) => {
-    const item_id = req.parmas.id;
-    const userId = req.user._id;
     try {
+        const id = req.params.id;
+        const userId = req.user._id;
+
         let cart = await Cart.findOne({ userId: userId });
-        const itemIndex = cart.items.findIndex((item) => item.item_id == item_id);
+        const itemIndex = cart.items.findIndex((item) => item.item_id == id);
 
         if (itemIndex > -1) {
             let item = cart.items[itemIndex];
@@ -126,10 +127,22 @@ const deleteCartItems = async (req, res) => {
     }
 }
 
+const deleteCart = async (req, res) => {
+    try {
+        const id = req.params.id;
+        await Cart.findByIdAndDelete(id);
+        res.status(201).json({ message: "cart emptied" })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ status: false, error: error })
+    }
+}
+
 export {
     getcart,
     createCart,
     deleteCartItems,
+    deleteCart,
 }
 
 

@@ -1,18 +1,20 @@
 import React, { useContext, useEffect, useState } from "react";
 import CartPage from "./CartPage";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BaseURLContext } from "../../components/AuthContext";
 import axios from "axios";
 
 
 const CheckOutPage = () => {
+    const navigate = useNavigate();
     const baseUrl = useContext(BaseURLContext);
     const [deleiveyType, setDeliveyType] = useState("");
     const [shippingCost, setShippingCost] = useState(0);
     // console.log(deleiveyType)
     const [billingAddress, setBillingAddress] = useState({});
-    console.log(billingAddress);
+    // console.log(billingAddress);
     const [cart, setCart] = useState({});
+    // console.log(cart);
 
     const deliveryCharges = () => {
         if (deleiveyType == "xpress") {
@@ -60,9 +62,21 @@ const CheckOutPage = () => {
                     headers: {
                         Authorization: "Bearer " + localStorage.getItem("jwt")
                     }
-                }).then((res) => {
-                    console.log(res.data);
-                    alert("order placed")
+                }).then(async (res) => {
+                    // console.log(res.data);
+                    // after order is place cart is beign emptied 
+
+                    alert(res.data.message);
+                    await axios.delete(`${baseUrl}/cart/cart/${cart._id}`,
+                        {
+                            headers: {
+                                Authorization: "Bearer " + localStorage.getItem("jwt")
+                            }
+                        }).then((res) => {
+                            alert(res.data.message);
+                            navigate("/customer/thankyou/")
+
+                        })
                 })
 
         } catch (error) {
@@ -108,9 +122,8 @@ const CheckOutPage = () => {
                     <p class="text-xl font-medium">Order Summary</p>
                     <p class="text-gray-400">Check your items. And select a suitable shipping method.</p>
                     <div class="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
-
                         {
-                            cart.items ? (
+                            cart !== null ? (
                                 cart.items?.map((item) => {
 
                                     return <div class="flex flex-col rounded-lg bg-white sm:flex-row">
@@ -123,10 +136,9 @@ const CheckOutPage = () => {
                                     </div>
                                 })
                             ) : (
-                                "Nothing in the cart"
+                                "Nothing in the cart. Add items to the cart to place order"
                             )
                         }
-
 
                     </div>
 
@@ -227,7 +239,7 @@ const CheckOutPage = () => {
                         <div class="mt-6 border-t border-b py-2">
                             <div class="flex items-center justify-between">
                                 <p class="text-sm font-medium text-gray-900">Subtotal</p>
-                                <p class="font-semibold text-gray-900">&#8377;{cart.sub_total}</p>
+                                <p class="font-semibold text-gray-900">&#8377;{cart?.sub_total}</p>
                             </div>
                             <div class="flex items-center justify-between">
                                 <p class="text-sm font-medium text-gray-900">Shipping</p>
@@ -236,12 +248,23 @@ const CheckOutPage = () => {
                         </div>
                         <div class="mt-6 flex items-center justify-between">
                             <p class="text-sm font-medium text-gray-900">Total</p>
-                            <p class="text-2xl font-semibold text-gray-900">&#8377;{cart.sub_total + shippingCost}</p>
+                            <p class="text-2xl font-semibold text-gray-900">&#8377;{cart?.sub_total + shippingCost}</p>
                         </div>
                     </div>
-                    <button
-                        onClick={placeOrder}
-                        class="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white">Place Order</button>
+
+                    {cart?.items?.length > 0 ? (
+                        <button
+                            onClick={placeOrder}
+                            class="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white">Place Order
+                        </button>
+                    ) : (
+                        <button
+                            disabled
+                            class="mt-4 mb-8 w-full rounded-md bg-red-900 px-6 py-3 font-medium text-white">
+                            Order cannot be placed. Add items to the cart to Continue
+                        </button>
+                    )}
+
                 </div>
             </div>
 

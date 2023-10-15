@@ -30,16 +30,18 @@ import ReceivedOrdersPage from './pages/restaurant/ReceivedOrders';
 import CustomerPage from './pages/customer/CustomerPage';
 import MealsByIdPage from './pages/customer/MealsByIdPage';
 import CustomerProfilePage from './pages/customer/CustomerProfilePage';
+import ThankYouPage from './pages/customer/ThankYouPage';
 
 function App() {
 
   const baseUrl = "http://localhost:5050";
 
-  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("user"));
+  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("jwt"));
+  // setIsLoggedIn(localStorage.getItem("user"));
   // console.log(isLoggedIn)
   const [restaurantDetails, setRestaurantDetails] = useState(localStorage.getItem("restaurant_details"));
   // console.log(restaurantDetails)
-  const [customerDetails, setCustomerDetails] = useState(localStorage.getItem("user"));
+  // const [customerDetails, setCustomerDetails] = useState(localStorage.getItem("user"));
   const [userDetails, setUserDetails] = useState(localStorage.getItem("user"));
 
   return (
@@ -77,7 +79,8 @@ function App() {
                     <Route path='fooditems/:id' element={<MealsByIdPage />} />
                     <Route path="cart" element={<CartPage />} />
                     <Route path="checkout" element={<CheckOutPage />} />
-                    <Route path="orders" element={<OrdersPage />} />
+                    <Route path="orders" element={<OrdersPage/>} />
+                    <Route path='thankyou' element={<ThankYouPage />} />
                   </Route>
                   {/* </CustomerContext.Provider> */}
 

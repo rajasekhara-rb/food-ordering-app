@@ -48,7 +48,7 @@ const MealsPage = () => {
                             </div>
                             <h3 className="mt-4 text-sm text-gray-700">{meal.item_name}</h3>
                             <p className="mt-1 text-lg font-medium text-gray-900">&#8377; {meal.item_price}</p>
-                            {meal.avilability ? (
+                            {meal.item_quantity > 0 ? (
                                 <p className="mt-1 text-lg font-medium text-green-900">Avilable :{meal.item_quantity}</p>
                             ) : (
                                 <p className="mt-1 text-lg font-medium text-red-900">Out of Stock</p>

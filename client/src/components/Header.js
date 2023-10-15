@@ -8,6 +8,8 @@ import { Link, useNavigate } from "react-router-dom";
 
 const navigation = [
     { name: 'Home', href: '/', current: true },
+    // { name: 'Admin Dashboard', href: '/restaurant', current: false },
+    // { name: 'Customer Dashboard', href: '/customer', current: false },
     { name: 'Add a Restaurant', href: '/partnerwithus', current: false },
     { name: 'Login', href: '/login', current: false },
     { name: 'Register', href: '/register', current: false },
@@ -20,9 +22,12 @@ function classNames(...classes) {
 const Header = () => {
 
     const userDetails = JSON.parse(localStorage.getItem("user"));
-
     const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+
+    // setIsLoggedIn(JSON.parse(localStorage.getItem("user")).loggedAs);
+
     const navigate = useNavigate();
+
     const logout = () => {
         setIsLoggedIn(false);
         localStorage.clear("jwt");

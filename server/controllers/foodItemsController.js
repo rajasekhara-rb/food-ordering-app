@@ -99,11 +99,21 @@ const deleteFoodItems = async (req, res) => {
     }
 };
 
+const changeAvilabilityOfFoodItems = (req, res) => {
+    try {
+
+    } catch (error) {
+        res.status(500);
+        throw new Error({ error: error.message });
+    }
+}
+
 export {
     addFoodItems,
     getFoodItems,
     getFoodItemById,
     updateFoodItems,
     deleteFoodItems,
-    getFoodItemsByRestaurantId
+    getFoodItemsByRestaurantId,
+    changeAvilabilityOfFoodItems,
 }

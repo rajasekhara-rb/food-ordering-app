@@ -9,7 +9,6 @@ const CartPage = () => {
     const [cart, setCart] = useState({});
     const navigate = useNavigate();
 
-
     useEffect(() => {
         const getCart = async () => {
             try {
@@ -31,11 +30,11 @@ const CartPage = () => {
         getCart()
     }, [baseUrl]);
 
-    const removeItemsFromTheCart = async (item_id) => {
+    const removeItemsFromTheCart = async (id) => {
         // e.preventDefault();
         // ?item_id=${item_id}
         try {
-            await axios.delete(`${baseUrl}/cart/${item_id}`,
+            await axios.delete(`${baseUrl}/cart/item/${id}`,
                 {
                     headers: {
                         Authorization: "Bearer " + localStorage.getItem("jwt")
@@ -43,7 +42,8 @@ const CartPage = () => {
                 },
             ).then((res) => {
                 // setCart(res.data);
-                alert(res.data)
+                alert("Item removed from the cart");
+                navigate("/customer/cart")
             })
 
         } catch (error) {
@@ -93,7 +93,7 @@ const CartPage = () => {
                                             <div>
                                                 <div class="flex justify-between text-base font-medium text-gray-900">
                                                     <h3>
-                                                        <a href={`/customer/fooditems/${item.item_id}`}>{item.item_name}</a>
+                                                        <a href={`/customer/fooditems/${item.item_id}`}> {item.item_name}</a>
                                                     </h3>
                                                     <p class="ml-4">&#8377;{item.item_price}</p>
                                                 </div>
@@ -104,11 +104,12 @@ const CartPage = () => {
 
                                                 <div class="flex">
                                                     <button
-                                                        onClick={() => {
-                                                            // console.log(item.item_id);
+                                                        onClick={(e) => {
+                                                            e.preventDefault();
                                                             removeItemsFromTheCart(item.item_id)
                                                         }
                                                         }
+
                                                         type="button" class="font-medium text-indigo-600 hover:text-indigo-500">Remove</button>
                                                 </div>
                                             </div>
@@ -133,7 +134,13 @@ const CartPage = () => {
                 </div>
                 <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
                 <div class="mt-6">
-                    <Link to="/customer/checkout" class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">Checkout</Link>
+                    {
+                        cart?.items?.length > 0 ? (
+                            <Link to="/customer/checkout"
+                                class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">Checkout</Link>
+                        ) : ("Add items to cart to checkout")
+                    }
+
                 </div>
                 <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
                     <p>

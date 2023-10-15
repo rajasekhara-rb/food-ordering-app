@@ -1,3 +1,4 @@
+import FoodItem from '../models/foodItemsModel.js';
 import Order from '../models/orderModel.js';
 
 const createOrder = async (req, res) => {
@@ -25,11 +26,18 @@ const createOrder = async (req, res) => {
                     item_id: item.item_id,
                     item_name: item.item_name,
                     item_price: item.item_price,
+                    item_description: item.item_description,
+                    item_photo: item.item_photo,
                     item_quantity: item.item_quantity,
                     restaurant_id: item.restaurant_id,
                     amount: item.item_price * item.item_quantity,
                     order_status: "Order Placed",
                 });
+
+                const seletedItem = await FoodItem.findById(item.item_id);
+                await FoodItem.findByIdAndUpdate(item.item_id,
+                    { item_quantity: seletedItem.item_quantity - JSON.parse(item.item_quantity) },
+                    { new: true });
             })
             res.status(201).json({ message: "Order placed" });
         } else {
@@ -90,7 +98,7 @@ const getOrderByRestaurnatId = async (req, res) => {
 };
 
 const orderStatusUpdate = async (req, res) => {
-    const {order_status} = req.body;
+    const { order_status } = req.body;
     const orderId = req.params.id;
     try {
         const orders = await Order.findByIdAndUpdate(

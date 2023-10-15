@@ -35,6 +35,8 @@ const ordersSchema = mongoose.Schema({
     item_name: { type: String },
     item_price: { type: Number },
     item_quantity: { type: Number },
+    item_description: { type: String },
+    item_photo: { type: String },
     amount: { type: Number },
     // items: [
     //     {

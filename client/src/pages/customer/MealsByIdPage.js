@@ -281,13 +281,24 @@ const MealsByIdPage = () => {
                                         />
                                     </div>
                                 </div>
+                                {
+                                    item?.item_quantity > 0 ? (
+                                        <button
+                                            onClick={addToCart}
+                                            className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                        >
+                                            Add to Cart
+                                        </button>
+                                    ) : (
+                                        <button
+                                            disabled
+                                            className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                        >
+                                            Out of Stock
+                                        </button>
+                                    )
+                                }
 
-                                <button
-                                    onClick={addToCart}
-                                    className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                                >
-                                    Add to Cart
-                                </button>
                                 {/* <button
                                     onClick={deleteItem}
                                     className="mt-1 flex w-full items-center justify-center rounded-md border border-transparent bg-red-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
@@ -324,7 +335,7 @@ const MealsByIdPage = () => {
                             <div className="mt-10">
                                 {/* <h2 className="text-sm font-medium text-gray-900">Avilability</h2> */}
                                 <div className="mt-4 space-y-6">
-                                    {item.avilability ? (
+                                    {item.item_quantity > 0 ? (
                                         <p className="text-xl font-medium text-green-700">Avilable :{item.item_quantity}</p>
                                     ) : (
                                         <p className="text-xl font-medium text-red-700">Out of Stock</p>

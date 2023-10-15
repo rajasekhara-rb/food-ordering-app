@@ -4,18 +4,38 @@ const createOrder = async (req, res) => {
     try {
         const { cart, address } = req.body;
 
-        const order = await Order.create({
-            userId: req.user._id,
-            user_name: req.user.name,
-            user_email: req.user.email,
-            shipping_address: address,
-            items: cart.items,
-            sub_total: cart.sub_total,
-            restaurant_id: "",
-            order_status: "Order Placed",
-        });
+        // const order = await Order.create({
+        //     userId: req.user._id,
+        //     user_name: req.user.name,
+        //     user_email: req.user.email,
+        //     shipping_address: address,
+        //     items: cart.items,
+        //     sub_total: cart.sub_total,
+        //     restaurant_id: "",
+        //     order_status: "Order Placed",
+        // });
+        if (cart && cart.items.length > 0) {
+            cart.items?.map(async (item) => {
+                await Order.create({
+                    userId: req.user._id,
+                    user_name: req.user.name,
+                    user_email: req.user.email,
+                    shipping_address: address,
+                    // items: cart.items,
+                    item_id: item.item_id,
+                    item_name: item.item_name,
+                    item_price: item.item_price,
+                    item_quantity: item.item_quantity,
+                    restaurant_id: item.restaurant_id,
+                    amount: item.item_price * item.item_quantity,
+                    order_status: "Order Placed",
+                });
+            })
+            res.status(201).json({ message: "Order placed" });
+        } else {
+            res.status(400).json({ message: "No items in the cart" });
+        }
 
-        res.status(201).json(order);
         // await order.save();
 
     } catch (error) {
@@ -24,15 +44,17 @@ const createOrder = async (req, res) => {
     }
 }
 
-// const getOrders = async (req, res) => {
-//     try {
-//         const orders = 
+const getOrders = async (req, res) => {
+    try {
+        const orders = Order.find({});
 
-//     } catch (error) {
-//         res.status(500);
-//         throw new Error({ error: error.message })
-//     }
-// }
+        res.status(201).json({ orders })
+
+    } catch (error) {
+        res.status(500);
+        throw new Error({ error: error.message })
+    }
+}
 
 const getOrderByOrderId = async (req, res) => {
     const orderId = req.params.id;
@@ -57,9 +79,9 @@ const getOrderByCustomerId = async (req, res) => {
 }
 
 const getOrderByRestaurnatId = async (req, res) => {
+    const restaurant_id = req.query.restaurant_id;
     try {
-        const restaurantId = req.user._id;
-        const orders = await Order.find({ restaurant_id: restaurantId });
+        const orders = await Order.find({ restaurant_id });
         res.status(201).json({ orders });
     } catch (error) {
         res.status(500);
@@ -68,25 +90,26 @@ const getOrderByRestaurnatId = async (req, res) => {
 };
 
 const orderStatusUpdate = async (req, res) => {
-    const status = req.body;
+    const {order_status} = req.body;
+    const orderId = req.params.id;
     try {
-        const orderId = req.params.id;
         const orders = await Order.findByIdAndUpdate(
-            { _id: orderId },
-            { order_status: status },
+            orderId,
+            { order_status: order_status },
             { new: true }
         );
         res.status(201).json({ orders });
     } catch (error) {
+        console.log(error);
         res.status(500);
         throw new Error({ error: error.message })
     }
 };
 
 
-
 export {
     createOrder,
+    getOrders,
     getOrderByOrderId,
     getOrderByCustomerId,
     getOrderByRestaurnatId,

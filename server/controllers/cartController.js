@@ -26,6 +26,7 @@ const createCart = async (req, res) => {
         const cart = await Cart.findOne({ userId: userId });
         // check if the items exists or not 
         const item = await FoodItem.findOne({ _id: item_id });
+        console.log(item);
         if (!item) {
             res.status(404).json({ message: "Item not found" });
             return
@@ -33,6 +34,7 @@ const createCart = async (req, res) => {
 
         const price = item.item_price;
         const name = item.item_name;
+        const restaurant_id = item.restaurant_id;
 
         if (cart) {
             // if cart already exists for the user 
@@ -56,6 +58,7 @@ const createCart = async (req, res) => {
                     item_name: name,
                     item_price: price,
                     item_quantity: quantity,
+                    restaurant_id:restaurant_id,
                 });
                 cart.sub_total = cart.items.reduce((acc, curr) => {
                     return acc + (curr.item_quantity * curr.item_price);
@@ -74,6 +77,7 @@ const createCart = async (req, res) => {
                     item_name: name,
                     item_price: price,
                     item_quantity: quantity,
+                    restaurant_id:restaurant_id,
                 }],
                 sub_total: quantity * price
             })

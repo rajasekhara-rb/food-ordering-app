@@ -31,20 +31,26 @@ const ordersSchema = mongoose.Schema({
     shipping_address: {
         type: String,
     },
-    items: [
-        {
-            item_id: { type: String },
-            item_name: { type: String },
-            item_price: { type: Number },
-            item_quantity: { type: Number },
-        }
-    ],
-    sub_total: {
-        type: Number,
-        default: 0
-    },
+    item_id: { type: String },
+    item_name: { type: String },
+    item_price: { type: Number },
+    item_quantity: { type: Number },
+    amount: { type: Number },
+    // items: [
+    //     {
+    //         item_id: { type: String },
+    //         item_name: { type: String },
+    //         item_price: { type: Number },
+    //         item_quantity: { type: Number },
+    //     }
+    // ],
+    // sub_total: {
+    //     type: Number,
+    //     default: 0
+    // },
     restaurant_id: {
-        type: String
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Restaurant",
     },
     order_status: {
         type: String,

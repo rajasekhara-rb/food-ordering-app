@@ -12,6 +12,10 @@ const cartSchema = mongoose.Schema({
             item_name: { type: String },
             item_price: { type: Number },
             item_quantity: { type: Number },
+            restaurant_id: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Restaurant",
+            }
         }
     ],
     active: {

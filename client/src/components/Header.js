@@ -1,10 +1,12 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import logo from '../images/logo.png';
 import { AuthContext, RestaurantContext, UserContext } from "./AuthContext";
 import { Link, useNavigate } from "react-router-dom";
+import RestaurantSidebar from "../pages/restaurant/RestaurantSidebar";
+import CustomerSideBar from "../pages/customer/CustomerSideBar";
 
 const navigation = [
     { name: 'Home', href: '/', current: true },
@@ -20,16 +22,13 @@ function classNames(...classes) {
 }
 
 const Header = () => {
-
+    // setIsLoggedIn(JSON.parse(localStorage.getItem("user")).loggedAs);
+    const navigate = useNavigate();
     const userDetails = JSON.parse(localStorage.getItem("user"));
     const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
 
-    // setIsLoggedIn(JSON.parse(localStorage.getItem("user")).loggedAs);
-
-    const navigate = useNavigate();
-
     const logout = () => {
-        setIsLoggedIn(false);
+        // setIsLoggedIn(false);
         localStorage.clear("jwt");
         localStorage.clear("user");
         navigate("/")
@@ -37,7 +36,7 @@ const Header = () => {
 
     return (
         <>
-            <Disclosure as="nav" className="bg-light-800">
+            <Disclosure as="nav" className="bg-white">
                 {({ open }) => (
                     <>
                         <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -64,19 +63,41 @@ const Header = () => {
                                     </div>
                                     <div className="hidden sm:ml-6 sm:block">
                                         <div className="flex space-x-4">
-                                            {navigation.map((item) => (
-                                                <a
-                                                    key={item.name}
-                                                    href={item.href}
-                                                    className={classNames(
-                                                        item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                                                        'rounded-md px-3 py-2 text-sm font-medium'
-                                                    )}
-                                                    aria-current={item.current ? 'page' : undefined}
-                                                >
-                                                    {item.name}
-                                                </a>
-                                            ))}
+                                            {isLoggedIn ? (
+                                                // <a
+                                                //     href="/"
+                                                //     className={classNames(
+                                                //         isLoggedIn ? 'bg-gray-900 text-white' : 'text-gray-500 hover:bg-gray-700 hover:text-white',
+                                                //         'rounded-md px-3 py-2 text-sm font-medium'
+                                                //     )}
+                                                // // aria-current={item.current ? 'page' : undefined}
+                                                // >
+                                                //     Dashboard
+                                                // </a>
+                                                userDetails?.loggedAs === "admin" ? (
+                                                    <RestaurantSidebar />
+                                                ) : (
+                                                    <CustomerSideBar />
+                                                )
+
+                                            ) : (
+
+                                                navigation.map((item) => (
+                                                    <a
+                                                        key={item.name}
+                                                        href={item.href}
+                                                        className={classNames(
+                                                            item.current ? 'bg-gray-900 text-white' : 'text-gray-500 hover:bg-gray-700 hover:text-white',
+                                                            'rounded-md px-3 py-2 text-sm font-medium'
+                                                        )}
+                                                        aria-current={item.current ? 'page' : undefined}
+                                                    >
+                                                        {item.name}
+                                                    </a>
+                                                ))
+
+                                            )}
+
                                         </div>
                                     </div>
                                 </div>
@@ -86,7 +107,7 @@ const Header = () => {
 
                                     <div className="text-center">
                                         <h6 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-3xl">
-                                            {`Hi ${userDetails.name} welcome `}
+                                            {`Hi ${userDetails?.name} welcome `}
                                             {/* to ${restaurantDetails.name}'s Dashboard} */}
                                         </h6>
                                         <p className="mt-6 text-lg leading-8 text-gray-600">
@@ -137,11 +158,10 @@ const Header = () => {
                                                             <p
                                                                 className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                                             >
-                                                                Logged As {userDetails.loggedAs}
+                                                                Logged As {userDetails?.loggedAs}
                                                             </p>
                                                         )}
                                                     </Menu.Item>
-
 
                                                     <Menu.Item>
                                                         {({ active }) => (

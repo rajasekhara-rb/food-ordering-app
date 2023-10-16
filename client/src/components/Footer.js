@@ -5,7 +5,10 @@ import logo from '../images/logo.png';
 const Footer = () => {
     return (
         <>
-           
+        <div>
+           Copyrights @ foodie
+        </div>
+
         </>
     )
 }

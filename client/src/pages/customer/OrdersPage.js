@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BaseURLContext } from "../../components/AuthContext";
 
 const OrdersPage = () => {
@@ -37,15 +37,18 @@ const OrdersPage = () => {
                     orders ? (
                         orders?.map((item) => {
                             return (
-                                <div class="flex flex-col rounded-lg bg-white sm:flex-row" key={item._id}>
-                                    <img class="m-2 h-24 w-28 rounded-md border object-cover object-center" src={item.item_photo} alt="" />
-                                    <div class="flex w-full flex-col px-4 py-4">
-                                        <span class="font-semibold">{item.item_name}</span>
-                                        <span class="float-right text-grey-400">{item.item_description}</span>
-                                        <span class="float-right text-grey-600">&#8377; {item.item_price}</span>
-                                        <p class="text-lg font-bold">{item.order_status}</p>
+                                <Link to={`${item._id}`}>
+                                    <div class="flex flex-col rounded-lg bg-white sm:flex-row" key={item._id}>
+                                        <img class="m-2 h-24 w-28 rounded-md border object-cover object-center" src={item.item_photo} alt="" />
+                                        <div class="flex w-full flex-col px-4 py-4">
+                                            <span class="font-semibold">{item.item_name}</span>
+                                            <span class="float-right text-grey-400">{item.item_description}</span>
+                                            <span class="float-right text-grey-600">&#8377; {item.item_price}</span>
+                                            <p class="text-lg font-bold">{item.order_status}</p>
+                                        </div>
                                     </div>
-                                </div>
+                                </Link>
+
                             )
                         })
                     ) : (

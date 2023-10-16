@@ -20,7 +20,7 @@ import RestaurantLoginPage from './pages/restaurant/RestuarantLoginPage.js';
 import RegistrationPage from './pages/RegistrationPage.js';
 import CustomerRegistrationPage from './pages/customer/CustomerRegistrationPage.js';
 import CreateRestaurant from './components/restaurant/CreateRestaurant.js';
-import Protect from '../src/components/Protect.js';
+import { OnlyAdminProtected, OnlyCustomerProtected } from '../src/components/Protect.js';
 import { AuthContext, BaseURLContext, CustomerContext, RestaurantContext, UserContext } from './components/AuthContext';
 import CreateFoodItems from './components/restaurant/CreateFoodItems';
 import RestaurantRegistrationPage from './pages/restaurant/RestaurantRegistrationPage';
@@ -31,6 +31,8 @@ import CustomerPage from './pages/customer/CustomerPage';
 import MealsByIdPage from './pages/customer/MealsByIdPage';
 import CustomerProfilePage from './pages/customer/CustomerProfilePage';
 import ThankYouPage from './pages/customer/ThankYouPage';
+import OrdersByIdPage from './pages/customer/OrdersByIdPage';
+import UnauthorizedPage from './pages/UnauthorizedPage';
 
 function App() {
 
@@ -51,7 +53,11 @@ function App() {
           <UserContext.Provider value={{ userDetails, setUserDetails }}>
             <RestaurantContext.Provider value={{ restaurantDetails, setRestaurantDetails }}>
               <Router>
-                <Header />
+                <div
+                // style={{ position: "sticky", top: "0px" }}
+                >
+                  <Header />
+                </div>
                 <Routes>
                   <Route path="/" element={<LandingPage />} />
                   <Route path="/login" element={<LoginPage />}>
@@ -71,20 +77,23 @@ function App() {
                   <Route path='/partnerwithus' element={<AddRestaurantPage />} />
 
                   {/* <CustomerContext.Provider value={{ customerDetails, setCustomerDetails }}> */}
-                  <Route path="/customer" element={<CustomerPage />}>
-                    <Route path="" element={<CustomerDashboard />} />
+                  <Route path="/customer" element={<OnlyCustomerProtected Component={CustomerPage} />}>
+                    {/* <PrivateRoute path="" isAuthenticated={true} Component={CustomerDashboard}/> */}
+                    <Route path='' element={<CustomerDashboard />} />
+                    {/* <Route path="" element={<CustomerDashboard />} /> */}
                     <Route path="login" element={<LoginPage />} />
                     <Route path="profile" element={<CustomerProfilePage />} />
                     <Route path="fooditems" element={<FoodItemsPage />} />
                     <Route path='fooditems/:id' element={<MealsByIdPage />} />
                     <Route path="cart" element={<CartPage />} />
                     <Route path="checkout" element={<CheckOutPage />} />
-                    <Route path="orders" element={<OrdersPage/>} />
+                    <Route path="orders" element={<OrdersPage />} />
+                    <Route path="orders/:id" element={<OrdersByIdPage />} />
                     <Route path='thankyou' element={<ThankYouPage />} />
                   </Route>
                   {/* </CustomerContext.Provider> */}
 
-                  <Route path="/restaurant" element={<RestaurantPage />}>
+                  <Route path="/restaurant" element={<OnlyAdminProtected Component={RestaurantPage} />}>
                     <Route path='' element={<AdminDashboard />} />
                     <Route path="fooditems" element={<FoodItemsPage />} />
                     <Route path='fooditems/:id' element={<FoodItemByIdPage />} />
@@ -93,10 +102,13 @@ function App() {
                     <Route path="updatefooditem/:id" element={<UpdateFoodItems />} />
                     <Route path='orders' element={<ReceivedOrdersPage />} />
                   </Route>
+                  <Route path="/unauthorized" element={<UnauthorizedPage />} />
                   <Route path="*" element={<NotFoundPage />} />
                 </Routes>
               </Router>
-              <Footer />
+              <div style={{ position: "relative", bottom: "0px" }}>
+                <Footer />
+              </div>
             </RestaurantContext.Provider>
           </UserContext.Provider>
         </AuthContext.Provider>

@@ -7,11 +7,11 @@ const CustomerPage = () => {
     return (
         <>
             <div className="flex flex-col w-100 h-80vh">
-                <div className="w-5/5 relative"
-                // style={{ position: "absolute" }}
+                {/* <div className="w-5/5 relative"
+                style={{ position: "absolute" }}
                 >
                     <CustomerSideBar />
-                </div>
+                </div> */}
                 <div className="w-5/5 mx-2 overflow-y-scroll abolute"
                 // style={{ overflowY: "scroll", position: "relative" }}
                 >

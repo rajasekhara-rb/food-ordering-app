@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import CartPage from "./CartPage";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { BaseURLContext } from "../../components/AuthContext";
 import axios from "axios";
 
@@ -56,29 +55,32 @@ const CheckOutPage = () => {
         e.preventDefault();
         const address = `${billingAddress.address} ${billingAddress.state} ${billingAddress.zip}`;
         try {
+            if (billingAddress.address && billingAddress.state && billingAddress.zip) {
+                await axios.post(`${baseUrl}/order/`, { cart, address: address, shippingCost },
+                    {
+                        headers: {
+                            Authorization: "Bearer " + localStorage.getItem("jwt")
+                        }
+                    }).then(async (res) => {
+                        // console.log(res.data);
+                        // after order is place cart is beign emptied 
 
-            await axios.post(`${baseUrl}/order/`, { cart, address: address, shippingCost },
-                {
-                    headers: {
-                        Authorization: "Bearer " + localStorage.getItem("jwt")
-                    }
-                }).then(async (res) => {
-                    // console.log(res.data);
-                    // after order is place cart is beign emptied 
+                        alert(res.data.message);
+                        await axios.delete(`${baseUrl}/cart/cart/${cart._id}`,
+                            {
+                                headers: {
+                                    Authorization: "Bearer " + localStorage.getItem("jwt")
+                                }
+                            }).then((res) => {
+                                alert(res.data.message);
+                                navigate("/customer/thankyou/")
 
-                    alert(res.data.message);
-                    await axios.delete(`${baseUrl}/cart/cart/${cart._id}`,
-                        {
-                            headers: {
-                                Authorization: "Bearer " + localStorage.getItem("jwt")
-                            }
-                        }).then((res) => {
-                            alert(res.data.message);
-                            navigate("/customer/thankyou/")
+                            })
+                    })
 
-                        })
-                })
-
+            } else {
+                alert("Billing / Shipping address cannot be empty")
+            }
         } catch (error) {
             console.log(error);
             alert(error)
@@ -174,7 +176,9 @@ const CheckOutPage = () => {
                     <div class="">
                         <label for="email" class="mt-4 mb-2 block text-sm font-medium">Email</label>
                         <div class="relative">
-                            <input type="text" id="email" name="email"
+                            <input
+                                required
+                                type="text" id="email" name="email"
                                 class="w-full rounded-md border border-gray-200 px-10 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
                                 placeholder="your.email@gmail.com"
                                 value={JSON.parse(localStorage.getItem("user")).email}
@@ -212,6 +216,7 @@ const CheckOutPage = () => {
                         <div class="flex flex-col sm:flex-row">
                             <div class="relative flex-shrink-0 sm:w-7/12">
                                 <input
+                                    required
                                     onChange={handleChange}
                                     type="text"
                                     id="address"
@@ -223,14 +228,18 @@ const CheckOutPage = () => {
                                 </div>
                             </div>
                             <select
+                                required
                                 onChange={handleChange}
                                 value={billingAddress.state}
                                 type="text" name="state" class="w-full rounded-md border border-gray-200 px-10 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500">
-                                <option value="" disabled>Select State</option>
+                                <option value="" selected disabled>Select State</option>
                                 <option value="Andhra Pradesh">Andhra Pradesh</option>
                                 <option value="Telengana">Telenagana</option>
                             </select>
                             <input
+                                required
+                                minLength={6}
+                                maxLength={6}
                                 onChange={handleChange}
                                 type="text" name="zip" class="flex-shrink-0 rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none sm:w-1/6 focus:z-10 focus:border-blue-500 focus:ring-blue-500" placeholder="ZIP" />
                         </div>

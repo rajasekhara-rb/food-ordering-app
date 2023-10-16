@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Hero from "../components/Hero";
 import AboutUs from '../components/AboutUs'
 import Meals from "../components/Meals";
@@ -8,18 +8,19 @@ import { useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
 
-    const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
-    setIsLoggedIn(JSON.parse(localStorage.getItem("user"))?.loggedAs);
-
     const navigate = useNavigate();
+    const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
 
-    if (isLoggedIn === "customer") {
-        navigate("/customer")
-    } else if (isLoggedIn === "admin") {
-        navigate("/restaurant")
-    } else {
-        navigate("/")
-    }
+    useEffect(() => {
+        setIsLoggedIn(JSON.parse(localStorage.getItem("user"))?.loggedAs);
+        if (isLoggedIn === "customer") {
+            navigate("/customer")
+        } else if (isLoggedIn === "admin") {
+            navigate("/restaurant")
+        } else {
+            navigate("/")
+        }
+    }, [isLoggedIn, setIsLoggedIn, navigate])
 
     return (
         <>

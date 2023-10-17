@@ -41,10 +41,10 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("jwt"));
   // setIsLoggedIn(localStorage.getItem("user"));
   // console.log(isLoggedIn)
-  const [restaurantDetails, setRestaurantDetails] = useState(localStorage.getItem("restaurant_details"));
+  const [restaurantDetails, setRestaurantDetails] = useState(JSON.parse(localStorage.getItem("restaurant_details")));
   // console.log(restaurantDetails)
-  // const [customerDetails, setCustomerDetails] = useState(localStorage.getItem("user"));
-  const [userDetails, setUserDetails] = useState(localStorage.getItem("user"));
+  // const [customerDetails, setCustomerDetails] = useState(JSON.parse(localStorage.getItem("user")));
+  const [userDetails, setUserDetails] = useState(JSON.parse(localStorage.getItem("user")));
 
   return (
     <>
@@ -101,6 +101,7 @@ function App() {
                     <Route path="addfooditems" element={<CreateFoodItems />} />
                     <Route path="updatefooditem/:id" element={<UpdateFoodItems />} />
                     <Route path='orders' element={<ReceivedOrdersPage />} />
+                    <Route path="orders/:id" element={<OrdersByIdPage />} />
                   </Route>
                   <Route path="/unauthorized" element={<UnauthorizedPage />} />
                   <Route path="*" element={<NotFoundPage />} />

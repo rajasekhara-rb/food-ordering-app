@@ -13,12 +13,12 @@ const RestaurantPage = () => {
     return (
         <>
             <div className="flex w-100 h-80vh">
-                <div className="w-1/5 relative"
-                // style={{ position: "absolute" }}
+                {/* <div className="w-1/5 relative"
+                style={{ position: "absolute" }}
                 >
                     <RestaurantSidebar />
-                </div>
-                <div className="w-4/5 mx-2 overflow-y-scroll abolute"
+                </div> */}
+                <div className="w-full mx-2 overflow-y-scroll abolute"
                 // style={{ overflowY: "scroll", position: "relative" }}
                 >
                     <Outlet />

@@ -7,7 +7,7 @@ const OrdersPage = () => {
     const navigate = useNavigate();
     const baseUrl = useContext(BaseURLContext);
     const [orders, setOrders] = useState([]);
-    console.log(orders);
+    // console.log(orders);
 
     useEffect(() => {
         const getOrders = async () => {

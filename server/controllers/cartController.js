@@ -3,22 +3,27 @@ import FoodItem from "../models/foodItemsModel.js";
 
 // definding a function to get the cart of the loggedin user 
 const getcart = async (req, res) => {
+    // getting the user id of user after authentication of jwt token 
     const userId = req.user._id;
     try {
+        // finding the cart of the user using user id 
         const cart = await Cart.findOne({ userId: userId });
+        // if cart has the items added to it then sends cart detais else sends as null 
         if (cart && cart.items.length > 0) {
-            res.status(200).json(cart)
+            res.status(200).json({ message: "Cart fetched successfully", cart: cart })
         } else {
-            res.json(null);
+            res.json({ message: "Nothing in the cart", cart: null});
         }
     } catch (error) {
         console.log(error);
-        res.status(500).json({ status: false, error: error })
+        res.status(500)
+        throw new Error(error)
     }
 }
 
 // defining a function to create the cart for the logged in user 
 const createCart = async (req, res) => {
+    // getting the user id of user after authentication of jwt token 
     const userId = req.user._id;
     const { item_id, quantity } = req.body;
     try {
@@ -27,6 +32,8 @@ const createCart = async (req, res) => {
         // check if the items exists or not 
         const item = await FoodItem.findOne({ _id: item_id });
         // console.log(item);
+
+        // if item not exist sends response as item not found 
         if (!item) {
             res.status(404).json({ message: "Item not found" });
             return
@@ -39,22 +46,27 @@ const createCart = async (req, res) => {
         const photo = item.item_photo;
 
         if (cart) {
-            // if cart already exists for the user 
+            // if cart already exists for the user finding the selected item index
             // res.json("cart exists");
             const itemIndex = cart.items.findIndex((item) => item.item_id == item_id);
 
-            // check if product exists or not 
+            // check if product exists in the cart or not 
             if (itemIndex > -1) {
                 // res.send("Ddd")
+                // if item exists then updating the item details in cart.
                 let product = cart.items[itemIndex];
                 product.item_quantity += quantity;
+
+                // calculating the cart sub total amount 
                 cart.sub_total = cart.items.reduce((acc, curr) => {
                     return acc + curr.item_quantity * curr.item_price;
                 }, 0);
                 cart.items[itemIndex] = product;
+                // saving the cart details
                 await cart.save();
-                res.status(201).json(cart);
+                res.status(201).json({ message: "Item quantity updated to the cart", cart: cart });
             } else {
+                // if item not existed in the cart pushing the item into cart.items 
                 cart.items.push({
                     item_id: item_id,
                     item_name: name,
@@ -64,16 +76,16 @@ const createCart = async (req, res) => {
                     item_quantity: quantity,
                     restaurant_id: restaurant_id,
                 });
+                // calculating the cart sub total amount 
                 cart.sub_total = cart.items.reduce((acc, curr) => {
                     return acc + (curr.item_quantity * curr.item_price);
                 }, 0);
                 await cart.save();
-                res.status(201).json(cart);
+                res.status(201).json({ message: "Item added to the cart", cart: cart });
             }
 
         } else {
             // if cart not exists create a cart for the user 
-
             const newCart = await Cart.create({
                 userId: userId,
                 items: [{
@@ -87,11 +99,13 @@ const createCart = async (req, res) => {
                 }],
                 sub_total: quantity * price
             })
-            res.status(201).json(newCart)
+            res.status(201).json({ message: "Cart Created & Item added to the cart", cart: newCart })
         }
     } catch (error) {
         console.log(error);
-        res.status(500).json({ status: false, error: error })
+        // res.status(500).json({ status: false, error: error })
+        res.status(500);
+        throw new Error(error)
     }
 };
 
@@ -116,14 +130,16 @@ const deleteCartItems = async (req, res) => {
                 return acc + curr.item_quantity * curr.item_price
             }, 0);
             cart = await cart.save();
-            res.status(201).json(cart);
+            res.status(201).json({ message: "Item removed", cart: cart });
         } else {
             res.status(404).json({ message: "Item not found" });
         }
 
     } catch (error) {
         console.log(error);
-        res.status(500).json({ status: false, error: error })
+        // res.status(500).json({ status: false, error: error })
+        res.status(500);
+        throw new Error(error)
     }
 }
 
@@ -134,7 +150,9 @@ const deleteCart = async (req, res) => {
         res.status(201).json({ message: "cart emptied" })
     } catch (error) {
         console.log(error);
-        res.status(500).json({ status: false, error: error })
+        // res.status(500).json({ status: false, error: error })
+        res.status(500);
+        throw new Error(error)
     }
 }
 

@@ -39,7 +39,7 @@ const createOrder = async (req, res) => {
                     { item_quantity: seletedItem.item_quantity - JSON.parse(item.item_quantity) },
                     { new: true });
             })
-            res.status(201).json({ message: "Order placed" });
+            res.status(200).json({ message: "Order placed" });
         } else {
             res.status(400).json({ message: "No items in the cart" });
         }
@@ -48,7 +48,7 @@ const createOrder = async (req, res) => {
 
     } catch (error) {
         res.status(500);
-        throw new Error({ error: error.message })
+        throw new Error(error)
     }
 }
 
@@ -60,7 +60,7 @@ const getOrders = async (req, res) => {
 
     } catch (error) {
         res.status(500);
-        throw new Error({ error: error.message })
+        throw new Error(error)
     }
 }
 
@@ -71,7 +71,7 @@ const getOrderByOrderId = async (req, res) => {
         res.status(201).json(order);
     } catch (error) {
         res.status(500);
-        throw new Error({ error: error.message });
+        throw new Error(error);
     }
 }
 
@@ -82,7 +82,7 @@ const getOrderByCustomerId = async (req, res) => {
         res.status(201).json({ orders });
     } catch (error) {
         res.status(500);
-        throw new Error({ error: error.message })
+        throw new Error(error)
     }
 }
 
@@ -93,7 +93,7 @@ const getOrderByRestaurnatId = async (req, res) => {
         res.status(201).json({ orders });
     } catch (error) {
         res.status(500);
-        throw new Error({ error: error.message })
+        throw new Error(error)
     }
 };
 
@@ -106,11 +106,11 @@ const orderStatusUpdate = async (req, res) => {
             { order_status: order_status },
             { new: true }
         );
-        res.status(201).json({ orders });
+        res.status(201).json({ message: "Order status updated", orders });
     } catch (error) {
         console.log(error);
         res.status(500);
-        throw new Error({ error: error.message })
+        throw new Error(error)
     }
 };
 

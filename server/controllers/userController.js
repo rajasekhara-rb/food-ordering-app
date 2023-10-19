@@ -13,8 +13,7 @@ const registerUser = async (req, res) => {
         // check if the user exists 
         const userExists = await User.findOne({ email: email });
         if (userExists) {
-            // res.status(400).json({ message: "User already exists" });
-            // throw new Error("User already exists");
+
             if (role === "admin") {
                 if (userExists.roles.includes(role)) {
                     res.status(400).json({ message: "User already exists" })
@@ -37,6 +36,9 @@ const registerUser = async (req, res) => {
                     }, { new: true });
                     res.status(400).json({ message: "User created successfully" })
                 }
+            } else {
+                res.status(400).json({ message: "User already exists" });
+                // throw new Error("User already exists");
             }
         } else {
             if (role === "admin") {
@@ -92,7 +94,7 @@ const registerUser = async (req, res) => {
         res.status(500)
         // .json({ error: error.message })
         console.log(error)
-        throw new Error({ error: error.message });
+        throw new Error(error);
     }
 }
 
@@ -155,7 +157,7 @@ const loginUser = async (req, res) => {
 
         // }
     } catch (error) {
-        res.status(500);
+        res.status(500)
         throw new Error(error);
     }
 }

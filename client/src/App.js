@@ -33,6 +33,9 @@ import CustomerProfilePage from './pages/customer/CustomerProfilePage';
 import ThankYouPage from './pages/customer/ThankYouPage';
 import OrdersByIdPage from './pages/customer/OrdersByIdPage';
 import UnauthorizedPage from './pages/UnauthorizedPage';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastNotification } from './components/ToastNotification';
 
 function App() {
 
@@ -58,6 +61,19 @@ function App() {
                 >
                   <Header />
                 </div>
+                <ToastNotification/>
+                {/* <ToastContainer
+                  position='top-right'
+                  autoClose={2000}
+                  hideProgressBar={false}
+                  newestOnTop={false}
+                  closeOnClick
+                  rtl={false}
+                  pauseOnFocusLoss
+                  draggable
+                  pauseOnHover
+                  theme='dark'
+                /> */}
                 <Routes>
                   <Route path="/" element={<LandingPage />} />
                   <Route path="/login" element={<LoginPage />}>

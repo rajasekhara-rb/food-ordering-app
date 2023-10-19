@@ -2,6 +2,8 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { BaseURLContext } from "../../components/AuthContext";
 import { useNavigate, useParams } from "react-router-dom";
+import { notify } from "../../components/ToastNotification.js";
+import { Spinner1, Spinner2 } from "../../components/Spinners";
 
 
 const MealsByIdPage = () => {
@@ -9,7 +11,9 @@ const MealsByIdPage = () => {
     const [item, setItem] = useState({});
     // console.log(item)
     const [quantity, setQty] = useState(1);
-    console.log(quantity);
+    // console.log(quantity);
+
+    const [isLoading, setIsLoading] = useState(true)
 
     const { id } = useParams();
     const navigate = useNavigate();
@@ -17,6 +21,7 @@ const MealsByIdPage = () => {
     useEffect(() => {
         const fetchItem = async () => {
             try {
+                setIsLoading(true)
                 await axios.get(`${baseUrl}/fooditems/${id}`,
                     {
                         headers: {
@@ -24,10 +29,13 @@ const MealsByIdPage = () => {
                         }
                     }
                 ).then((res) => {
-                    setItem(res.data.fooditem)
+                    notify(res)
+                    setItem(res.data.fooditem);
+                    setIsLoading(false)
                 })
 
             } catch (error) {
+                notify(error)
                 console.log(error)
             }
         }
@@ -38,7 +46,6 @@ const MealsByIdPage = () => {
     const addToCart = async (e) => {
         e.preventDefault();
         try {
-
             await axios.post(`${baseUrl}/cart/`,
                 {
                     item_id: id,
@@ -50,22 +57,30 @@ const MealsByIdPage = () => {
                     }
                 }
             ).then((res) => {
-                alert("Added to the cart");
-                navigate("/customer/cart");
+                notify(res)
+                // alert("Added to the cart");
+                setTimeout(() => {
+                    navigate("/customer/cart");
+                }, 3000);
             })
 
         } catch (error) {
+            notify(error)
             console.log(error);
-            alert(error.message);
+            // alert(error.message);
         }
     }
 
 
     return (
         <>
-            <div className="bg-white">
-                <div className="pt-6 flex">
-                    {/* <nav aria-label="Breadcrumb">
+            {
+                isLoading ? (
+                    <Spinner2/>
+                ) : (
+                    <div className="bg-white">
+                        <div className="pt-6 flex">
+                            {/* <nav aria-label="Breadcrumb">
                         <ol role="list" className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
                             {product.breadcrumbs.map((breadcrumb) => (
                                 <li key={breadcrumb.id}>
@@ -94,31 +109,31 @@ const MealsByIdPage = () => {
                         </ol>
                     </nav> */}
 
-                    {/* Image gallery */}
-                    <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-1 lg:gap-x-4 lg:px-4">
-                        <div className="aspect-h-4 aspect-w-3 h-50 hidden overflow-hidden rounded-lg lg:block">
-                            <img
-                                src={item.item_photo}
-                                alt={item.item_name}
-                                className="h-full w-full object-cover object-center"
-                            />
-                        </div>
+                            {/* Image gallery */}
+                            <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-1 lg:gap-x-4 lg:px-4">
+                                <div className="aspect-h-4 aspect-w-3 h-50 hidden overflow-hidden rounded-lg lg:block">
+                                    <img
+                                        src={item.item_photo}
+                                        alt={item.item_name}
+                                        className="h-full w-full object-cover object-center"
+                                    />
+                                </div>
 
-                    </div>
+                            </div>
 
-                    {/* Product info */}
-                    <div className="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
-                        <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-                            <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{item.item_name}</h1>
-                        </div>
+                            {/* Product info */}
+                            <div className="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
+                                <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
+                                    <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{item.item_name}</h1>
+                                </div>
 
-                        {/* Options */}
-                        <div className="mt-4 lg:row-span-3 lg:mt-0">
-                            <h2 className="sr-only">Product information</h2>
-                            <p className="text-3xl tracking-tight text-gray-900">&#8377; {item.item_price}</p>
+                                {/* Options */}
+                                <div className="mt-4 lg:row-span-3 lg:mt-0">
+                                    <h2 className="sr-only">Product information</h2>
+                                    <p className="text-3xl tracking-tight text-gray-900">&#8377; {item.item_price}</p>
 
-                            {/* Reviews */}
-                            {/* <div className="mt-6">
+                                    {/* Reviews */}
+                                    {/* <div className="mt-6">
                                 <h3 className="sr-only">Reviews</h3>
                                 <div className="flex items-center">
                                     <div className="flex items-center">
@@ -140,9 +155,9 @@ const MealsByIdPage = () => {
                                 </div>
                             </div> */}
 
-                            <form className="mt-10">
-                                {/* Colors */}
-                                {/* <div>
+                                    <form className="mt-10">
+                                        {/* Colors */}
+                                        {/* <div>
                                     <h3 className="text-sm font-medium text-gray-900">Color</h3>
 
                                     <RadioGroup value={selectedColor} onChange={setSelectedColor} className="mt-4">
@@ -177,8 +192,8 @@ const MealsByIdPage = () => {
                                     </RadioGroup>
                                 </div> */}
 
-                                {/* Sizes */}
-                                {/* <div className="mt-10">
+                                        {/* Sizes */}
+                                        {/* <div className="mt-10">
                                     <div className="flex items-center justify-between">
                                         <h3 className="text-sm font-medium text-gray-900">Size</h3>
                                         <a href="#" className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
@@ -239,64 +254,64 @@ const MealsByIdPage = () => {
                                     </RadioGroup>
                                 </div> */}
 
-                                <div>
-                                    <label htmlFor="qunatity" className="block text-sm font-medium leading-6 text-gray-900">
-                                        Order Quantity
-                                    </label>
-                                    <div className="mt-1">
-                                        <input
-                                            onChange={(e) => { setQty(parseInt(e.target.value)) }}
-                                            min="1"
-                                            max="100"
-                                            value={quantity}
-                                            defaultValue="1"
-                                            id="qunatity"
-                                            name="qunatity"
-                                            type="number"
-                                            autoComplete="qunatity"
-                                            required
-                                            className="block w-full rounded-md border-0 py-1 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                        />
-                                    </div>
-                                </div>
-                                {
-                                    item?.item_quantity > 0 ? (
-                                        <button
-                                            onClick={addToCart}
-                                            className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                                        >
-                                            Add to Cart
-                                        </button>
-                                    ) : (
-                                        <button
-                                            disabled
-                                            className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                                        >
-                                            Out of Stock
-                                        </button>
-                                    )
-                                }
+                                        <div>
+                                            <label htmlFor="qunatity" className="block text-sm font-medium leading-6 text-gray-900">
+                                                Order Quantity
+                                            </label>
+                                            <div className="mt-1">
+                                                <input
+                                                    onChange={(e) => { setQty(parseInt(e.target.value)) }}
+                                                    min="1"
+                                                    max="100"
+                                                    value={quantity}
+                                                    // defaultValue="1"
+                                                    id="qunatity"
+                                                    name="qunatity"
+                                                    type="number"
+                                                    autoComplete="qunatity"
+                                                    required
+                                                    className="block w-full rounded-md border-0 py-1 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                                />
+                                            </div>
+                                        </div>
+                                        {
+                                            item?.item_quantity > 0 ? (
+                                                <button
+                                                    onClick={addToCart}
+                                                    className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                                >
+                                                    Add to Cart
+                                                </button>
+                                            ) : (
+                                                <button
+                                                    disabled
+                                                    className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                                >
+                                                    Out of Stock
+                                                </button>
+                                            )
+                                        }
 
-                                {/* <button
+                                        {/* <button
                                     onClick={deleteItem}
                                     className="mt-1 flex w-full items-center justify-center rounded-md border border-transparent bg-red-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                 >
                                     Delete
                                 </button> */}
-                            </form>
-                        </div>
-
-                        <div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6">
-                            {/* Description and details */}
-                            <div>
-                                <h3 className="sr-only">Description</h3>
-
-                                <div className="space-y-6">
-                                    <p className="text-base text-gray-900">{item.item_description}</p>
+                                    </form>
                                 </div>
-                            </div>
 
-                            {/* <div className="mt-10">
+                                <div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6">
+                                    {/* Description and details */}
+                                    <div>
+                                        <h3 className="sr-only">Description</h3>
+
+                                        <div className="space-y-6">
+                                            <p className="text-base text-gray-900">{item.item_description}</p>
+                                        </div>
+                                    </div>
+
+                                    {/* <div className="mt-10">
                                 <h3 className="text-sm font-medium text-gray-900">Highlights</h3>
 
                                 <div className="mt-4">
@@ -310,24 +325,27 @@ const MealsByIdPage = () => {
                                 </div>
                             </div> */}
 
-                            <div className="mt-10">
-                                {/* <h2 className="text-sm font-medium text-gray-900">Avilability</h2> */}
-                                <div className="mt-4 space-y-6">
-                                    {item.item_quantity > 0 ? (
-                                        <p className="text-xl font-medium text-green-700">Avilable :{item.item_quantity}</p>
-                                    ) : (
-                                        <p className="text-xl font-medium text-red-700">Out of Stock</p>
-                                    )}
-                                    {/* <p className="text-xl text-gray-600">{item.avilability ? ("In Stock") : ("Out Of Stock")}</p> */}
-                                </div>
-                                <div className="mt-4 space-y-6">
-                                    <p className="text-xl text-gray-600">Restaurnt :{item.restaurant_id}</p>
+                                    <div className="mt-10">
+                                        {/* <h2 className="text-sm font-medium text-gray-900">Avilability</h2> */}
+                                        <div className="mt-4 space-y-6">
+                                            {item.item_quantity > 0 ? (
+                                                <p className="text-xl font-medium text-green-700">Avilable :{item.item_quantity}</p>
+                                            ) : (
+                                                <p className="text-xl font-medium text-red-700">Out of Stock</p>
+                                            )}
+                                            {/* <p className="text-xl text-gray-600">{item.avilability ? ("In Stock") : ("Out Of Stock")}</p> */}
+                                        </div>
+                                        <div className="mt-4 space-y-6">
+                                            <p className="text-xl text-gray-600">Restaurnt :{item.restaurant_id}</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                )
+            }
+
         </>
     )
 }

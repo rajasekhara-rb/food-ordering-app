@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BaseURLContext } from "../../components/AuthContext";
 import axios from "axios";
+import { notify } from "../../components/ToastNotification";
 
 
 const CheckOutPage = () => {
@@ -34,11 +35,12 @@ const CheckOutPage = () => {
                         }
                     }
                 ).then((res) => {
-                    setCart(res.data)
+                    setCart(res.data.cart)
                 })
 
             } catch (error) {
-                console.log(error)
+                console.log(error);
+                notify(error)
             }
         }
 
@@ -64,26 +66,29 @@ const CheckOutPage = () => {
                     }).then(async (res) => {
                         // console.log(res.data);
                         // after order is place cart is beign emptied 
-
-                        alert(res.data.message);
+                        notify(res)
+                        // alert(res.data.message);
                         await axios.delete(`${baseUrl}/cart/cart/${cart._id}`,
                             {
                                 headers: {
                                     Authorization: "Bearer " + localStorage.getItem("jwt")
                                 }
                             }).then((res) => {
-                                alert(res.data.message);
+                                notify(res)
+                                // alert(res.data.message);
                                 navigate("/customer/thankyou/")
 
                             })
                     })
 
             } else {
-                alert("Billing / Shipping address cannot be empty")
+                notify("Billing / Shipping address cannot be empty")
+                // alert("Billing / Shipping address cannot be empty")
             }
         } catch (error) {
             console.log(error);
-            alert(error)
+            // alert(error)
+            notify(error)
         }
     }
 

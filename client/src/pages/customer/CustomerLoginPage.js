@@ -3,6 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import Logo from '../../images/logo.png'
 import { AuthContext, BaseURLContext } from "../../components/AuthContext";
 import axios from "axios";
+// import { ToastContainer, toast } from "react-toastify";
+// import 'react-toastify/dist/ReactToastify.css';
+import { notify } from "../../components/ToastNotification";
 
 const CustomerLoginPage = () => {
 
@@ -18,6 +21,10 @@ const CustomerLoginPage = () => {
         setuser({ ...user, [name]: value })
     }
 
+    // const notify = (message) => {
+    //     toast.success(message)
+    // }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -28,18 +35,23 @@ const CustomerLoginPage = () => {
                         Authorization: "Bearer " + localStorage.getItem("jwt")
                     }
                 }).then((res) => {
+                    notify(res);
                     if (res.data.token) {
                         localStorage.setItem("jwt", res.data.token);
                         localStorage.setItem("user", JSON.stringify(res.data));
                         setIsLoggedIn(true);
                         if (res.data.loggedAs === "customer") {
-                            alert(res.data.message)
-                            navigate("/customer/")
+                            // alert(res.data.message)
+                            setTimeout(() => {
+                                navigate("/customer/")
+                            }, 3000);
                         } else {
-                            alert(res.data.message)
+                            // alert(res.data.message)
+                            notify(res)
                         }
                     } else {
-                        alert(res.data.message)
+                        // alert(res.data.message)
+                        notify("Login Failed")
                         // alert("Login Failed");
                     }
                     // if (!loggedin) {
@@ -65,10 +77,12 @@ const CustomerLoginPage = () => {
 
                 })
             } else {
-                alert("Email and password are mandatory")
+                // alert("Email and password are mandatory")
+                notify("Email and password are mandatory")
             }
         } catch (error) {
-            alert("Something went wrong");
+            // alert("Something went wrong");
+            notify(error)
             console.log(error)
         }
 
@@ -76,6 +90,19 @@ const CustomerLoginPage = () => {
 
     return (
         <>
+            {/* <ToastNotification /> */}
+            {/* <ToastContainer
+                position='top-right'
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme='dark'
+            /> */}
             <div className="flex flex-row items-center">
                 <div className="flex-auto w-50">
                     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">

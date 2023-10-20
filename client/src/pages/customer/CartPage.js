@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BaseURLContext } from "../../components/AuthContext";
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
 import { notify } from "../../components/ToastNotification";
 import { Spinner1 } from "../../components/Spinners";
 

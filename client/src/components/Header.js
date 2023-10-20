@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
@@ -7,6 +7,7 @@ import { AuthContext, RestaurantContext, UserContext } from "./AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import RestaurantSidebar from "../pages/restaurant/RestaurantSidebar";
 import CustomerSideBar from "../pages/customer/CustomerSideBar";
+import { notify } from "./ToastNotification";
 
 const navigation = [
     { name: 'Home', href: '/', current: true },
@@ -28,10 +29,11 @@ const Header = () => {
     const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
 
     const logout = () => {
-        // setIsLoggedIn(false);
+        setIsLoggedIn(false);
         localStorage.clear("jwt");
         localStorage.clear("user");
-        navigate("/")
+        navigate("/");
+        notify("Logged Out successfully");
     }
 
     return (
@@ -106,7 +108,7 @@ const Header = () => {
                                 {isLoggedIn ? (
 
                                     <div className="text-center">
-                                        <h6 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-3xl">
+                                        <h6 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
                                             {`Hi ${userDetails?.name} welcome `}
                                             {/* to ${restaurantDetails.name}'s Dashboard} */}
                                         </h6>

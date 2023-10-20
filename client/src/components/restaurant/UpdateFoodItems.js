@@ -2,6 +2,8 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { BaseURLContext } from "../AuthContext";
+import { notify } from "../ToastNotification";
+import { Spinner2 } from "../Spinners";
 
 const UpdateFoodItems = () => {
 
@@ -10,6 +12,7 @@ const UpdateFoodItems = () => {
     console.log(item)
     const { id } = useParams();
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(true)
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -19,6 +22,7 @@ const UpdateFoodItems = () => {
 
     useEffect(() => {
         const fetchItem = async () => {
+            setIsLoading(true)
             try {
                 await axios.get(`${baseUrl}/fooditems/${id}`,
                     {
@@ -27,11 +31,14 @@ const UpdateFoodItems = () => {
                         }
                     }
                 ).then((res) => {
+                    notify(res)
                     setItem(res.data.fooditem)
+                    setIsLoading(false)
                 })
 
             } catch (error) {
                 console.log(error)
+                notify(error)
             }
         }
 
@@ -50,12 +57,14 @@ const UpdateFoodItems = () => {
                 }
             ).then((res) => {
                 // setItem(res.data.fooditem)
-                alert(res.data.message);
+                // alert(res.data.message);
+                notify(res)
                 navigate("/restaurant/fooditems")
             })
 
         } catch (error) {
             console.log(error)
+            notify(error)
         }
     }
 
@@ -64,124 +73,126 @@ const UpdateFoodItems = () => {
 
     return (
         <>
-            <div className="flex flex-row items-center">
-                <div className="flex-auto w-50">
-                    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-                        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                            <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                                Update Food Item Details
-                            </h2>
-                        </div>
+            {isLoading ? (<Spinner2 />) : (
+                <div className="flex flex-row items-center">
+                    <div className="flex-auto w-50">
+                        <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+                            <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+                                <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+                                    Update Food Item Details
+                                </h2>
+                            </div>
 
-                        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                            <form className="space-y-6"
-                                action="/restaurant/fooditems/" method="PUT"
-                            >
-                                <div>
-                                    <label htmlFor="item_name" className="block text-sm font-medium leading-6 text-gray-900">
-                                        Item Name
-                                    </label>
-                                    <div className="mt-2">
-                                        <input
-                                            onChange={handleChange}
-                                            value={item.item_name}
-                                            id="item_name"
-                                            name="item_name"
-                                            type="text"
-                                            autoComplete="item_name"
-                                            required
-                                            className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                        />
+                            <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+                                <form className="space-y-6"
+                                    action="/restaurant/fooditems/" method="PUT"
+                                >
+                                    <div>
+                                        <label htmlFor="item_name" className="block text-sm font-medium leading-6 text-gray-900">
+                                            Item Name
+                                        </label>
+                                        <div className="mt-2">
+                                            <input
+                                                onChange={handleChange}
+                                                value={item.item_name}
+                                                id="item_name"
+                                                name="item_name"
+                                                type="text"
+                                                autoComplete="item_name"
+                                                required
+                                                className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            />
+                                        </div>
                                     </div>
-                                </div>
 
 
-                                <div>
-                                    <label htmlFor="item_quantity" className="block text-sm font-medium leading-6 text-gray-900">
-                                        Quantity
-                                    </label>
-                                    <div className="mt-2">
-                                        <input
-                                            onChange={handleChange}
-                                            value={item.item_quantity}
-                                            id="item_quantity"
-                                            name="item_quantity"
-                                            type="number"
-                                            autoComplete="item_quantity"
-                                            required
-                                            className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                        />
+                                    <div>
+                                        <label htmlFor="item_quantity" className="block text-sm font-medium leading-6 text-gray-900">
+                                            Quantity
+                                        </label>
+                                        <div className="mt-2">
+                                            <input
+                                                onChange={handleChange}
+                                                value={item.item_quantity}
+                                                id="item_quantity"
+                                                name="item_quantity"
+                                                type="number"
+                                                autoComplete="item_quantity"
+                                                required
+                                                className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            />
+                                        </div>
                                     </div>
-                                </div>
-                                <div>
-                                    <label htmlFor="item_price" className="block text-sm font-medium leading-6 text-gray-900">
-                                        Price
-                                    </label>
-                                    <div className="mt-2">
-                                        <input
-                                            value={item.item_price}
-                                            onChange={handleChange}
-                                            id="item_price"
-                                            name="item_price"
-                                            type="number"
-                                            autoComplete="item_price"
-                                            required
-                                            className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                        />
+                                    <div>
+                                        <label htmlFor="item_price" className="block text-sm font-medium leading-6 text-gray-900">
+                                            Price
+                                        </label>
+                                        <div className="mt-2">
+                                            <input
+                                                value={item.item_price}
+                                                onChange={handleChange}
+                                                id="item_price"
+                                                name="item_price"
+                                                type="number"
+                                                autoComplete="item_price"
+                                                required
+                                                className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            />
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div>
-                                    <label htmlFor="item_description" className="block text-sm font-medium leading-6 text-gray-900">
-                                        Description
-                                    </label>
-                                    <div className="mt-2">
-                                        <textarea
-                                            value={item.item_description}
-                                            onChange={handleChange}
-                                            id="item_description"
-                                            name="item_description"
-                                            type="textarea"
-                                            autoComplete="item_description"
-                                            required
-                                            className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                        />
+                                    <div>
+                                        <label htmlFor="item_description" className="block text-sm font-medium leading-6 text-gray-900">
+                                            Description
+                                        </label>
+                                        <div className="mt-2">
+                                            <textarea
+                                                value={item.item_description}
+                                                onChange={handleChange}
+                                                id="item_description"
+                                                name="item_description"
+                                                type="textarea"
+                                                autoComplete="item_description"
+                                                required
+                                                className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            />
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div>
-                                    <label htmlFor="item_photo" className="block text-sm font-medium leading-6 text-gray-900">
-                                        Picture
-                                    </label>
-                                    <div className="mt-2">
-                                        <input
-                                            value={item.item_photo}
-                                            onChange={handleChange}
-                                            id="item_photo"
-                                            name="item_photo"
-                                            type="url"
-                                            autoComplete="item_photo"
-                                            required
-                                            className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                        />
+                                    <div>
+                                        <label htmlFor="item_photo" className="block text-sm font-medium leading-6 text-gray-900">
+                                            Picture
+                                        </label>
+                                        <div className="mt-2">
+                                            <input
+                                                value={item.item_photo}
+                                                onChange={handleChange}
+                                                id="item_photo"
+                                                name="item_photo"
+                                                type="url"
+                                                autoComplete="item_photo"
+                                                required
+                                                className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            />
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div>
-                                    <button
-                                        onClick={updateFoodItem}
-                                        type="submit"
-                                        className="flex w-full justify-center rounded-md bg-indigo-600 px-3 p-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                    >
-                                        Update
-                                    </button>
-                                </div>
-                            </form>
+                                    <div>
+                                        <button
+                                            onClick={updateFoodItem}
+                                            type="submit"
+                                            className="flex w-full justify-center rounded-md bg-indigo-600 px-3 p-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                        >
+                                            Update
+                                        </button>
+                                    </div>
+                                </form>
 
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            )}
         </>
     )
 }

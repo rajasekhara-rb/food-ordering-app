@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import { Outlet } from "react-router-dom";
-import RestaurantSidebar from "./RestaurantSidebar";
-import { RestaurantContext, UserContext } from "../../components/AuthContext";
+// import RestaurantSidebar from "./RestaurantSidebar";
+// import { RestaurantContext, UserContext } from "../../components/AuthContext";
 
 const RestaurantPage = () => {
-    const { restaurantDetails, setRestaurantDetails } = useContext(RestaurantContext);
-    const { userDetails, setUserDetails } = useContext(UserContext);
+    // const { restaurantDetails, setRestaurantDetails } = useContext(RestaurantContext);
+    // const { userDetails, setUserDetails } = useContext(UserContext);
 
     // setUserDetails(localStorage.getItem("user"))
     // setRestaurantDetails(localStorage.getItem("restaurant_details"));

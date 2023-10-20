@@ -3,6 +3,7 @@ import Logo from '../../images/logo.png';
 import { Link, useNavigate } from "react-router-dom";
 import { BaseURLContext } from "../../components/AuthContext";
 import axios from "axios";
+import { notify } from "../../components/ToastNotification";
 
 
 const RestaurantRegistrationPage = () => {
@@ -37,25 +38,31 @@ const RestaurantRegistrationPage = () => {
                         }
                     ).then((res) => {
                         if (res) {
-                            alert(res.data.message);
+                            // alert(res.data.message);
+                            notify(res)
                             navigate("/login/restaurant/");
                         } else {
                             // alert("User registration failed try again")
-                            alert(res.data.message);
+                            // alert(res.data.message);
+                            notify(res)
                         }
                     }).catch((error) => {
                         console.log(error);
-                        alert(error)
+                        // alert(error)
+                        notify(error)
                     })
                 } else {
-                    alert("Password Not matching")
+                    // alert("Password Not matching")
+                    notify("Password Not matching")
                 }
             } else {
-                alert("All fields are mandatory to fill")
+                // alert("All fields are mandatory to fill")
+                notify("All fields are mandatory to fill")
             }
         } catch (error) {
             console.log(error);
             // alert(error)
+            notify(error)
         }
 
     }

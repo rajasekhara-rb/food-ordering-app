@@ -3,6 +3,7 @@ import Logo from '../../images/logo.png';
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext, BaseURLContext, RestaurantContext, UserContext } from "../../components/AuthContext";
 import axios from 'axios';
+import { notify } from "../../components/ToastNotification";
 
 const RestaurantLoginPage = () => {
     const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
@@ -12,7 +13,7 @@ const RestaurantLoginPage = () => {
 
     const baseUrl = useContext(BaseURLContext);
     const [user, setuser] = useState({ role: "admin" });
-    console.log(user)
+    // console.log(user)
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -21,7 +22,6 @@ const RestaurantLoginPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         try {
             if (user.email && user.password) {
                 const Result = await axios.post(`${baseUrl}/user/login`, user,
@@ -31,9 +31,9 @@ const RestaurantLoginPage = () => {
                     //     }
                     // }
                 ).then(async (res) => {
-                    if (res.data) {
-
-                    }
+                    // if (res.data) {
+                    // }
+                    notify(res)
                     if (res.data.token) {
                         localStorage.setItem("jwt", res.data.token);
                         localStorage.setItem("user", JSON.stringify(res.data));
@@ -44,22 +44,29 @@ const RestaurantLoginPage = () => {
                             await axios.get(`${baseUrl}/restaurant/restuarantbyadmins`,
                                 {
                                     headers: {
-                                        Authorization: "Bearer " + res.data.token,
+                                        Authorization: "Bearer " + localStorage.getItem("jwt"),
                                     }
                                 }).then((res) => {
-                                    // console.log(res.data)
-                                    setRestaurantDetails(res.data);
-                                    localStorage.setItem("restaurant_details", JSON.stringify(res.data))
-                                    localStorage.setItem("restaurant_id", res.data._id)
-                                    localStorage.setItem("restaurant_admin_id", res.data.admin_id)
-                                    alert(res.data.message)
-                                    navigate("/restaurant/")
+                                    if (res.data) {
+                                        // console.log(res.data)
+                                        setRestaurantDetails(res.data);
+                                        localStorage.setItem("restaurant_details", JSON.stringify(res.data))
+                                        localStorage.setItem("restaurant_id", res.data._id)
+                                        localStorage.setItem("restaurant_admin_id", res.data.admin_id)
+                                        // alert(res.data.message)
+                                        // notify(res)
+                                        navigate("/restaurant/")
+                                    } else {
+                                        navigate("/restaurant/create")
+                                    }
                                 })
                         } else {
-                            alert(res.data.message)
+                            // alert(res.data.message)
+                            notify(res)
                         }
                     } else {
-                        alert(res.data.message)
+                        notify(res)
+                        // alert(res.data.message)
                         // alert("Login Failed");
                     }
                     // if (!loggedin) {
@@ -83,10 +90,12 @@ const RestaurantLoginPage = () => {
                     // }
                 })
             } else {
-                alert("Email and password are mandatory")
+                // alert("Email and password are mandatory")
+                notify("Email and password are mandatory")
             }
         } catch (error) {
-            alert("Something went wrong");
+            notify(error)
+            // alert("Something went wrong");
             console.log(error)
         }
 

@@ -2,15 +2,19 @@ import React, { useContext, useEffect, useState } from "react";
 import { BaseURLContext, RestaurantContext } from "../../components/AuthContext";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { notify } from "../../components/ToastNotification";
+import { Spinner1 } from "../../components/Spinners";
 
 const ReceivedOrdersPage = () => {
     const baseUrl = useContext(BaseURLContext);
     const { restaurantDetails } = useContext(RestaurantContext);
     const [orders, setOrders] = useState([]);
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         const getOrders = async () => {
             try {
+                setIsLoading(true)
                 await axios.get(`${baseUrl}/order/restaurnat/?restaurant_id=${restaurantDetails._id}`,
                     {
                         headers: {
@@ -19,10 +23,13 @@ const ReceivedOrdersPage = () => {
                     }
                 ).then((res) => {
                     setOrders(res.data.orders)
+                    setIsLoading(false)
+                    notify(res)
                 })
 
             } catch (error) {
                 console.log(error)
+                notify(error)
             }
         }
 
@@ -42,11 +49,13 @@ const ReceivedOrdersPage = () => {
                 }
             ).then((res) => {
                 // setOrders(res.data.orders)
-                alert(res.data)
+                // alert(res.data)
+                notify(res)
             })
 
         } catch (error) {
             console.log(error)
+            notify(error)
         }
     }
 
@@ -78,80 +87,79 @@ const ReceivedOrdersPage = () => {
 
             </div> */}
 
-            <div class="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
-                <ul role="list" class="divide-y divide-gray-100">
-                    {
-                        orders ? (
-                            orders?.map((item) => {
-                                return (
-                                    <>
-                                        <Link to={`${item._id}`}>
-                                            <li class="flex justify-between gap-x-6 py-5">
-                                                <div class="flex min-w-0 gap-x-4">
-                                                    <img
-                                                        class="h-12 w-12 flex-none rounded-5 bg-gray-50"
-                                                        src={item.item_photo}
-                                                        alt="" />
-                                                    <div class="min-w-0 flex-auto">
-                                                        <p class="text-sm font-semibold leading-6 text-gray-900">{item.item_name + "__" + item.item_description}</p>
-                                                        {/* <p class="text-sm font-semibold leading-6 text-gray-900">{item.item_name + "__" + item.item_description}</p> */}
-                                                        <p class="mt-1 truncate text-xs leading-5 text-gray-500">Order Id: {item._id}</p>
+            {isLoading ? (<Spinner1/>) : (
+                <div class="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
+                    <ul role="list" class="divide-y divide-gray-100">
+                        {
+                            orders ? (
+                                orders?.map((item) => {
+                                    return (
+                                        <>
+                                            <Link to={`${item._id}`}>
+                                                <li class="flex justify-between gap-x-6 py-5">
+                                                    <div class="flex min-w-0 gap-x-4">
+                                                        <img
+                                                            class="h-12 w-12 flex-none rounded-5 bg-gray-50"
+                                                            src={item.item_photo}
+                                                            alt="" />
+                                                        <div class="min-w-0 flex-auto">
+                                                            <p class="text-sm font-semibold leading-6 text-gray-900">{item.item_name + "__" + item.item_description}</p>
+                                                            {/* <p class="text-sm font-semibold leading-6 text-gray-900">{item.item_name + "__" + item.item_description}</p> */}
+                                                            <p class="mt-1 truncate text-xs leading-5 text-gray-500">Order Id: {item._id}</p>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-                                                    <p class="text-sm leading-6 text-gray-900">{item.order_status}</p>
-                                                    <p class="mt-1 truncate text-xs leading-5 text-gray-500">Qty {item.item_quantity}</p>
-                                                    {/* <p class="mt-1 text-xs leading-5 text-gray-500">Last seen <time datetime="2023-01-23T13:23Z">3h ago</time></p> */}
-                                                </div>
-                                            </li>
-                                        </Link>
-                                        <div className="flex">
-                                            <button
-                                                onClick={(e) => {
-                                                    acceptOrCancelOrder(e, item._id, "Order Accepted")
-                                                }}
-                                                // type="submit"
-                                                className="flex m-5 w-full justify-center rounded-md bg-indigo-600 p-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                            >
-                                                Accept the Order
-                                            </button>
+                                                    <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
+                                                        <p class="text-sm leading-6 text-gray-900">{item.order_status}</p>
+                                                        <p class="mt-1 truncate text-xs leading-5 text-gray-500">Qty {item.item_quantity}</p>
+                                                        {/* <p class="mt-1 text-xs leading-5 text-gray-500">Last seen <time datetime="2023-01-23T13:23Z">3h ago</time></p> */}
+                                                    </div>
+                                                </li>
+                                            </Link>
+                                            <div className="flex">
+                                                <button
+                                                    onClick={(e) => {
+                                                        acceptOrCancelOrder(e, item._id, "Order Accepted")
+                                                    }}
+                                                    // type="submit"
+                                                    className="flex m-5 w-full justify-center rounded-md bg-indigo-600 p-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                                >
+                                                    Accept the Order
+                                                </button>
 
-                                            <button
-                                                onClick={(e) => {
-                                                    acceptOrCancelOrder(e, item._id, "Order Cancelled by Restaurant")
-                                                }}
-                                                // type="submit"
-                                                className="flex m-5 w-full justify-center rounded-md bg-red-600 p-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
-                                            >
-                                                Cancel the Order
-                                            </button>
+                                                <button
+                                                    onClick={(e) => {
+                                                        acceptOrCancelOrder(e, item._id, "Order Cancelled by Restaurant")
+                                                    }}
+                                                    // type="submit"
+                                                    className="flex m-5 w-full justify-center rounded-md bg-red-600 p-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+                                                >
+                                                    Cancel the Order
+                                                </button>
 
-                                            <button
-                                                onClick={(e) => {
-                                                    acceptOrCancelOrder(e, item._id, "Delivered")
-                                                }}
-                                                // type="submit"
-                                                className="flex m-5 w-full justify-center rounded-md bg-yellow-600 p-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-yellow-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600"
-                                            >
-                                                Order Delivered
-                                            </button>
-                                        </div>
+                                                <button
+                                                    onClick={(e) => {
+                                                        acceptOrCancelOrder(e, item._id, "Delivered")
+                                                    }}
+                                                    // type="submit"
+                                                    className="flex m-5 w-full justify-center rounded-md bg-yellow-600 p-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-yellow-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600"
+                                                >
+                                                    Order Delivered
+                                                </button>
+                                            </div>
 
-                                        <hr class="h-px my-4 bg-gray-700 border-0 dark:bg-gray-700"></hr>
-                                    </>
+                                            <hr class="h-px my-4 bg-gray-700 border-0 dark:bg-gray-700"></hr>
+                                        </>
 
-                                )
-                            })
-                        ) : (
-                            "No orders"
-                        )
-                    }
+                                    )
+                                })
+                            ) : (
+                                "No orders"
+                            )
+                        }
 
-                </ul>
-            </div>
-
-
-
+                    </ul>
+                </div>
+            )}
         </>
     )
 }

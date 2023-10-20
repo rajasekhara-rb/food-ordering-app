@@ -1,11 +1,13 @@
 import React, { useContext, useState } from "react";
 import Logo from '../../images/logo.png';
 import { useNavigate } from "react-router-dom";
-import { BaseURLContext } from "../AuthContext";
+import { BaseURLContext, RestaurantContext } from "../AuthContext";
 import axios from "axios";
+import { notify } from "../ToastNotification";
 
 const CreateRestaurant = () => {
 
+    const { setRestaurantDetails } = useContext(RestaurantContext);
     const navigate = useNavigate();
 
     const baseUrl = useContext(BaseURLContext);
@@ -28,15 +30,22 @@ const CreateRestaurant = () => {
                             Authorization: "Bearer " + localStorage.getItem("jwt")
                         }
                     }).then((res) => {
-                        alert("Restaurant Created");
+                        // alert("Restaurant Created");
+                        notify(res)
+                        setRestaurantDetails(res.data);
+                        localStorage.setItem("restaurant_details", JSON.stringify(res.data))
+                        localStorage.setItem("restaurant_id", res.data._id)
+                        localStorage.setItem("restaurant_admin_id", res.data.admin_id)
                         navigate("/restaurant")
                     })
             } else {
-                alert("All field are mandatory to fill")
+                // alert("All field are mandatory to fill")
+                notify("All field are mandatory to fill")
             }
         } catch (error) {
             console.log(error);
-            alert("Something went wrong")
+            // alert("Something went wrong")
+            notify(error)
         }
 
     }
@@ -70,7 +79,7 @@ const CreateRestaurant = () => {
                                             type="text"
                                             autoComplete="name"
                                             required
-                                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         />
                                     </div>
                                 </div>
@@ -82,12 +91,13 @@ const CreateRestaurant = () => {
                                     </label>
                                     <div className="mt-2">
                                         <textarea
+                                            onChange={handleChange}
                                             id="address"
                                             name="address"
                                             type="textarea"
                                             autoComplete="address"
                                             required
-                                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         />
                                     </div>
                                 </div>
@@ -97,12 +107,13 @@ const CreateRestaurant = () => {
                                     </label>
                                     <div className="mt-2">
                                         <input
+                                            onChange={handleChange}
                                             id="opening_time"
                                             name="opening_time"
                                             type="time"
                                             autoComplete="opening_time"
                                             required
-                                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         />
                                     </div>
                                 </div>
@@ -113,12 +124,13 @@ const CreateRestaurant = () => {
                                     </label>
                                     <div className="mt-2">
                                         <input
+                                            onChange={handleChange}
                                             id="closing_time"
                                             name="closing_time"
                                             type="time"
                                             autoComplete="closing_time"
                                             required
-                                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         />
                                     </div>
                                 </div>
@@ -127,7 +139,7 @@ const CreateRestaurant = () => {
                                     <button
                                         onClick={handleSubmit}
                                         type="submit"
-                                        className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                        className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                     >
                                         Create Restaurant
                                     </button>

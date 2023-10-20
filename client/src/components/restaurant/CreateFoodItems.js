@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BaseURLContext } from "../AuthContext";
 import axios from "axios";
+import { notify } from "../ToastNotification";
 
 const CreateFoodItems = () => {
 
@@ -9,7 +10,7 @@ const CreateFoodItems = () => {
 
     const baseUrl = useContext(BaseURLContext);
     const [foodItem, setFoodItem] = useState({ restaurant_id: localStorage.getItem("restaurant_id") });
-    console.log(foodItem)
+    // console.log(foodItem)
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -18,24 +19,27 @@ const CreateFoodItems = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         try {
-            if (foodItem) {
+            if (foodItem.item_name && foodItem.item_quantity && foodItem.item_price
+                && foodItem.item_description && foodItem.item_photo) {
                 await axios.post(`${baseUrl}/fooditems/new`, foodItem,
                     {
                         headers: {
                             Authorization: "Bearer " + localStorage.getItem("jwt")
                         }
                     }).then((res) => {
-                        alert(res.data.message);
+                        // alert(res.data.message);
+                        notify(res)
                         navigate("/restaurant/fooditems")
                     })
             } else {
-                alert("All field are mandatory to fill")
+                // alert("All field are mandatory to fill")
+                notify("All field are mandatory to fill")
             }
         } catch (error) {
             console.log(error);
-            alert("Something went wrong")
+            // alert("Something went wrong")
+            notify(error)
         }
 
     }

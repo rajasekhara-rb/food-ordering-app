@@ -1,6 +1,6 @@
 import './App.css';
-import React, { createContext, useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from "./components/Header.js";
 import Footer from './components/Footer.js';
 import LandingPage from './pages/LandingPage.js';
@@ -21,7 +21,7 @@ import RegistrationPage from './pages/RegistrationPage.js';
 import CustomerRegistrationPage from './pages/customer/CustomerRegistrationPage.js';
 import CreateRestaurant from './components/restaurant/CreateRestaurant.js';
 import { OnlyAdminProtected, OnlyCustomerProtected } from '../src/components/Protect.js';
-import { AuthContext, BaseURLContext, CustomerContext, RestaurantContext, UserContext } from './components/AuthContext';
+import { AuthContext, BaseURLContext, RestaurantContext, UserContext } from './components/AuthContext';
 import CreateFoodItems from './components/restaurant/CreateFoodItems';
 import RestaurantRegistrationPage from './pages/restaurant/RestaurantRegistrationPage';
 import FoodItemByIdPage from './pages/restaurant/FoodItemByIdPage';
@@ -33,7 +33,7 @@ import CustomerProfilePage from './pages/customer/CustomerProfilePage';
 import ThankYouPage from './pages/customer/ThankYouPage';
 import OrdersByIdPage from './pages/customer/OrdersByIdPage';
 import UnauthorizedPage from './pages/UnauthorizedPage';
-import { ToastContainer } from 'react-toastify';
+// import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastNotification } from './components/ToastNotification';
 
@@ -61,7 +61,7 @@ function App() {
                 >
                   <Header />
                 </div>
-                <ToastNotification/>
+                <ToastNotification />
                 {/* <ToastContainer
                   position='top-right'
                   autoClose={2000}

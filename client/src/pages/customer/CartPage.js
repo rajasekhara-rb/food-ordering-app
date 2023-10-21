@@ -14,6 +14,7 @@ const CartPage = () => {
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
+        // function to get the cart details 
         const getCart = async () => {
             try {
                 setIsLoading(true)
@@ -38,6 +39,7 @@ const CartPage = () => {
         getCart()
     }, [baseUrl]);
 
+    // functon for removing the items one by one from the cart 
     const removeItemsFromTheCart = async (id) => {
         // e.preventDefault();
         // ?item_id=${item_id}

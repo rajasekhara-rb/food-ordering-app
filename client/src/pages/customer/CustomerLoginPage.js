@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from '../../images/logo.png'
 import { AuthContext, BaseURLContext } from "../../components/AuthContext";
@@ -16,6 +16,32 @@ const CustomerLoginPage = () => {
     const [user, setuser] = useState({ role: "customer" });
     // console.log(user)
 
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            notify("You are already Logged In")
+            navigate("/customer")
+        } else {
+            navigate("/login/customer")
+            // notify("You are not logged in. Please Login.")
+        }
+    }, [isLoggedIn, navigate])
+
+    // funciton to add the demo user details to the inputs 
+    const loginAsDemoUser = (e) => {
+        e.preventDefault()
+        const demoAdmin = {
+            email: "user@example.com",
+            password: "123456",
+            role: "customer"
+        }
+        setuser({
+            email: demoAdmin.email,
+            password: demoAdmin.password,
+            role: demoAdmin.role
+        })
+    }
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setuser({ ...user, [name]: value })
@@ -25,12 +51,13 @@ const CustomerLoginPage = () => {
     //     toast.success(message)
     // }
 
+    // function for login the user 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
             if (user.email && user.password) {
-                const Result = await axios.post(`${baseUrl}/user/login`, user, {
+                await axios.post(`${baseUrl}/user/login`, user, {
                     headers: {
                         Authorization: "Bearer " + localStorage.getItem("jwt")
                     }
@@ -125,6 +152,7 @@ const CustomerLoginPage = () => {
                                     </label>
                                     <div className="mt-2">
                                         <input
+                                            value={user.email}
                                             onChange={handleChange}
                                             id="email"
                                             name="email"
@@ -149,6 +177,7 @@ const CustomerLoginPage = () => {
                                     </div>
                                     <div className="mt-2">
                                         <input
+                                            value={user.password}
                                             onChange={handleChange}
                                             id="password"
                                             name="password"
@@ -158,6 +187,15 @@ const CustomerLoginPage = () => {
                                             className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         />
                                     </div>
+                                </div>
+                                <div>
+                                    <button
+                                        onClick={loginAsDemoUser}
+                                        // type="submit"
+                                        className="flex w-full justify-center rounded-md bg-yellow-600 px-3 p-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-yellow-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                    >
+                                        Use Demo User Crendentials
+                                    </button>
                                 </div>
 
                                 <div>

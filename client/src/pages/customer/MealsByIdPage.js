@@ -3,7 +3,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { BaseURLContext } from "../../components/AuthContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { notify } from "../../components/ToastNotification.js";
-import { Spinner1, Spinner2 } from "../../components/Spinners";
+import { Spinner2 } from "../../components/Spinners";
+
 
 
 const MealsByIdPage = () => {
@@ -19,6 +20,7 @@ const MealsByIdPage = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        // function for fetching the item 
         const fetchItem = async () => {
             try {
                 setIsLoading(true)
@@ -43,6 +45,7 @@ const MealsByIdPage = () => {
         fetchItem()
     }, [id, baseUrl]);
 
+    // function to add item & quantity to the cart 
     const addToCart = async (e) => {
         e.preventDefault();
         try {
@@ -70,7 +73,6 @@ const MealsByIdPage = () => {
             // alert(error.message);
         }
     }
-
 
     return (
         <>

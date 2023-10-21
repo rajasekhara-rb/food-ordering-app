@@ -4,7 +4,7 @@ const products = [
     {
         id: 1,
         name: 'Idli',
-        href: '#',
+        href: '/customer',
         imageSrc: 'https://i0.wp.com/swadishta.de/wp-content/uploads/2021/01/Idle.jpg?fit=1200%2C800&ssl=1g',
         imageAlt: "Front of men's Basic Tee in black.",
         price: '50',
@@ -14,7 +14,7 @@ const products = [
     {
         id: 2,
         name: 'Full Meals',
-        href: '#',
+        href: '/customer',
         imageSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBlmq5_6GZb7h3kXPh6til7uAMbZRCFqBBfQ&usqp=CAU',
         imageAlt: "Front of men's Basic Tee in black.",
         price: '100',
@@ -23,7 +23,7 @@ const products = [
     {
         id: 3,
         name: 'Dosa',
-        href: '#',
+        href: '/customer',
         imageSrc: 'https://img.traveltriangle.com/blog/wp-content/uploads/2022/01/Famous-Food-Of-South-India.jpg',
         imageAlt: "Front of men's Basic Tee in black.",
         price: '80',
@@ -32,7 +32,7 @@ const products = [
     {
         id: 4,
         name: 'Biryani',
-        href: '#',
+        href: '/customer',
         imageSrc: 'https://static.toiimg.com/photo/102774697.cms',
         imageAlt: "Front of men's Basic Tee in black.",
         price: '50',
@@ -48,7 +48,7 @@ const Meals = () => {
 
                     <div className="text-center">
                         <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-                           Meals
+                            Meals
                         </h1>
                         <p className="mt-6 text-lg leading-8 text-gray-600">
 

@@ -18,6 +18,7 @@ const CustomerRegistrationPage = () => {
         setuser({ ...user, [name]: value })
     }
 
+    // function for registering the user 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -27,7 +28,7 @@ const CustomerRegistrationPage = () => {
                         name: user.name,
                         email: user.email,
                         password: user.password,
-                        role: "cusomer",
+                        role: "customer",
                     }
 
                     await axios.post(`${baseUrl}/user/register`, newUser,

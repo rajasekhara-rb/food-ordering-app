@@ -1,6 +1,6 @@
 import React from "react";
 import logo from '../images/logo.png';
-import foodimg from '../images/login-signup.png';
+// import foodimg from '../images/login-signup.png';
 import { Link } from "react-router-dom";
 
 const Register = () => {

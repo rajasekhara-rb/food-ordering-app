@@ -1,5 +1,5 @@
 import React from "react";
-import CustomerSideBar from "./CustomerSideBar";
+// import CustomerSideBar from "./CustomerSideBar";
 import { Outlet } from "react-router-dom";
 
 const CustomerPage = () => {

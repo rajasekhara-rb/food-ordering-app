@@ -18,6 +18,7 @@ const CheckOutPage = () => {
     // console.log(cart);
     const [isLoading, setIsLoading] = useState(true)
 
+    // function to add the delivery Charges based on option selected
     const deliveryCharges = () => {
         if (deleiveyType == "xpress") {
             setShippingCost(100)
@@ -28,6 +29,7 @@ const CheckOutPage = () => {
 
 
     useEffect(() => {
+        // function for getting the items in the cart to checkout 
         const getCart = async () => {
             try {
                 setIsLoading(true)
@@ -57,6 +59,7 @@ const CheckOutPage = () => {
     }
 
 
+    // function for placing the order 
     const placeOrder = async (e) => {
         e.preventDefault();
         const address = `${billingAddress.address} ${billingAddress.state} ${billingAddress.zip}`;
@@ -69,9 +72,9 @@ const CheckOutPage = () => {
                         }
                     }).then(async (res) => {
                         // console.log(res.data);
-                        // after order is place cart is beign emptied 
                         notify(res)
                         // alert(res.data.message);
+                        // after order is place cart is beign emptied 
                         await axios.delete(`${baseUrl}/cart/cart/${cart._id}`,
                             {
                                 headers: {

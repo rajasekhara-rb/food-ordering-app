@@ -1,12 +1,12 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { BaseURLContext } from "../../components/AuthContext";
 import { Spinner1 } from "../../components/Spinners";
 import { notify } from "../../components/ToastNotification.js";
 
 const OrdersPage = () => {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const baseUrl = useContext(BaseURLContext);
     const [orders, setOrders] = useState([]);
     // console.log(orders);

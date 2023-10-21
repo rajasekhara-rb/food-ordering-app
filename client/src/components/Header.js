@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import logo from '../images/logo.png';
-import { AuthContext, RestaurantContext, UserContext } from "./AuthContext";
+import { AuthContext } from "./AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import RestaurantSidebar from "../pages/restaurant/RestaurantSidebar";
 import CustomerSideBar from "../pages/customer/CustomerSideBar";

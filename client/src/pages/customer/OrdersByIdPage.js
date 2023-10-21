@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { BaseURLContext } from "../../components/AuthContext";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import { notify } from "../../components/ToastNotification";
 import { Spinner2 } from "../../components/Spinners";
@@ -12,7 +12,7 @@ const OrdersByIdPage = () => {
     // console.log(item)
 
     const { id } = useParams();
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     const [isLoading, setIsLoading] = useState(true)
 

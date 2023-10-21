@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Logo from '../../images/logo.png';
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext, BaseURLContext, RestaurantContext, UserContext } from "../../components/AuthContext";
@@ -7,13 +7,38 @@ import { notify } from "../../components/ToastNotification";
 
 const RestaurantLoginPage = () => {
     const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
-    const { restaurantDetails, setRestaurantDetails } = useContext(RestaurantContext);
-    const { userDetails, setUserDetails } = useContext(UserContext);
+    const { setRestaurantDetails } = useContext(RestaurantContext);
+    const {  setUserDetails } = useContext(UserContext);
     const navigate = useNavigate();
 
     const baseUrl = useContext(BaseURLContext);
     const [user, setuser] = useState({ role: "admin" });
     // console.log(user)
+
+ useEffect(()=>{
+    if(isLoggedIn){
+        notify("You are already Logged In")
+        navigate("/restaurant")
+    }else{
+        navigate("/login/restaurant")
+        // notify("You are not logged in. Please Login.")
+    }
+
+ },[isLoggedIn, navigate])
+
+    const loginAsDemoUser = (e) => {
+        e.preventDefault()
+        const demoAdmin = {
+            email: "admin@example.com",
+            password: "123456",
+            role: "admin"
+        }
+        setuser({
+            email: demoAdmin.email,
+            password: demoAdmin.password,
+            role: demoAdmin.role
+        })
+    }
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -24,7 +49,7 @@ const RestaurantLoginPage = () => {
         e.preventDefault();
         try {
             if (user.email && user.password) {
-                const Result = await axios.post(`${baseUrl}/user/login`, user,
+                await axios.post(`${baseUrl}/user/login`, user,
                     // {
                     //     headers: {
                     //         Authorization: "Bearer " + localStorage.getItem("jwt")
@@ -125,6 +150,7 @@ const RestaurantLoginPage = () => {
                                     </label>
                                     <div className="mt-2">
                                         <input
+                                            value={user.email}
                                             onChange={handleChange}
                                             id="email"
                                             name="email"
@@ -149,6 +175,7 @@ const RestaurantLoginPage = () => {
                                     </div>
                                     <div className="mt-2">
                                         <input
+                                            value={user.password}
                                             onChange={handleChange}
                                             id="password"
                                             name="password"
@@ -162,6 +189,15 @@ const RestaurantLoginPage = () => {
 
                                 <div>
                                     <button
+                                        onClick={loginAsDemoUser}
+                                        className="flex w-full justify-center rounded-md bg-yellow-600 px-3 p-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-yellow-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                    >
+                                        Use Demo User Crendentials
+                                    </button>
+                                </div>
+
+                                <div>
+                                    <button
                                         onClick={handleSubmit}
                                         type="submit"
                                         className="flex w-full justify-center rounded-md bg-indigo-600 px-3 p-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
@@ -170,6 +206,10 @@ const RestaurantLoginPage = () => {
                                     </button>
                                 </div>
                             </form>
+
+
+
+
 
                             <p className="mt-10 text-center text-sm text-gray-500">
                                 Not a member?{' '}

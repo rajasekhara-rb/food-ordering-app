@@ -9,11 +9,12 @@ const UpdateFoodItems = () => {
 
     const baseUrl = useContext(BaseURLContext);
     const [item, setItem] = useState({});
-    console.log(item)
+    // console.log(item)
     const { id } = useParams();
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true)
 
+    
     const handleChange = (e) => {
         const { name, value } = e.target;
         setItem({ ...item, [name]: value })
@@ -21,6 +22,7 @@ const UpdateFoodItems = () => {
 
 
     useEffect(() => {
+        // function for getting the food item details
         const fetchItem = async () => {
             setIsLoading(true)
             try {
@@ -46,6 +48,7 @@ const UpdateFoodItems = () => {
     }, [id, baseUrl]);
 
     // useEffect(() => {
+        // function for updating the food item to db 
     const updateFoodItem = async (e) => {
         e.preventDefault();
         try {

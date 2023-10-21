@@ -4,6 +4,7 @@ import { BaseURLContext } from "../AuthContext";
 import axios from "axios";
 import { notify } from "../ToastNotification";
 
+// component for creating food items
 const CreateFoodItems = () => {
 
     const navigate = useNavigate();
@@ -12,16 +13,20 @@ const CreateFoodItems = () => {
     const [foodItem, setFoodItem] = useState({ restaurant_id: localStorage.getItem("restaurant_id") });
     // console.log(foodItem)
 
+    // function to handle the changes in the input form 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFoodItem({ ...foodItem, [name]: value })
     }
 
+    // function for submitting the food item details to server for saving 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            // check if all the fields are filled or not 
             if (foodItem.item_name && foodItem.item_quantity && foodItem.item_price
                 && foodItem.item_description && foodItem.item_photo) {
+                    // post the details 
                 await axios.post(`${baseUrl}/fooditems/new`, foodItem,
                     {
                         headers: {

@@ -12,8 +12,9 @@ const MealsPage = () => {
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
+        // function for fetching meals 
         const fetchMeals = async () => {
-            const restaurant_id = localStorage.getItem("restaurant_id");
+            // const restaurant_id = localStorage.getItem("restaurant_id");
             setIsLoading(true)
             try {
                 await axios.get(`${baseUrl}/fooditems/all`,

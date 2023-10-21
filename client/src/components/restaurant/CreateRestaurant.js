@@ -12,18 +12,21 @@ const CreateRestaurant = () => {
 
     const baseUrl = useContext(BaseURLContext);
     const [restaurant, setRestaurant] = useState({});
-    console.log(restaurant)
+    // console.log(restaurant)
 
+    // funciton for handling the changes in the input from 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setRestaurant({ ...restaurant, [name]: value })
     }
 
+    // function for submitting the food item details to server for saving 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         try {
+            // check if all the fields are filled or not 
             if (restaurant.name && restaurant.address && restaurant.opening_time && restaurant.closing_time) {
+                // post the details 
                 await axios.post(`${baseUrl}/restaurant/register`, restaurant,
                     {
                         headers: {

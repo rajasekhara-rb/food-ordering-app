@@ -3,8 +3,15 @@ import { Link, Outlet } from "react-router-dom";
 
 const LoginPage = () => {
     return (
-        <>
-            <div className="mt-10 flex items-center justify-center gap-x-6">
+        <div
+            className="p-2"
+            style={{
+                backgroundImage: `url("https://m.media-amazon.com/images/I/71zpr7SCcaL._AC_UF894,1000_QL80_.jpg")`,
+                // backgroundRepeat: 'no-repeat',
+            }}
+        >
+            <div className="mt-5 flex items-center justify-center gap-x-4 bg-white p-2 w-1/3 m-auto"
+            >
                 <Link
                     to="/login/customer"
                     className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
@@ -17,13 +24,11 @@ const LoginPage = () => {
                 >
                     Restaurant Login
                 </Link>
-
             </div>
-
-            <div>
+            <div className="bg-white w-1/3 m-auto p-1">
                 <Outlet />
             </div>
-        </>
+        </div>
     )
 }
 

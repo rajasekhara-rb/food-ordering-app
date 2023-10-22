@@ -64,7 +64,7 @@ const RestaurantLoginPage = () => {
                         localStorage.setItem("user", JSON.stringify(res.data));
                         localStorage.setItem("user_id", res.data._id);
                         setUserDetails(res.data);
-                        
+
                         if (res.data.loggedAs === "admin") {
                             await axios.get(`${baseUrl}/restaurant/restuarantbyadmins`,
                                 {
@@ -133,20 +133,20 @@ const RestaurantLoginPage = () => {
         <>
             <div className="flex flex-row items-center">
                 <div className="flex-auto w-50">
-                    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+                    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-6 lg:px-8">
                         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                             <img
                                 className="mx-auto h-20 w-auto"
                                 src={Logo}
                                 alt="Your Company"
                             />
-                            <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+                            <h2 className="mt-4 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
                                 Sign in to your Restaurant
                             </h2>
                         </div>
 
                         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                            <form className="space-y-6" action="#" method="POST">
+                            <form className="space-y-3" action="#" method="POST">
                                 <div>
                                     <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                                         Email address
@@ -210,11 +210,7 @@ const RestaurantLoginPage = () => {
                                 </div>
                             </form>
 
-
-
-
-
-                            <p className="mt-10 text-center text-sm text-gray-500">
+                            <p className="mt-4 text-center text-sm text-gray-500">
                                 Not a member?{' '}
                                 <Link to="/register" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
                                     Register Now

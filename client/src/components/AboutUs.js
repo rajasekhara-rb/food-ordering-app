@@ -42,7 +42,17 @@ const AboutUs = () => {
                 </div>
             </div>
             {/* why choose us  */}
-            <div className="relative isolate px-6 pt-14 lg:px-8 flex-auto w-70">
+            <div className="relative isolate px-6 pt-14 lg:px-8 flex-auto w-70"
+                style={{
+                    // opacity: "0.6",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    height: "100vh",
+                    // background: "rgba(0,0,0,0.5)",
+                    // backgroundImage: `url('https://img.freepik.com/free-photo/bread-slices-with-topping-tomato-cheese-olives-white-table_23-2148194999.jpg')`,
+                    backgroundImage: `url('https://i.pinimg.com/1200x/33/ef/8b/33ef8b9c0b902154a6cd4103a21275ef.jpg')`,
+                }}
+            >
                 <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56 flex flex-row">
 
                     <div className="text-center">

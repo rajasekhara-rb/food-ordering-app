@@ -6,7 +6,7 @@ const Hero = () => {
     return (
         <>
             <div className="flex flex-row items-center">
-                <div className="relative isolate px-6 pt-14 lg:px-8 flex-auto w-80">
+                <div className="relative isolate px-6 pt-14 lg:px-8 flex-auto w-70">
 
                     <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
 
@@ -32,7 +32,7 @@ const Hero = () => {
                             </div>
                         </div>
                         <div className="mt-6 text-lg leading-8 text-gray-600">
-                            <ul className="flex flex-row items-center justify-between">
+                            <ul className="flex lg:flex-row items-center justify-between sm:flex-col">
                                 <li className="flex flex-row items-center justify-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-10 h-10 mx-5">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
@@ -60,7 +60,7 @@ const Hero = () => {
                     </div>
 
                 </div>
-                <div className="sm:mx-auto sm:w-full sm:max-w-sm flex-auto w-20">
+                <div className="sm:mx-auto sm:w-full sm:max-w-sm flex-auto w-30">
                     <img
                         className="mx-auto h-50 w-auto"
                         src={hero}

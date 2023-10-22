@@ -74,20 +74,20 @@ const CustomerRegistrationPage = () => {
         <>
             <div className="flex flex-row items-center">
                 <div className="flex-auto w-50">
-                    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+                    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-6 lg:px-8">
                         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                             <img
                                 className="mx-auto h-20 w-auto"
                                 src={Logo}
                                 alt="Your Company"
                             />
-                            <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+                            <h2 className="mt-4 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
                                 Register an user account
                             </h2>
                         </div>
 
-                        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                            <form className="space-y-6" action="#" method="POST">
+                        <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-sm">
+                            <form className="space-y-2" action="#" method="POST">
                                 <div>
                                     <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
                                         Name
@@ -170,7 +170,7 @@ const CustomerRegistrationPage = () => {
                                 </div>
                             </form>
 
-                            <p className="mt-10 text-center text-sm text-gray-500">
+                            <p className="mt-4 text-center text-sm text-gray-500">
                                 Already a member?{' '}
                                 <Link to="/login" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
                                     Login Now

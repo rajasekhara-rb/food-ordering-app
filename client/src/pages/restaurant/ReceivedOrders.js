@@ -34,7 +34,7 @@ const ReceivedOrdersPage = () => {
         }
 
         getOrders()
-    }, [baseUrl]);
+    }, [baseUrl, restaurantDetails]);
 
     const acceptOrCancelOrder = async (e, id, status) => {
         e.preventDefault();
@@ -87,9 +87,11 @@ const ReceivedOrdersPage = () => {
 
             </div> */}
 
-            {isLoading ? (<Spinner1/>) : (
+            {isLoading ? (<Spinner1 />) : (
                 <div class="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
-                    <ul role="list" class="divide-y divide-gray-100">
+                    <ul
+                        // role="list"
+                        class="divide-y divide-gray-100">
                         {
                             orders ? (
                                 orders?.map((item) => {

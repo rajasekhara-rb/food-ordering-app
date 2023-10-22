@@ -112,7 +112,9 @@ const OrdersByIdPage = () => {
                                     <div className="mt-5">
                                         <h3 className="text-sm font-medium text-gray-900">Billing / Shipping Address</h3>
                                         <div className="mt-4">
-                                            <ul role="list" className="list-disc space-y-2 pl-4 text-sm">
+                                            <ul 
+                                            // role="list" 
+                                            className="list-disc space-y-2 pl-4 text-sm">
                                                 <li className="text-gray-400">
                                                     <span className="text-gray-600">{order.shipping_address}</span>
                                                 </li>

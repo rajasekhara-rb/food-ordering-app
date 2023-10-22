@@ -38,7 +38,7 @@ const FoodItemsPage = () => {
         }
 
         fetchRestaurantFoodItems()
-    }, [])
+    }, [baseUrl])
     return (
         <>
             {isLoading ? (<Spinner1 />) : (

@@ -19,8 +19,8 @@ const CustomerLoginPage = () => {
 
     useEffect(() => {
         if (isLoggedIn) {
-            notify("You are already Logged In")
             navigate("/customer")
+            notify("You are already Logged In")
         } else {
             navigate("/login/customer")
             // notify("You are not logged in. Please Login.")

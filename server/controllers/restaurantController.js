@@ -1,4 +1,4 @@
-import { OnlyAdminsAccess } from '../middlewares/access.js';
+// import { OnlyAdminsAccess } from '../middlewares/access.js';
 import Restaurant from '../models/restaurantModel.js';
 
 // define a function to register Restaurant

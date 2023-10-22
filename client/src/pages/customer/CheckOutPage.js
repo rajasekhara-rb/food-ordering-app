@@ -20,7 +20,7 @@ const CheckOutPage = () => {
 
     // function to add the delivery Charges based on option selected
     const deliveryCharges = () => {
-        if (deleiveyType == "xpress") {
+        if (deleiveyType === "xpress") {
             setShippingCost(100)
         } else {
             setShippingCost(0)

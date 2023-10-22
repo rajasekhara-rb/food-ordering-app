@@ -16,8 +16,7 @@ const CustomerSideBar = () => {
         <>
             <div className="flex m-auto">
                 <Link to="/customer" className="mx-2">
-                    <a
-                        // href="/customer"
+                    <button
                         className={classNames(
                             isLoggedIn ? 'bg-gray-900 text-white' : 'text-gray-500 hover:bg-gray-700 hover:text-white',
                             'rounded-md px-3 py-2 text-sm font-medium'
@@ -25,12 +24,11 @@ const CustomerSideBar = () => {
                     // aria-current={item.current ? 'page' : undefined}
                     >
                         Dashboard
-                    </a>
+                    </button>
                     {/* <button className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 my-1 mx-4">Dashboard</button> */}
                 </Link>
                 <Link to="/customer/orders" className="mx-2">
-                    <a
-                        // href="/customer"
+                    <button
                         className={classNames(
                             isLoggedIn ? 'bg-gray-900 text-white' : 'text-gray-500 hover:bg-gray-700 hover:text-white',
                             'rounded-md px-3 py-2 text-sm font-medium'
@@ -38,12 +36,11 @@ const CustomerSideBar = () => {
                     // aria-current={item.current ? 'page' : undefined}
                     >
                         Orders History
-                    </a>
+                    </button>
                     {/* <button className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 my-1 mx-4">Orders History</button> */}
                 </Link>
                 <Link to="/customer/cart" className="mx-2">
-                    <a
-                        // href="/customer"
+                    <button
                         className={classNames(
                             isLoggedIn ? 'bg-gray-900 text-white' : 'text-gray-500 hover:bg-gray-700 hover:text-white',
                             'rounded-md px-3 py-2 text-sm font-medium'
@@ -51,7 +48,7 @@ const CustomerSideBar = () => {
                     // aria-current={item.current ? 'page' : undefined}
                     >
                         My Cart
-                    </a>
+                    </button>
                     {/* <button className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 my-1 mx-4">My Cart</button> */}
                 </Link>
                 {/* <Link to="checkout">

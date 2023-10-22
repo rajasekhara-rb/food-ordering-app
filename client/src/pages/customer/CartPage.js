@@ -91,49 +91,52 @@ const CartPage = () => {
 
                         {cart ? (
                             // {
-                            cart.items?.map((item) => {
-                                return <div class="mt-8" key={item.item_id}>
-                                    <div class="flow-root">
-                                        <ul role="list" class="-my-6 divide-y divide-gray-200">
-                                            <li class="flex py-6">
-                                                <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                                                    <img
-                                                        src={item.item_photo}
-                                                        alt={item.item_name}
-                                                        class="h-full w-full object-cover object-center"></img>
-                                                </div>
-
-                                                <div class="ml-4 flex flex-1 flex-col">
-                                                    <div>
-                                                        <div class="flex justify-between text-base font-medium text-gray-900">
-                                                            <h3>
-                                                                <a href={`/customer/fooditems/${item.item_id}`}> {item.item_name}</a>
-                                                            </h3>
-                                                            <p class="ml-4">&#8377;{item.item_price}</p>
-                                                        </div>
-                                                        <p class="mt-1 text-sm text-gray-500">{item.item_description}</p>
+                            <div class="mt-8" >
+                                <div class="flow-root">
+                                    <ul 
+                                    // role="list"
+                                     class="-my-6 divide-y divide-gray-200">
+                                        {cart.items?.map((item) => {
+                                            return (
+                                                <li class="flex py-6" key={item.item_id}>
+                                                    <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                                                        <img
+                                                            src={item.item_photo}
+                                                            alt={item.item_name}
+                                                            class="h-full w-full object-cover object-center"></img>
                                                     </div>
-                                                    <div class="flex flex-1 items-end justify-between text-sm">
-                                                        <p class="text-gray-500">Qty {item.item_quantity}</p>
 
-                                                        <div class="flex">
-                                                            <button
-                                                                onClick={(e) => {
-                                                                    e.preventDefault();
-                                                                    removeItemsFromTheCart(item.item_id)
-                                                                }
-                                                                }
+                                                    <div class="ml-4 flex flex-1 flex-col">
+                                                        <div>
+                                                            <div class="flex justify-between text-base font-medium text-gray-900">
+                                                                <h3>
+                                                                    <a href={`/customer/fooditems/${item.item_id}`}> {item.item_name}</a>
+                                                                </h3>
+                                                                <p class="ml-4">&#8377;{item.item_price}</p>
+                                                            </div>
+                                                            <p class="mt-1 text-sm text-gray-500">{item.item_description}</p>
+                                                        </div>
+                                                        <div class="flex flex-1 items-end justify-between text-sm">
+                                                            <p class="text-gray-500">Qty {item.item_quantity}</p>
 
-                                                                type="button" class="font-medium text-indigo-600 hover:text-indigo-500">Remove</button>
+                                                            <div class="flex">
+                                                                <button
+                                                                    onClick={(e) => {
+                                                                        e.preventDefault();
+                                                                        removeItemsFromTheCart(item.item_id)
+                                                                    }
+                                                                    }
+
+                                                                    type="button" class="font-medium text-indigo-600 hover:text-indigo-500">Remove</button>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </li>
-
-                                        </ul>
-                                    </div>
+                                                </li>
+                                            )
+                                        })}
+                                    </ul>
                                 </div>
-                            })
+                            </div>
                             // }
                         ) : (
                             "You  have no items in the cart"

@@ -30,5 +30,12 @@ app.use("/cart", cartRoutes);
 app.use("/order", orderRoutes);
 
 app.get('/', (req, res) => {
-    res.send("Server Started")
+    res.status(200).json({
+        message: "Server is Live",
+        view_api_documentaton: "Avilable soon",
+        access_required: "Access is required to use this api.",
+        api_link: "https://foodie-api-ntw5.onrender.com",
+        website_link: "https://foodie-food-ordering-app.netlify.app/",
+        api_author: "Budda Rajasekhara Reddy",
+    })
 });

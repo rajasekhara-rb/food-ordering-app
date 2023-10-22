@@ -1,11 +1,12 @@
 # Foodie - A Food Delivery App
 
-> Access the live link [Open App](app.app.com) 
+> Access the live link [Open App](https://foodie-food-ordering-app.netlify.app/)
+> Access the api link [Open API](https://foodie-api-ntw5.onrender.com) 
 
 Foodie is a Food Delivery App. Both customer and restaurnats can Register, login and use the featuers of the application.
 
 
-![Image](https://media.sproutsocial.com/uploads/2017/02/10x-featured-social-media-image-size.png)
+<!-- ![Image](https://foodie-food-ordering-app.netlify.app/) -->
 
 
 ## Installation

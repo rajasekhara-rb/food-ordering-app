@@ -40,8 +40,9 @@ import RestaurantsListPage from './pages/RestaurantsListPage';
 import ChangeAvilability from './components/restaurant/ChangeAvilability';
 
 function App() {
-
-  const baseUrl = "http://localhost:5050";
+  // https://foodie-api-ntw5.onrender.com
+  // http://localhost:5050
+  const baseUrl = "https://foodie-api-ntw5.onrender.com";
 
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("jwt"));
   // setIsLoggedIn(localStorage.getItem("user"));

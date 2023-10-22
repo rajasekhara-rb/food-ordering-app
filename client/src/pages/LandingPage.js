@@ -5,6 +5,7 @@ import Meals from "../components/Meals";
 import Testimonials from "../components/Testimonials";
 import { AuthContext } from "../components/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { notify } from "../components/ToastNotification";
 // import ContactPage from "./ContactPage";
 
 const LandingPage = () => {
@@ -17,9 +18,13 @@ const LandingPage = () => {
         if (isLoggedIn === "customer") {
             navigate("/customer")
         } else if (isLoggedIn === "admin") {
+            notify("You are not logged In Login First.")
             navigate("/restaurant")
         } else {
-            navigate("/")
+            // notify("You are not logged In Login First.")
+            // setTimeout(() => {
+                navigate("/")
+            // }, 3000);
         }
     }, [isLoggedIn, setIsLoggedIn, navigate])
 

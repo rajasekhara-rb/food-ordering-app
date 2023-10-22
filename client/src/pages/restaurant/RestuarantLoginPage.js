@@ -8,23 +8,23 @@ import { notify } from "../../components/ToastNotification";
 const RestaurantLoginPage = () => {
     const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
     const { setRestaurantDetails } = useContext(RestaurantContext);
-    const {  setUserDetails } = useContext(UserContext);
+    const { setUserDetails } = useContext(UserContext);
     const navigate = useNavigate();
 
     const baseUrl = useContext(BaseURLContext);
     const [user, setuser] = useState({ role: "admin" });
     // console.log(user)
 
- useEffect(()=>{
-    if(isLoggedIn){
-        notify("You are already Logged In")
-        navigate("/restaurant")
-    }else{
-        navigate("/login/restaurant")
-        // notify("You are not logged in. Please Login.")
-    }
+    useEffect(() => {
+        if (isLoggedIn) {
+            // notify("You are already Logged In")
+            navigate("/restaurant/")
+        } else {
+            navigate("/login/restaurant")
+            // notify("You are not logged in. Please Login.")
+        }
 
- },[isLoggedIn, navigate])
+    }, [isLoggedIn, navigate])
 
     const loginAsDemoUser = (e) => {
         e.preventDefault()
@@ -64,7 +64,7 @@ const RestaurantLoginPage = () => {
                         localStorage.setItem("user", JSON.stringify(res.data));
                         localStorage.setItem("user_id", res.data._id);
                         setUserDetails(res.data);
-                        setIsLoggedIn(true);
+                        
                         if (res.data.loggedAs === "admin") {
                             await axios.get(`${baseUrl}/restaurant/restuarantbyadmins`,
                                 {
@@ -80,7 +80,9 @@ const RestaurantLoginPage = () => {
                                         localStorage.setItem("restaurant_admin_id", res.data.admin_id)
                                         // alert(res.data.message)
                                         // notify(res)
-                                        navigate("/restaurant/")
+                                        setTimeout(() => {
+                                            navigate("/restaurant/")
+                                        }, 3000);
                                     } else {
                                         navigate("/restaurant/create")
                                     }
@@ -89,6 +91,7 @@ const RestaurantLoginPage = () => {
                             // alert(res.data.message)
                             notify(res)
                         }
+                        setIsLoggedIn(true);
                     } else {
                         notify(res)
                         // alert(res.data.message)

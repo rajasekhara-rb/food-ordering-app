@@ -10,10 +10,11 @@ Foodie is a Food Delivery App. Both customer and restaurnats can Register, login
 
 ## Installation
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
+<!-- Use the npm [npm](https://pip.pypa.io/en/stable/) to install -->
 
 ```bash
 cd client
+npm install
 npm start
 ```
  ## Functionality

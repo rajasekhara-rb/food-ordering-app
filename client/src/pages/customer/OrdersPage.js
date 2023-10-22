@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { BaseURLContext } from "../../components/AuthContext";
 import { Spinner1 } from "../../components/Spinners";
 import { notify } from "../../components/ToastNotification.js";
+import NothingToShow from "../NothingToShowPage";
 
 const OrdersPage = () => {
     // const navigate = useNavigate();
@@ -61,7 +62,7 @@ const OrdersPage = () => {
                                 )
                             })
                         ) : (
-                            "No orders"
+                           <NothingToShow/>
                         )
                     }
 

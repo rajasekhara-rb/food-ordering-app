@@ -14,8 +14,10 @@ const navigation = [
     // { name: 'Admin Dashboard', href: '/restaurant', current: false },
     // { name: 'Customer Dashboard', href: '/customer', current: false },
     { name: 'Add a Restaurant', href: '/partnerwithus', current: false },
+    { name: 'Restaurants', href: '/partneredrestaurants', current: false },
     { name: 'Login', href: '/login', current: false },
     { name: 'Register', href: '/register', current: false },
+    
 ]
 
 function classNames(...classes) {

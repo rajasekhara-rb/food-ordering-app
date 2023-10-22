@@ -4,6 +4,7 @@ import { BaseURLContext } from "../../components/AuthContext";
 import axios from "axios";
 import { notify } from "../../components/ToastNotification";
 import { Spinner1 } from "../../components/Spinners";
+import NothingToShow from "../NothingToShowPage";
 
 
 const CartPage = () => {
@@ -139,7 +140,8 @@ const CartPage = () => {
                             </div>
                             // }
                         ) : (
-                            "You  have no items in the cart"
+                            // "You  have no items in the cart"
+                            <NothingToShow/>
                         )}
 
                     </div >

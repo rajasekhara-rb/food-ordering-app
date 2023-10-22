@@ -1,9 +1,12 @@
 import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { notify } from "../components/ToastNotification";
 
 const UnauthorizedPage = () => {
     const navigate = useNavigate();
     useEffect(() => {
+        const error = { status: 401, data: { message: "Unauthorized User" } }
+        notify(error)
         setTimeout(() => {
             navigate("/")
         }, 3000);

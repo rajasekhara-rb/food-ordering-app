@@ -99,8 +99,17 @@ const deleteFoodItems = async (req, res) => {
     }
 };
 
-const changeAvilabilityOfFoodItems = (req, res) => {
+const changeAvilabilityOfFoodItems = async (req, res) => {
     try {
+        const id = req.params.id;
+        const { item_quantity, avilability } = req.body;
+        const changeAvilability = {
+            item_quantity,
+            avilability,
+        }
+
+        const footItem = await FoodItem.findByIdAndUpdate(id, changeAvilability, { new: true });
+        res.status(200).json({ message: "food item avilability & stock updated", footItem })
 
     } catch (error) {
         res.status(500);

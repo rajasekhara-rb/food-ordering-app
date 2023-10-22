@@ -36,6 +36,8 @@ import UnauthorizedPage from './pages/UnauthorizedPage';
 // import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastNotification } from './components/ToastNotification';
+import RestaurantsListPage from './pages/RestaurantsListPage';
+import ChangeAvilability from './components/restaurant/ChangeAvilability';
 
 function App() {
 
@@ -91,6 +93,7 @@ function App() {
                   {/* <Route path="/register" element={<RegistrationPage />} /> */}
                   <Route path="/contact" element={<ContactPage />} />
                   <Route path='/partnerwithus' element={<AddRestaurantPage />} />
+                  <Route path='/partneredrestaurants' element={<RestaurantsListPage />} />
 
                   {/* <CustomerContext.Provider value={{ customerDetails, setCustomerDetails }}> */}
                   <Route path="/customer" element={<OnlyCustomerProtected Component={CustomerPage} />}>
@@ -116,6 +119,7 @@ function App() {
                     <Route path="create" element={<CreateRestaurant />} />
                     <Route path="addfooditems" element={<CreateFoodItems />} />
                     <Route path="updatefooditem/:id" element={<UpdateFoodItems />} />
+                    <Route path='changeavilability/:id' element={<ChangeAvilability/>}/>
                     <Route path='orders' element={<ReceivedOrdersPage />} />
                     <Route path="orders/:id" element={<OrdersByIdPage />} />
                   </Route>

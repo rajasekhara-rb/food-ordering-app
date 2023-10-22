@@ -272,12 +272,18 @@ const FoodItemByIdPage = () => {
                                     >
                                         Edit
                                     </button>
+                                    <button
+                                        onClick={() => { navigate(`/restaurant/changeavilability/${item._id}`) }}
+                                        className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-yellow-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                    >
+                                        Change Stock
+                                    </button>
                                     {isDeleteLoading ? (
                                         <button
                                             // onClick={deleteItem}
                                             className="mt-1 flex w-full items-center justify-center rounded-md border border-transparent bg-red-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                         >
-                                            <ButtonSpinner/>
+                                            <ButtonSpinner />
                                         </button>
                                     ) : (
                                         <button
@@ -319,7 +325,7 @@ const FoodItemByIdPage = () => {
                                     <h2 className="text-sm font-medium text-gray-900">Avilability</h2>
 
                                     <div className="mt-4 space-y-6">
-                                        <p className="text-sm text-gray-600">{item.avilability ? ("In Stock") : ("Out Of Stock")}</p>
+                                        <p className="text-sm text-gray-600">{item.avilability === "true" ? ("In Stock") : ("Out Of Stock")}</p>
                                     </div>
                                     <div className="mt-4 space-y-6">
                                         <p className="text-sm text-gray-600">Avilable Quantity {item.item_quantity}</p>

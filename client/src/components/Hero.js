@@ -26,7 +26,7 @@ const Hero = () => {
                                 >
                                     Get started
                                 </Link>
-                                <Link to="/menu" className="text-sm font-semibold leading-6 text-gray-900">
+                                <Link to="/login" className="text-sm font-semibold leading-6 text-gray-900">
                                     Our Menu <span aria-hidden="true">→</span>
                                 </Link>
                             </div>

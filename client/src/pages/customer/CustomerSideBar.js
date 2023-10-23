@@ -14,7 +14,7 @@ const CustomerSideBar = () => {
 
     return (
         <>
-            <div className="flex m-auto">
+            <div className="flex flex-row m-auto">
                 <Link to="/customer" className="mx-2">
                     <button
                         className={classNames(
@@ -48,6 +48,18 @@ const CustomerSideBar = () => {
                     // aria-current={item.current ? 'page' : undefined}
                     >
                         My Cart
+                    </button>
+                    {/* <button className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 my-1 mx-4">My Cart</button> */}
+                </Link>
+                <Link to="/partneredrestaurants" className="mx-2">
+                    <button
+                        className={classNames(
+                            isLoggedIn ? 'bg-gray-900 text-white' : 'text-gray-500 hover:bg-gray-700 hover:text-white',
+                            'rounded-md px-3 py-2 text-sm font-medium'
+                        )}
+                    // aria-current={item.current ? 'page' : undefined}
+                    >
+                        Restaurants
                     </button>
                     {/* <button className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 my-1 mx-4">My Cart</button> */}
                 </Link>

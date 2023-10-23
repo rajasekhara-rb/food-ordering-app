@@ -120,7 +120,7 @@ function App() {
                     <Route path="create" element={<CreateRestaurant />} />
                     <Route path="addfooditems" element={<CreateFoodItems />} />
                     <Route path="updatefooditem/:id" element={<UpdateFoodItems />} />
-                    <Route path='changeavilability/:id' element={<ChangeAvilability/>}/>
+                    <Route path='changeavilability/:id' element={<ChangeAvilability />} />
                     <Route path='orders' element={<ReceivedOrdersPage />} />
                     <Route path="orders/:id" element={<OrdersByIdPage />} />
                   </Route>

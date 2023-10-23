@@ -9,7 +9,7 @@ restaurantRouter.post("/register", authenticateUser, OnlyAdminsAccess, registerR
 restaurantRouter.get("/", getAllRestaurants);
 
 restaurantRouter.get("/restuarantbyadmins", authenticateUser, OnlyAdminsAccess, getRestaurantsByAdminId)
-// restaurantRouter.get("/:id", getRestaurantById);
+restaurantRouter.get("/:id", getRestaurantById);
 restaurantRouter.route("/:id", authenticateUser, OnlyAdminsAccess).get(getRestaurantById).put(updateRestaurant).delete(deleteRestaurant);
 
 export default restaurantRouter;

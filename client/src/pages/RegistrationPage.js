@@ -8,7 +8,7 @@ const RegistrationPage = () => {
                 backgroundImage: `url("https://m.media-amazon.com/images/I/71YNcu3GtkL._AC_UF894,1000_QL80_.jpg")`,
                 // backgroundRepeat: 'no-repeat',
             }}>
-            <div className="mt-5 flex items-center justify-center gap-x-4 bg-white p-2 w-1/3 m-auto"
+            <div className="mt-5 flex items-center justify-center gap-x-4 bg-white p-2 m-auto xl:w-1/3 lg:w-1/3 md:w-2/4 sm:1/4"
 
             >
                 <Link
@@ -26,7 +26,7 @@ const RegistrationPage = () => {
 
             </div>
 
-            <div className="bg-white w-1/3 p-1 m-auto">
+            <div className="bg-white xl:w-1/3 lg:w-1/3 md:w-2/4 sm:1/4 p-1 m-auto">
                 <Outlet />
             </div>
         </div>

@@ -19,6 +19,8 @@ const MealsByIdPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
 
+    const [restaurantDetails, setRestaurantDetails] = useState({});
+
     useEffect(() => {
         // function for fetching the item 
         const fetchItem = async () => {
@@ -33,7 +35,9 @@ const MealsByIdPage = () => {
                 ).then((res) => {
                     notify(res)
                     setItem(res.data.fooditem);
+                    fetchRestaurantDetails(res.data.fooditem.restaurant_id)
                     setIsLoading(false)
+
                 })
 
             } catch (error) {
@@ -74,11 +78,33 @@ const MealsByIdPage = () => {
         }
     }
 
+
+    const fetchRestaurantDetails = async (id) => {
+        try {
+            // setIsLoading(true)
+            await axios.get(`${baseUrl}/restaurant/${id}`,
+                {
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem("jwt")
+                    }
+                }
+            ).then((res) => {
+                // notify(res)
+                setRestaurantDetails(res.data.restaurant);
+                // setIsLoading(false)
+            })
+
+        } catch (error) {
+            notify(error)
+            console.log(error)
+        }
+    }
+
     return (
         <>
             {
                 isLoading ? (
-                    <Spinner2/>
+                    <Spinner2 />
                 ) : (
                     <div className="bg-white">
                         <div className="pt-6 flex">
@@ -331,14 +357,18 @@ const MealsByIdPage = () => {
                                         {/* <h2 className="text-sm font-medium text-gray-900">Avilability</h2> */}
                                         <div className="mt-4 space-y-6">
                                             {item.item_quantity > 0 ? (
-                                                <p className="text-xl font-medium text-green-700">Avilable :{item.item_quantity}</p>
+                                                <p className="text-xl font-medium text-green-700">In Stock :{item.item_quantity}</p>
                                             ) : (
                                                 <p className="text-xl font-medium text-red-700">Out of Stock</p>
                                             )}
                                             {/* <p className="text-xl text-gray-600">{item.avilability ? ("In Stock") : ("Out Of Stock")}</p> */}
                                         </div>
-                                        <div className="mt-4 space-y-6">
-                                            <p className="text-xl text-gray-600">Restaurnt :{item.restaurant_id}</p>
+                                        <div className="mt-4 space-y-2">
+                                            <p className="text-xl text-dark-900 my-2">Restaurnt Details</p>
+                                            <p className="text-lg text-gray-600">Id: {restaurantDetails._id}</p>
+                                            <p className="text-lg text-gray-600">Name :{restaurantDetails.name}</p>
+                                            <p className="text-lg text-gray-600">Address :{restaurantDetails.address}</p>
+                                            <p className="text-lg text-gray-600">Timing :{restaurantDetails.opening_time + "-" + restaurantDetails.closing_time}</p>
                                         </div>
                                     </div>
                                 </div>

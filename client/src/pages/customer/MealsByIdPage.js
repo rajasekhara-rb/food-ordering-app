@@ -47,7 +47,7 @@ const MealsByIdPage = () => {
         }
 
         fetchItem()
-    }, [id, baseUrl]);
+    }, [id, baseUrl, fetchRestaurantDetails]);
 
     // function to add item & quantity to the cart 
     const addToCart = async (e) => {

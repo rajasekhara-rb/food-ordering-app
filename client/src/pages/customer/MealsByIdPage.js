@@ -21,26 +21,6 @@ const MealsByIdPage = () => {
 
     const [restaurantDetails, setRestaurantDetails] = useState({});
 
-    const fetchRestaurantDetails = async (id) => {
-        try {
-            // setIsLoading(true)
-            await axios.get(`${baseUrl}/restaurant/${id}`,
-                {
-                    headers: {
-                        Authorization: "Bearer " + localStorage.getItem("jwt")
-                    }
-                }
-            ).then((res) => {
-                // notify(res)
-                setRestaurantDetails(res.data.restaurant);
-                // setIsLoading(false)
-            })
-
-        } catch (error) {
-            notify(error)
-            console.log(error)
-        }
-    }
 
     useEffect(() => {
         // function for fetching the item 
@@ -53,12 +33,23 @@ const MealsByIdPage = () => {
                             Authorization: "Bearer " + localStorage.getItem("jwt")
                         }
                     }
-                ).then((res) => {
+                ).then(async (res) => {
                     notify(res)
                     setItem(res.data.fooditem);
-                    fetchRestaurantDetails(res.data.fooditem.restaurant_id)
-                    setIsLoading(false)
-
+                    // function for fetching the restaurant details 
+                    // setIsLoading(true)
+                    await axios.get(`${baseUrl}/restaurant/${res.data.fooditem.restaurant_id}`,
+                        {
+                            headers: {
+                                Authorization: "Bearer " + localStorage.getItem("jwt")
+                            }
+                        }
+                    ).then((res) => {
+                        // notify(res)
+                        setRestaurantDetails(res.data.restaurant);
+                        setIsLoading(false)
+                    })
+                    // setIsLoading(false)
                 })
 
             } catch (error) {
@@ -68,7 +59,7 @@ const MealsByIdPage = () => {
         }
 
         fetchItem()
-    }, [id, baseUrl, fetchRestaurantDetails]);
+    }, [id, baseUrl]);
 
     // function to add item & quantity to the cart 
     const addToCart = async (e) => {

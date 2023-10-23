@@ -21,6 +21,27 @@ const MealsByIdPage = () => {
 
     const [restaurantDetails, setRestaurantDetails] = useState({});
 
+    const fetchRestaurantDetails = async (id) => {
+        try {
+            // setIsLoading(true)
+            await axios.get(`${baseUrl}/restaurant/${id}`,
+                {
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem("jwt")
+                    }
+                }
+            ).then((res) => {
+                // notify(res)
+                setRestaurantDetails(res.data.restaurant);
+                // setIsLoading(false)
+            })
+
+        } catch (error) {
+            notify(error)
+            console.log(error)
+        }
+    }
+
     useEffect(() => {
         // function for fetching the item 
         const fetchItem = async () => {
@@ -79,26 +100,7 @@ const MealsByIdPage = () => {
     }
 
 
-    const fetchRestaurantDetails = async (id) => {
-        try {
-            // setIsLoading(true)
-            await axios.get(`${baseUrl}/restaurant/${id}`,
-                {
-                    headers: {
-                        Authorization: "Bearer " + localStorage.getItem("jwt")
-                    }
-                }
-            ).then((res) => {
-                // notify(res)
-                setRestaurantDetails(res.data.restaurant);
-                // setIsLoading(false)
-            })
 
-        } catch (error) {
-            notify(error)
-            console.log(error)
-        }
-    }
 
     return (
         <>

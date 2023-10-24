@@ -196,7 +196,7 @@ const forgotPassword = async (req, res) => {
         const user = await User.findOne({ email: email })
         if (user !== null) {
             // generaring a token reset password link 
-            forgotToken = jwt.sign({ email: email }, process.env.JWT_SECRET, { expiresIn: "5m" });
+            const forgotToken = jwt.sign({ email: email }, process.env.JWT_SECRET, { expiresIn: "5m" });
             // setting the token in db 
             await User.updateOne({ email: email }, { $set: { forgotToken: forgotToken } });
             // genetating the reset password link email 
@@ -218,11 +218,15 @@ const verifyLinkExpiry = async (req, res) => {
         const userTokenData = await User.findOne({ forgotToken: token });
         if (userTokenData !== null) {
             const decodedData = jwt.decode(userTokenData.forgotToken);
-            const currentTime = Math.round(new Date() / 1000);
-            if (currentTime <= decodedData.exp) {
-                res.status(200).json({ message: "Token verified Successfully" });
+            if (decodedData === null) {
+                res.status(400).json({ message: "Something went wrong try again" });
             } else {
-                res.status(400).json({ message: "Link has been expired" });
+                const currentTime = Math.round(new Date() / 1000);
+                if (currentTime <= decodedData.exp) {
+                    res.status(200).json({ message: "Token verified Successfully" });
+                } else {
+                    res.status(400).json({ message: "Link has been expired" });
+                }
             }
         } else {
             res.status(400).json({ message: "Link was already used" });
@@ -237,7 +241,7 @@ const verifyLinkExpiry = async (req, res) => {
 // defining a function to update old password with new one in database
 const resetPassword = async (req, res) => {
     try {
-        const { token } = req.params;
+        const token = req.params.token;
         const password = req.body.password;
         const decodedData = jwt.decode(token)
         await User.findOneAndUpdate(

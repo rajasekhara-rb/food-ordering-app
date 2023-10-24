@@ -38,11 +38,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastNotification } from './components/ToastNotification';
 import RestaurantsListPage from './pages/RestaurantsListPage';
 import ChangeAvilability from './components/restaurant/ChangeAvilability';
+import ForgotPassword from './components/ForgotPassword';
+import ResetPassword from './components/ResetPassword';
 
 function App() {
   // https://foodie-api-ntw5.onrender.com
   // http://localhost:5050
-  const baseUrl = "https://foodie-api-ntw5.onrender.com";
+  const baseUrl = "http://localhost:5050";
 
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("jwt"));
   // setIsLoggedIn(localStorage.getItem("user"));
@@ -124,6 +126,8 @@ function App() {
                     <Route path='orders' element={<ReceivedOrdersPage />} />
                     <Route path="orders/:id" element={<OrdersByIdPage />} />
                   </Route>
+                  <Route path='/forgotpassword' element={<ForgotPassword />} />
+                  <Route path='/resetpassword/:token' element={<ResetPassword />} />
                   <Route path="/unauthorized" element={<UnauthorizedPage />} />
                   <Route path="*" element={<NotFoundPage />} />
                 </Routes>

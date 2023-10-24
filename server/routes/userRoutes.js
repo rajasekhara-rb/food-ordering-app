@@ -8,6 +8,6 @@ userRouter.post("/login", loginUser);
 userRouter.get("/getme", authenticateUser, getMe);
 userRouter.post("/forgotpassword", forgotPassword);
 userRouter.get("/verifylinkexpiry/:token", verifyLinkExpiry);
-userRouter.post("/resetpassword", resetPassword);
+userRouter.post("/resetpassword/:token", resetPassword);
 
 export default userRouter;

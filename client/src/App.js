@@ -44,7 +44,7 @@ import ResetPassword from './components/ResetPassword';
 function App() {
   // https://foodie-api-ntw5.onrender.com
   // http://localhost:5050
-  const baseUrl = "http://localhost:5050";
+  const baseUrl = "https://foodie-api-ntw5.onrender.com";
 
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("jwt"));
   // setIsLoggedIn(localStorage.getItem("user"));

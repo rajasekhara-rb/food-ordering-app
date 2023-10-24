@@ -1,4 +1,4 @@
-import { authenticateUser } from "./auth.js"
+// import { authenticateUser } from "./auth.js"
 
 const OnlyAdminsAccess = async (req, res, next) => {
     if (!req.user.roles.includes("admin")) {

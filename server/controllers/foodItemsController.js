@@ -28,6 +28,7 @@ const addFoodItems = async (req, res) => {
     }
 };
 
+// funciton to get all the food items 
 const getFoodItems = async (req, res) => {
 
     try {
@@ -39,6 +40,8 @@ const getFoodItems = async (req, res) => {
     }
 };
 
+
+// function to get the food item by id 
 const getFoodItemById = async (req, res) => {
     const id = req.params.id;
     try {
@@ -54,6 +57,7 @@ const getFoodItemById = async (req, res) => {
     }
 };
 
+// function to get the food items by restaurant
 const getFoodItemsByRestaurantId = async (req, res) => {
     try {
         const fooditems = await FoodItem.find({ restaurant_id: req.body.restaurant_id });
@@ -69,6 +73,7 @@ const getFoodItemsByRestaurantId = async (req, res) => {
     }
 };
 
+// function to update the food items 
 const updateFoodItems = async (req, res) => {
     const id = req.params.id;
     const { item_name, item_description, item_photo, item_price, item_quantity } = req.body;
@@ -88,6 +93,7 @@ const updateFoodItems = async (req, res) => {
     }
 };
 
+// function to delete the food item 
 const deleteFoodItems = async (req, res) => {
     const id = req.params.id;
     try {
@@ -99,6 +105,7 @@ const deleteFoodItems = async (req, res) => {
     }
 };
 
+// funciton to cahnge the avilability and stock of food items 
 const changeAvilabilityOfFoodItems = async (req, res) => {
     try {
         const id = req.params.id;

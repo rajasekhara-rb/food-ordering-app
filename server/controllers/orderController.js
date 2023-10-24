@@ -1,6 +1,8 @@
 import FoodItem from '../models/foodItemsModel.js';
 import Order from '../models/orderModel.js';
 
+
+// function to create a order 
 const createOrder = async (req, res) => {
     try {
         const { cart, address } = req.body;
@@ -15,6 +17,8 @@ const createOrder = async (req, res) => {
         //     restaurant_id: "",
         //     order_status: "Order Placed",
         // });
+
+        // if cart has items creating the order for each items 
         if (cart && cart.items.length > 0) {
             cart.items?.map(async (item) => {
                 await Order.create({
@@ -34,7 +38,9 @@ const createOrder = async (req, res) => {
                     order_status: "Order Placed",
                 });
 
+                // finding the food item from the db 
                 const seletedItem = await FoodItem.findById(item.item_id);
+                // reducing the avialble quantity by the order quantity
                 await FoodItem.findByIdAndUpdate(item.item_id,
                     { item_quantity: seletedItem.item_quantity - JSON.parse(item.item_quantity) },
                     { new: true });
@@ -52,10 +58,11 @@ const createOrder = async (req, res) => {
     }
 }
 
+
+// funciton to get orders 
 const getOrders = async (req, res) => {
     try {
         const orders = Order.find({});
-
         res.status(201).json({ orders })
 
     } catch (error) {
@@ -64,6 +71,8 @@ const getOrders = async (req, res) => {
     }
 }
 
+
+// function to get order by its id 
 const getOrderByOrderId = async (req, res) => {
     const orderId = req.params.id;
     try {
@@ -75,6 +84,7 @@ const getOrderByOrderId = async (req, res) => {
     }
 }
 
+// function to get orders of customer 
 const getOrderByCustomerId = async (req, res) => {
     try {
         const customerId = req.user._id;
@@ -86,6 +96,8 @@ const getOrderByCustomerId = async (req, res) => {
     }
 }
 
+
+// function to get orders of restaurant
 const getOrderByRestaurnatId = async (req, res) => {
     const restaurant_id = req.query.restaurant_id;
     try {
@@ -97,6 +109,7 @@ const getOrderByRestaurnatId = async (req, res) => {
     }
 };
 
+// function to update the status accept or reject order 
 const orderStatusUpdate = async (req, res) => {
     const { order_status } = req.body;
     const orderId = req.params.id;

@@ -2,7 +2,7 @@ import './App.css';
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from "./components/Header.js";
-import Footer from './components/Footer.js';
+// import Footer from './components/Footer.js';
 import LandingPage from './pages/LandingPage.js';
 import NotFoundPage from './pages/NotFoundPage.js';
 import AdminDashboard from "./pages/restaurant/AdminDashboard.js";
@@ -128,9 +128,9 @@ function App() {
                   <Route path="*" element={<NotFoundPage />} />
                 </Routes>
               </Router>
-              <div style={{ position: "relative", bottom: "0px" }}>
+              {/* <div style={{ position: "relative", bottom: "0px" }}>
                 <Footer />
-              </div>
+              </div> */}
             </RestaurantContext.Provider>
           </UserContext.Provider>
         </AuthContext.Provider>

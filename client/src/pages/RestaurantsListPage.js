@@ -4,6 +4,7 @@ import { BaseURLContext } from "../components/AuthContext";
 import { notify } from "../components/ToastNotification";
 import { Spinner1 } from "../components/Spinners";
 import NothingToShow from "./NothingToShowPage";
+import Footer from "../components/Footer";
 // import { Link } from "react-router-dom";
 
 const RestaurantsListPage = () => {
@@ -45,7 +46,7 @@ const RestaurantsListPage = () => {
 
                 <div class="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
                     {
-                        restaurants.length > 0? (
+                        restaurants.length > 0 ? (
                             restaurants?.map((restaurant) => {
                                 return (
                                     // <Link to={`${restaurant._id}`}>
@@ -66,6 +67,7 @@ const RestaurantsListPage = () => {
                         )
                     }
 
+                    <Footer />
                 </div>
             )}
         </>

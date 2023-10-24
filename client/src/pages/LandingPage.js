@@ -6,6 +6,7 @@ import Testimonials from "../components/Testimonials";
 import { AuthContext } from "../components/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { notify } from "../components/ToastNotification";
+import Footer from "../components/Footer";
 // import ContactPage from "./ContactPage";
 
 const LandingPage = () => {
@@ -35,6 +36,7 @@ const LandingPage = () => {
             <Meals />
             <Testimonials />
             {/* <ContactPage/> */}
+            <Footer/>
         </>
     )
 }

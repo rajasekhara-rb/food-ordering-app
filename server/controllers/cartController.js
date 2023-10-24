@@ -12,7 +12,7 @@ const getcart = async (req, res) => {
         if (cart && cart.items.length > 0) {
             res.status(200).json({ message: "Cart fetched successfully", cart: cart })
         } else {
-            res.json({ message: "Nothing in the cart", cart: null});
+            res.json({ message: "Nothing in the cart", cart: null });
         }
     } catch (error) {
         console.log(error);
@@ -109,12 +109,14 @@ const createCart = async (req, res) => {
     }
 };
 
+// defining a fucntion for deleting the sleected cart item
 const deleteCartItems = async (req, res) => {
     try {
         const id = req.params.id;
         const userId = req.user._id;
-
+        // finds the cart based on user id 
         let cart = await Cart.findOne({ userId: userId });
+        // finding the selected item index in the cart 
         const itemIndex = cart.items.findIndex((item) => item.item_id == id);
 
         if (itemIndex > -1) {
@@ -124,8 +126,9 @@ const deleteCartItems = async (req, res) => {
             if (cart.sub_total < 0) {
                 cart.sub_total = 0;
             }
-
+            // removing the item form the cart 
             cart.items.splice(itemIndex, 1);
+            // changing the sub_total value 
             cart.sub_total = cart.items.reduce((acc, curr) => {
                 return acc + curr.item_quantity * curr.item_price
             }, 0);
@@ -143,6 +146,7 @@ const deleteCartItems = async (req, res) => {
     }
 }
 
+// defining a function for deleteing a cart itself
 const deleteCart = async (req, res) => {
     try {
         const id = req.params.id;

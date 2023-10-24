@@ -1,7 +1,8 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import User from '../models/userModel.js';
-import Restaurant from '../models/restaurantModel.js';
+import sendResetPasswordEmail from '../utils/sendPasswordResetMail.js';
+// import Restaurant from '../models/restaurantModel.js';
 
 // defining a function to register the user
 
@@ -13,7 +14,7 @@ const registerUser = async (req, res) => {
         // check if the user exists 
         const userExists = await User.findOne({ email: email });
         if (userExists) {
-
+            // if user already exists and role as admin 
             if (role === "admin") {
                 if (userExists.roles.includes(role)) {
                     res.status(400).json({ message: "User already exists" })
@@ -27,6 +28,7 @@ const registerUser = async (req, res) => {
                     res.status(400).json({ message: "Admin access given to the user" })
                 }
             } else if (role === "customer") {
+                // if user already exists as customer 
                 if (userExists.roles.includes(role)) {
                     res.status(400).json({ message: "User already exists" })
                 } else {
@@ -41,7 +43,9 @@ const registerUser = async (req, res) => {
                 // throw new Error("User already exists");
             }
         } else {
+            // if user does not exists 
             if (role === "admin") {
+                // if registering as admin 
                 const user = await User.create({
                     name,
                     email,
@@ -66,6 +70,7 @@ const registerUser = async (req, res) => {
                     // throw new Error({ error: error.message, msg: "Invalid user data" })
                 }
             } else {
+                // if registering as customer 
                 const user = await User.create({
                     name,
                     email,
@@ -114,6 +119,7 @@ const loginUser = async (req, res) => {
         // } else {
         if (user) {
             if (user && await bcrypt.compare(password, user.password)) {
+                // checking the role if login as customer 
                 if (role === "customer") {
                     if (user.roles.includes(role)) {
                         res.status(200).json({
@@ -130,6 +136,7 @@ const loginUser = async (req, res) => {
                         res.status(401).json({ message: "Unauthorized" })
                     }
                 } else if (role === "admin") {
+                    // if role is admmin 
                     if (user.roles.includes(role)) {
                         res.status(200).json({
                             message: "Logged in as admin",
@@ -181,8 +188,76 @@ const getMe = async (req, res) => {
     });
 }
 
+
+// define a function to reset the password 
+const forgotPassword = async (req, res) => {
+    const email = req.body.email;
+    try {
+        const user = await User.findOne({ email: email })
+        if (user !== null) {
+            // generaring a token reset password link 
+            forgotToken = jwt.sign({ email: email }, process.env.JWT_SECRET, { expiresIn: "5m" });
+            // setting the token in db 
+            await User.updateOne({ email: email }, { $set: { forgotToken: forgotToken } });
+            // genetating the reset password link email 
+            sendResetPasswordEmail(user.name, user.email, forgotToken);
+            res.status(200).json({ message: "Check your registered email for reset password link" });
+        } else {
+            res.status(400).json({ message: "Invalid Email" });
+        }
+    } catch (error) {
+        res.status(500)
+        throw new Error(error);
+    }
+}
+
+// defining a function to verify the reset password link expiry 
+const verifyLinkExpiry = async (req, res) => {
+    const token = req.params.token;
+    try {
+        const userTokenData = await User.findOne({ forgotToken: token });
+        if (userTokenData !== null) {
+            const decodedData = jwt.decode(userTokenData.forgotToken);
+            const currentTime = Math.round(new Date() / 1000);
+            if (currentTime <= decodedData.exp) {
+                res.status(200).json({ message: "Token verified Successfully" });
+            } else {
+                res.status(400).json({ message: "Link has been expired" });
+            }
+        } else {
+            res.status(400).json({ message: "Link was already used" });
+        }
+
+    } catch (error) {
+        res.status(500)
+        throw new Error(error);
+    }
+}
+
+// defining a function to update old password with new one in database
+const resetPassword = async (req, res) => {
+    try {
+        const { token } = req.params;
+        const password = req.body.password;
+        const decodedData = jwt.decode(token)
+        await User.findOneAndUpdate(
+            { email: decodedData.email },
+            { $set: { password: password, forgotToken: "" } },
+            { new: true }
+        );
+
+        res.status(200).json({ message: "Password Reset Successful" })
+    } catch (error) {
+        res.status(500)
+        throw new Error(error);
+    }
+}
+
 export {
     registerUser,
     loginUser,
     getMe,
+    forgotPassword,
+    verifyLinkExpiry,
+    resetPassword,
 }

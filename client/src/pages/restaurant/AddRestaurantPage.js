@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 // import CreateRestaurant from "../../components/restaurant/CreateRestaurant.js";
 import RestaurantRegistrationPage from "./RestaurantRegistrationPage.js";
+import Footer from "../../components/Footer.js";
 
 const AddRestaurantPage = () => {
 
@@ -42,6 +43,7 @@ const AddRestaurantPage = () => {
                 </div>
             </div>
             <RestaurantRegistrationPage />
+            <Footer/>
         </>
     )
 }

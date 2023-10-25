@@ -10,7 +10,7 @@ const ChangeAvilability = () => {
     const baseUrl = useContext(BaseURLContext);
     const [item, setItem] = useState({});
     // const [itemHistory, setItemHistory] = useState({})
-    // console.log(item)
+    console.log(item)
     const { id } = useParams();
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true)
@@ -226,9 +226,9 @@ const ChangeAvilability = () => {
                                         <div className="mt-2">
                                             <input
                                                 // disabled
-                                                disabled={item.avilability === "true" ? (false) : (true)}
+                                                // disabled={item.avilability === "true" ? (false) : (true)}
                                                 onChange={handleChange}
-                                                value={item.avilability === "false" ? (0) : (item.item_quantity)}
+                                                value={item.avilability === "false" ? (item.item_quantity = 0) : (item.item_quantity)}
                                                 id="item_quantity"
                                                 name="item_quantity"
                                                 type="number"

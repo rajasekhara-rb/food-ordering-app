@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import Logo from "../images/logo.png"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BaseURLContext } from "./AuthContext";
 import axios from "axios";
 import { notify } from "./ToastNotification";
@@ -8,6 +8,7 @@ import { notify } from "./ToastNotification";
 const ForgotPassword = () => {
     const baseUrl = useContext(BaseURLContext);
     const [email, setEmail] = useState("");
+    const navigate = useNavigate();
 
     // fuction for handling submit 
     const handleSubmit = async (e) => {
@@ -17,6 +18,7 @@ const ForgotPassword = () => {
                 await axios.post(`${baseUrl}/user/forgotpassword`, { email: email }, {
                 }).then((res) => {
                     notify(res);
+                    navigate("/login")
                 })
             } else {
                 // alert("Email and password are mandatory")

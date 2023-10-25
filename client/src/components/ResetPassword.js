@@ -17,20 +17,24 @@ const ResetPassword = () => {
         const verifyToken = async () => {
             try {
                 setValid(false)
-                await axios.get(`${baseUrl}/user/verifylinkexpiry/${token}`
-                ).then((res) => {
-                    notify(res);
-                    // if (res.status === 200) {
-                    setValid(true)
-                    // }
-                })
+                await axios.get(`${baseUrl}/user/verifylinkexpiry/${token}`)
+                    .then((res) => {
+                        if (res.status === 200) {
+                            notify(res);
+                            setValid(true)
+                        } else {
+                            notify(res)
+                            setValid(false)
+                        }
+                        navigate("/login")
+                    })
             } catch (error) {
                 notify(error)
                 console.log(error)
             }
         }
         verifyToken()
-    }, [baseUrl, token])
+    }, [baseUrl, token, navigate])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -50,7 +54,6 @@ const ResetPassword = () => {
             notify(error)
             console.log(error)
         }
-
     }
 
 

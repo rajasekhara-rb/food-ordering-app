@@ -22,6 +22,9 @@ const userSchema = mongoose.Schema({
     admin: {
         type: Boolean,
         default: false
+    },
+    forgotToken:{
+        type:String,
     }
 },
     {

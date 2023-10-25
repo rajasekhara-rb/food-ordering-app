@@ -39,7 +39,7 @@ const ResetPassword = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            if (password.password && password.confirmpassword) {
+            if (password.password === password.confirmpassword) {
                 await axios.post(`${baseUrl}/user/resetpassword/${token}`, { password: password.password }, {
                 }).then((res) => {
                     notify(res);

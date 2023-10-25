@@ -23,10 +23,10 @@ const ResetPassword = () => {
                             notify(res);
                             setValid(true)
                         } else {
-                            notify(res)
+                            notify("Link was expired, Try again")
                             setValid(false)
                         }
-                        navigate("/login")
+                        // navigate("/login")
                     })
             } catch (error) {
                 notify(error)

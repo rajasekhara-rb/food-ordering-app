@@ -23,8 +23,8 @@ const userSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
-    forgotToken:{
-        type:String,
+    forgotToken: {
+        type: String,
     }
 },
     {

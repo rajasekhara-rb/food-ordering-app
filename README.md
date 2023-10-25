@@ -10,8 +10,8 @@ Foodie is a Food Delivery App. Both customer and restaurnats can Register, login
 
 
 ## Installation
-
 <!-- Use the npm [npm](https://pip.pypa.io/en/stable/) to install -->
+Use the npm to install
 
 ```bash
 cd client

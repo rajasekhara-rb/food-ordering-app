@@ -1,13 +1,27 @@
 # Foodie - A Food Delivery App
 
-> Access the live link [Open App](https://foodie-food-ordering-app.netlify.app/)
-> Access the api link [Open API](https://foodie-api-ntw5.onrender.com) 
-
 Foodie is a Food Delivery App. Both customer and restaurnats can Register, login and use the featuers of the application.
 
+## Links
+
+> Access the live link [Open App](https://foodie-food-ordering-app.netlify.app/)
+
+> Access the api link [Open API](https://foodie-api-ntw5.onrender.com) 
+
+
+> [Database Schema PDF](https://drive.google.com/file/d/156e7PdlSUmt6gsWLlkW0blF-E1bdbCou/view?usp=sharing)
+
+> [Screenshots PDF](https://drive.google.com/file/d/1dkaoGfCirhR9cQr-UByMvdIvD-Ft6WtF/view?usp=sharing)
+
+> [Problem Statement PDF](https://drive.google.com/file/d/1RY9BzeatKgo97daipZOg4VJh9qdEcm3e/view?usp=sharing)
 
 <!-- ![Image](https://foodie-food-ordering-app.netlify.app/) -->
+> [![Watch the video](https://img.youtube.com/vi/J_KANF_gpfI/hqdefault.jpg)](https://www.youtube.com/embed/J_KANF_gpfI)
 
+<!-- [<img src="https://img.youtube.com/vi/<VIDEO_ID>/hqdefault.jpg" width="600" height="300"
+/>](https://www.youtube.com/embed/<VIDEO_ID>) -->
+
+<!-- [![Watch Demo](https://img.youtube.com/vi/<VIDEO_ID>/0.jpg)](https://www.youtube.com/watch?v=<VIDEO_ID>) -->
 
 ## Installation
 <!-- Use the npm [npm](https://pip.pypa.io/en/stable/) to install -->
@@ -18,6 +32,7 @@ cd client
 npm install
 npm start
 ```
+
  ## Functionality
 - Landing Page
 - Authentication System for both Customer and Restaurant (Login, Signup).
